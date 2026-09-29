@@ -1,0 +1,178 @@
+[
+  {
+    "method": "margin_global_gradient",
+    "budget": 16
+  },
+  {
+    "method": "margin_class_gradient",
+    "budget": 16
+  },
+  {
+    "method": "margin_input_gradient",
+    "budget": 16
+  },
+  {
+    "method": "margin_global_finite",
+    "budget": 16
+  },
+  {
+    "method": "margin_class_finite",
+    "budget": 16
+  },
+  {
+    "method": "margin_input_finite",
+    "budget": 16
+  },
+  {
+    "method": "vector_global_gradient",
+    "budget": 16
+  },
+  {
+    "method": "vector_class_gradient",
+    "budget": 16
+  },
+  {
+    "method": "vector_input_gradient",
+    "budget": 16
+  },
+  {
+    "method": "vector_global_finite",
+    "budget": 16
+  },
+  {
+    "method": "vector_class_finite",
+    "budget": 16
+  },
+  {
+    "method": "vector_input_finite",
+    "budget": 16
+  },
+  {
+    "method": "margin_input_full_gradient",
+    "budget": 16
+  },
+  {
+    "method": "vector_input_full_gradient",
+    "budget": 16
+  },
+  {
+    "method": "margin_global_single",
+    "budget": 16
+  },
+  {
+    "method": "margin_class_single",
+    "budget": 16
+  },
+  {
+    "method": "margin_input_single",
+    "budget": 16
+  },
+  {
+    "method": "random_0",
+    "budget": 16
+  },
+  {
+    "method": "random_1",
+    "budget": 16
+  },
+  {
+    "method": "random_2",
+    "budget": 16
+  },
+  {
+    "method": "random_3",
+    "budget": 16
+  },
+  {
+    "method": "margin_global_gradient",
+    "budget": 32
+  },
+  {
+    "method": "margin_class_gradient",
+    "budget": 32
+  },
+  {
+    "method": "margin_input_gradient",
+    "budget": 32
+  },
+  {
+    "method": "margin_global_finite",
+    "budget": 32
+  },
+  {
+    "method": "margin_class_finite",
+    "budget": 32
+  },
+  {
+    "method": "margin_input_finite",
+    "budget": 32
+  },
+  {
+    "method": "vector_global_gradient",
+    "budget": 32
+  },
+  {
+    "method": "vector_class_gradient",
+    "budget": 32
+  },
+  {
+    "method": "vector_input_gradient",
+    "budget": 32
+  },
+  {
+    "method": "vector_global_finite",
+    "budget": 32
+  },
+  {
+    "method": "vector_class_finite",
+    "budget": 32
+  },
+  {
+    "method": "vector_input_finite",
+    "budget": 32
+  },
+  {
+    "method": "margin_input_full_gradient",
+    "budget": 32
+  },
+  {
+    "method": "vector_input_full_gradient",
+    "budget": 32
+  },
+  {
+    "method": "margin_global_single",
+    "budget": 32
+  },
+  {
+    "method": "margin_class_single",
+    "budget": 32
+  },
+  {
+    "method": "margin_input_single",
+    "budget": 32
+  },
+  {
+    "method": "random_0",
+    "budget": 32
+  },
+  {
+    "method": "random_1",
+    "budget": 32
+  },
+  {
+    "method": "random_2",
+    "budget": 32
+  },
+  {
+    "method": "random_3",
+    "budget": 32
+  },
+  {
+    "method": "all_shortlist",
+    "budget": 64
+  },
+  {
+    "method": "all_reachable",
+    "budget": 640
+  }
+]

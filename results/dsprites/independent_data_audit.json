@@ -1,0 +1,70 @@
+{
+  "status": "PASS",
+  "utc": "2026-09-29T11:16:15.537048+00:00",
+  "source_sha256": "6a61e00969f11e5e44631192404e0bd30cffd32a8793a03f0b41473ad42d24a9",
+  "rows": {
+    "train": {
+      "rows": 24576,
+      "unique_pixels": 24471,
+      "contexts": 8192,
+      "class_counts": [
+        8192,
+        8192,
+        8192
+      ]
+    },
+    "validation": {
+      "rows": 3072,
+      "unique_pixels": 3072,
+      "contexts": 1024,
+      "class_counts": [
+        1024,
+        1024,
+        1024
+      ]
+    },
+    "development": {
+      "rows": 144,
+      "unique_pixels": 143,
+      "contexts": 48,
+      "class_counts": [
+        48,
+        48,
+        48
+      ]
+    },
+    "evaluation": {
+      "rows": 144,
+      "unique_pixels": 143,
+      "contexts": 48,
+      "class_counts": [
+        48,
+        48,
+        48
+      ]
+    },
+    "translated": {
+      "rows": 144,
+      "unique_pixels": 143,
+      "contexts": 48,
+      "class_counts": [
+        48,
+        48,
+        48
+      ]
+    }
+  },
+  "pixel_overlap": {
+    "train__validation": 0,
+    "train__evaluation": 0,
+    "validation__evaluation": 0,
+    "train__translated": 0,
+    "validation__translated": 0
+  },
+  "official_rows_and_labels_verified": true,
+  "group_disjoint_train_validation_evaluation": true,
+  "development_is_training_subset": true,
+  "translation_verified": true,
+  "combined_evaluation_translation_unique_pixels": 286,
+  "caveat": "Excluding exact duplicate pixels does not remove correlation between nearby factors or symmetric shapes."
+}

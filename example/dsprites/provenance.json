@@ -1,0 +1,19 @@
+{
+  "selection": "First original row of each class, without looking at outcomes",
+  "seed": 202609291,
+  "frame": "base_alpha_1.0",
+  "panel_indices": [
+    0,
+    1,
+    2
+  ],
+  "independent_sample": false,
+  "representative_of_six_teacher_statistics": false,
+  "source_files": {
+    "runs/dsprites_20260929/evaluation/seed_202609291/base_alpha_1.0/responses.npz": "1dc803938ab7561f9b6257b5bd4d1f95910aefcc4e23adc2d87e1167639f9dce",
+    "runs/dsprites_20260929/evaluation/seed_202609291/base_alpha_1.0/metrics_margin.npz": "3f5b6313706a116e5377718cf943e05b3516687003854722cf16db7cd9939260",
+    "runs/dsprites_20260929/evaluation/seed_202609291/base_alpha_1.0/metrics_vector.npz": "ce5828e508df5c444f4a8580e6084097b54068e49ad81aa8a1e36fc484e64d34",
+    "runs/dsprites_20260929/evaluation/seed_202609291/base_alpha_1.0/specs.json": "4d457b0932cb2b5db20e27e0f9a593436d718bed17ae5fc5fbb100bcafdb92b1"
+  },
+  "note": "Cached logits, layer contributions, labels and factors only; no input images or model weights."
+}

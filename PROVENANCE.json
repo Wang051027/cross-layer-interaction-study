@@ -1,0 +1,607 @@
+{
+  "version": "public-code-release-2026-09-29",
+  "original_project": "cat_mt_followup",
+  "source_files": [
+    {
+      "path": "source/scripts/adaptive_mediator.py",
+      "original_relative_path": "scripts/adaptive_mediator.py",
+      "original_sha256": "5ba300899980ee5496f20b381c9a4d470fb853c9b2301336bc49a468b069e239",
+      "published_sha256": "5ba300899980ee5496f20b381c9a4d470fb853c9b2301336bc49a468b069e239",
+      "chinese_annotation_copy": false,
+      "ast_identical_to_original": true
+    },
+    {
+      "path": "source/scripts/audit_dsprites_data.py",
+      "original_relative_path": "scripts/audit_dsprites_data.py",
+      "original_sha256": "6a61e00969f11e5e44631192404e0bd30cffd32a8793a03f0b41473ad42d24a9",
+      "published_sha256": "6a61e00969f11e5e44631192404e0bd30cffd32a8793a03f0b41473ad42d24a9",
+      "chinese_annotation_copy": false,
+      "ast_identical_to_original": true
+    },
+    {
+      "path": "source/scripts/audit_dsprites_results.py",
+      "original_relative_path": "scripts/audit_dsprites_results.py",
+      "original_sha256": "99c299a6f25a18dc2e8051fd2dec76b8532546f1ca7966e0d33a08eb8e30d102",
+      "published_sha256": "99c299a6f25a18dc2e8051fd2dec76b8532546f1ca7966e0d33a08eb8e30d102",
+      "chinese_annotation_copy": false,
+      "ast_identical_to_original": true
+    },
+    {
+      "path": "source/scripts/audit_external_head_activity.py",
+      "original_relative_path": "scripts/audit_external_head_activity.py",
+      "original_sha256": "97548d2054302433c2d6d5a936a3ae61471bc1cc30c586952452079a3863b82d",
+      "published_sha256": "3f938680558a07926513a28f7a9b4fd1b362ff41ae256456848768392d83adfb",
+      "chinese_annotation_copy": true,
+      "ast_identical_to_original": true
+    },
+    {
+      "path": "source/scripts/audit_residual_affine_runtime.py",
+      "original_relative_path": "scripts/audit_residual_affine_runtime.py",
+      "original_sha256": "b448f2b5a7d1cea1225cb7c1a058437a1c32e256072ef91f0127940842e52978",
+      "published_sha256": "bccf7c715361e973a1792a3f49bad25511cc8fac9e2678096698e8539d85f061",
+      "chinese_annotation_copy": true,
+      "ast_identical_to_original": true
+    },
+    {
+      "path": "source/scripts/audit_structure_interpretation.py",
+      "original_relative_path": "scripts/audit_structure_interpretation.py",
+      "original_sha256": "f97ab6426577f40bf0a2c9b52fb3e6b1217f3ea0ba352ecc38f076d1e58b5a09",
+      "published_sha256": "735e985bf910e23e4eb91bcda650901b6009e87e3c17f11977690b7fded67b0c",
+      "chinese_annotation_copy": true,
+      "ast_identical_to_original": true
+    },
+    {
+      "path": "source/scripts/audit_upstream.py",
+      "original_relative_path": "scripts/audit_upstream.py",
+      "original_sha256": "352982b60c24ef4b314c658fcaa2d95ed195d8efba8c02f9a48c47aa13887126",
+      "published_sha256": "cb776fcfe6f4ac3d54839bea067786b4f8267a4e2005a68cc32f90f3dddc2808",
+      "chinese_annotation_copy": true,
+      "ast_identical_to_original": true
+    },
+    {
+      "path": "source/scripts/benchmark_heads.py",
+      "original_relative_path": "scripts/benchmark_heads.py",
+      "original_sha256": "dc8194e0040da460ecf574022e654c89fef36fb8af1f4471c5691020dd33d844",
+      "published_sha256": "ef893b2610dc82dcc48d50b7f916fd59f5253e7f6e469cc8226554cf4990f97c",
+      "chinese_annotation_copy": true,
+      "ast_identical_to_original": true
+    },
+    {
+      "path": "source/scripts/benchmark_pilot.py",
+      "original_relative_path": "scripts/benchmark_pilot.py",
+      "original_sha256": "c369c5a804c93877050a7c4bc4ac7e6d58152b509941613de49a71a98a1b1318",
+      "published_sha256": "57c1e0883d2270ca4cfa35dc0f87f55715a0f4214c87d8dfd45b19f8e77580a9",
+      "chinese_annotation_copy": true,
+      "ast_identical_to_original": true
+    },
+    {
+      "path": "source/scripts/cross_layer_mechanism.py",
+      "original_relative_path": "scripts/cross_layer_mechanism.py",
+      "original_sha256": "f142d77b9cc7de853f58e34b8e703854987c8b0d277a663ee48127d9055e0c81",
+      "published_sha256": "f142d77b9cc7de853f58e34b8e703854987c8b0d277a663ee48127d9055e0c81",
+      "chinese_annotation_copy": false,
+      "ast_identical_to_original": true
+    },
+    {
+      "path": "source/scripts/dsprites_mechanism.py",
+      "original_relative_path": "scripts/dsprites_mechanism.py",
+      "original_sha256": "742376268cda86b01a80959753030277d90982f0915d6db368a17da5beb14072",
+      "published_sha256": "742376268cda86b01a80959753030277d90982f0915d6db368a17da5beb14072",
+      "chinese_annotation_copy": false,
+      "ast_identical_to_original": true
+    },
+    {
+      "path": "source/scripts/dsprites_teacher.py",
+      "original_relative_path": "scripts/dsprites_teacher.py",
+      "original_sha256": "f75e8c10fb0244a7e31b4562e8d8bb3ffc3b4cd3d174207852b5d370b27b2148",
+      "published_sha256": "f75e8c10fb0244a7e31b4562e8d8bb3ffc3b4cd3d174207852b5d370b27b2148",
+      "chinese_annotation_copy": false,
+      "ast_identical_to_original": true
+    },
+    {
+      "path": "source/scripts/dsprites_workflow.py",
+      "original_relative_path": "scripts/dsprites_workflow.py",
+      "original_sha256": "2d0ebc454ad5103206bbef25d9dd354744173a869abc77c4e28f24ba04b6da10",
+      "published_sha256": "2d0ebc454ad5103206bbef25d9dd354744173a869abc77c4e28f24ba04b6da10",
+      "chinese_annotation_copy": false,
+      "ast_identical_to_original": true
+    },
+    {
+      "path": "source/scripts/external_analysis.py",
+      "original_relative_path": "scripts/external_analysis.py",
+      "original_sha256": "1b083d1ff06d6823cc9405547420300af3f2390146fd2b6cb9e152196215efc7",
+      "published_sha256": "d04d61b643bae9455a87a84ca68b3ab3995bca154d4b30dabf35a2d3a478c23c",
+      "chinese_annotation_copy": true,
+      "ast_identical_to_original": true
+    },
+    {
+      "path": "source/scripts/external_experiment.py",
+      "original_relative_path": "scripts/external_experiment.py",
+      "original_sha256": "da841d0425f31c0523508db5abd62e6f438dce39ee574354aae482e571773d19",
+      "published_sha256": "530f3ab24bf61c7e3b514041e903085c1587d80c8a68b56088ef8df40e57cbc9",
+      "chinese_annotation_copy": true,
+      "ast_identical_to_original": true
+    },
+    {
+      "path": "source/scripts/finalize_joint_response.py",
+      "original_relative_path": "scripts/finalize_joint_response.py",
+      "original_sha256": "6ec9a9a11e59b44dbda4718ccd5e5c8bf44a7f837990e95dc76576219e33e40b",
+      "published_sha256": "9355361d6fc995fd75266a91ec70f317d4fdaacf8b83e37a67e37257f9b959fc",
+      "chinese_annotation_copy": true,
+      "ast_identical_to_original": false
+    },
+    {
+      "path": "source/scripts/joint_response.py",
+      "original_relative_path": "scripts/joint_response.py",
+      "original_sha256": "1b8e6c39fd3bf20008b5c5a1659370115e42ac0b223f5d5176fb0140d98327a0",
+      "published_sha256": "aec3da8ed807bd8e02b8e67d8cce18f161fb5e055bfea6a8ec56936d7785c383",
+      "chinese_annotation_copy": true,
+      "ast_identical_to_original": true
+    },
+    {
+      "path": "source/scripts/make_audit_figure.py",
+      "original_relative_path": "scripts/make_audit_figure.py",
+      "original_sha256": "28f79cbc684a6f8050671bc495f27b2d00695ddb42ef3050bc8487634519bddb",
+      "published_sha256": "e4baba4d1702f09dfced0e00ee5c40ae0d74e4cdf93f1f171e0d534f285573eb",
+      "chinese_annotation_copy": true,
+      "ast_identical_to_original": true
+    },
+    {
+      "path": "source/scripts/package_snapshot.py",
+      "original_relative_path": "scripts/package_snapshot.py",
+      "original_sha256": "a8132d361140c43aab6f52c7683db3a8c6aef94fa85ce65a815af74b8c584432",
+      "published_sha256": "4ab6cb72c4820edab921603f2f5b1044a2436c1dd13e9fa79b275bf7aedea897",
+      "chinese_annotation_copy": true,
+      "ast_identical_to_original": false
+    },
+    {
+      "path": "source/scripts/plot_external_results.py",
+      "original_relative_path": "scripts/plot_external_results.py",
+      "original_sha256": "38799de9fc3fa678c4f0a59b0ad8fc35bc94aa9eb38ef55a030deece0506300f",
+      "published_sha256": "4e931be82492641290c63d76f29bfd895710751b52c68a943574a947db5242c3",
+      "chinese_annotation_copy": true,
+      "ast_identical_to_original": true
+    },
+    {
+      "path": "source/scripts/plot_residual_results.py",
+      "original_relative_path": "scripts/plot_residual_results.py",
+      "original_sha256": "4f1c322d2185abbd50fbf6755a825c7491274cbbdb536d70ffd5f3b6ec1c4323",
+      "published_sha256": "9474ef7b819795574ffcc89a64343d7cd11f46daebf5e201c1632a0ae6e93d61",
+      "chinese_annotation_copy": true,
+      "ast_identical_to_original": true
+    },
+    {
+      "path": "source/scripts/plot_scale_results.py",
+      "original_relative_path": "scripts/plot_scale_results.py",
+      "original_sha256": "b41fd3c36b766b0e1d4d43c5b85db38a15698049b60c4c18f35062c561f01b0d",
+      "published_sha256": "253d6354fe23df50a55bcfcde70066751e51e9bdbb777d75f33d53f1c6b61e0f",
+      "chinese_annotation_copy": true,
+      "ast_identical_to_original": true
+    },
+    {
+      "path": "source/scripts/plot_structure_controls.py",
+      "original_relative_path": "scripts/plot_structure_controls.py",
+      "original_sha256": "a9411a25d44ff8c6d6377199d30f9ddb02887b1ed554d2edd87d21f0aed92bd2",
+      "published_sha256": "4a77a0254e613e260d939c8222591a58d646a6db528471d0515e539717034abf",
+      "chinese_annotation_copy": true,
+      "ast_identical_to_original": true
+    },
+    {
+      "path": "source/scripts/prepare_dsprites.py",
+      "original_relative_path": "scripts/prepare_dsprites.py",
+      "original_sha256": "7e49b5f2138c8e22d0227957d5a15dca3c6276f259089cd5332add82ea7c10ea",
+      "published_sha256": "7e49b5f2138c8e22d0227957d5a15dca3c6276f259089cd5332add82ea7c10ea",
+      "chinese_annotation_copy": false,
+      "ast_identical_to_original": true
+    },
+    {
+      "path": "source/scripts/prepare_external_split.py",
+      "original_relative_path": "scripts/prepare_external_split.py",
+      "original_sha256": "ce900cb5d94ccc16701869ae2101b35b61e33cbdcc2022628c2d8206100b1b70",
+      "published_sha256": "9aeafab7d60e9debdc4f73fc50dac5a9e2cba200d044dd0fb1a6deeb80481c95",
+      "chinese_annotation_copy": true,
+      "ast_identical_to_original": true
+    },
+    {
+      "path": "source/scripts/prepare_fashion_mnist.py",
+      "original_relative_path": "scripts/prepare_fashion_mnist.py",
+      "original_sha256": "4aba87886dc7f13d01ee45d1618f5a90b923ab6b7e59335e3fb0613e2cbd55ea",
+      "published_sha256": "3c5d446728410fa17cdc4e7915ffba4233bf17a3f63e0fa3bd20a42b1d2d7853",
+      "chinese_annotation_copy": true,
+      "ast_identical_to_original": true
+    },
+    {
+      "path": "source/scripts/report_adaptive_mediator.py",
+      "original_relative_path": "scripts/report_adaptive_mediator.py",
+      "original_sha256": "13e1aa2e2930d93cc16cd77560d3f4c91facced179386870af575ae81bc5b921",
+      "published_sha256": "cb52d6661eb9783df1059964d18e6f337896f7c8ec92d9b26ec513eebe0a714f",
+      "chinese_annotation_copy": false,
+      "ast_identical_to_original": false
+    },
+    {
+      "path": "source/scripts/report_cross_layer_mechanism.py",
+      "original_relative_path": "scripts/report_cross_layer_mechanism.py",
+      "original_sha256": "89ae5f5f66bfc9d307cfdb2a38f77a0920da0ec99542f5ff503c09355a8c4766",
+      "published_sha256": "61ea688dde4a25af6e76dfabd02a93b8351e69be35ffd68a36597c5749d0b9e6",
+      "chinese_annotation_copy": false,
+      "ast_identical_to_original": false
+    },
+    {
+      "path": "source/scripts/report_joint_response.py",
+      "original_relative_path": "scripts/report_joint_response.py",
+      "original_sha256": "40d4998a1beec52393ef4024dee6188203c29f0151a50ef61b3a52ee5cf427ba",
+      "published_sha256": "0f3e229f3a4ce75c03e1737aada830df9f94adddb8e49c0a87eed1a28c5e401a",
+      "chinese_annotation_copy": true,
+      "ast_identical_to_original": false
+    },
+    {
+      "path": "source/scripts/report_switch_results.py",
+      "original_relative_path": "scripts/report_switch_results.py",
+      "original_sha256": "ef43d5c4545a444647f0f64af05c5b83444d6874f8cbec4c3a804cd06d17a545",
+      "published_sha256": "a6370bae0c97d88130bcb8b964bbbf86aecc8c6bed15985038978b84bcb31702",
+      "chinese_annotation_copy": true,
+      "ast_identical_to_original": true
+    },
+    {
+      "path": "source/scripts/research_runtime.py",
+      "original_relative_path": "scripts/research_runtime.py",
+      "original_sha256": "5dfc4ff1d9ec98899bfa5bc67195bae706b31611df378ae71e04a2080cad15b2",
+      "published_sha256": "3a490c4153744b36d7947b802ade84366623a93cadbf6c7e71ac07b795fc16d3",
+      "chinese_annotation_copy": true,
+      "ast_identical_to_original": true
+    },
+    {
+      "path": "source/scripts/residual_context.py",
+      "original_relative_path": "scripts/residual_context.py",
+      "original_sha256": "8e71460fc155952f954fd55299ea0d5a31c1456aeda06baa48e45ee8d4270269",
+      "published_sha256": "978f4e064ed5778fb33095aa913067e0dadff4d2967c4fd86d5134c7d428be2e",
+      "chinese_annotation_copy": true,
+      "ast_identical_to_original": true
+    },
+    {
+      "path": "source/scripts/residual_teacher.py",
+      "original_relative_path": "scripts/residual_teacher.py",
+      "original_sha256": "490b72ac4e21e69230a0cf6914b74453cf2f2285ebc49a132b6f812dae374a4b",
+      "published_sha256": "e42e9b363270616b5bbc0701395919dcd985af768f5521b79b928ffd54a25123",
+      "chinese_annotation_copy": true,
+      "ast_identical_to_original": true
+    },
+    {
+      "path": "source/scripts/run_adaptive_mediator.py",
+      "original_relative_path": "scripts/run_adaptive_mediator.py",
+      "original_sha256": "870b6e3c812fca0987cc89d345347f76f5efa7632db9ae9c705a7cad3d41cfd6",
+      "published_sha256": "870b6e3c812fca0987cc89d345347f76f5efa7632db9ae9c705a7cad3d41cfd6",
+      "chinese_annotation_copy": false,
+      "ast_identical_to_original": true
+    },
+    {
+      "path": "source/scripts/run_cross_layer_mechanism.py",
+      "original_relative_path": "scripts/run_cross_layer_mechanism.py",
+      "original_sha256": "eacca933bd02bcebf809d26e7431d3286397c4ca548318a664a3899cb22d6f71",
+      "published_sha256": "eacca933bd02bcebf809d26e7431d3286397c4ca548318a664a3899cb22d6f71",
+      "chinese_annotation_copy": false,
+      "ast_identical_to_original": true
+    },
+    {
+      "path": "source/scripts/run_dsprites_mechanism.py",
+      "original_relative_path": "scripts/run_dsprites_mechanism.py",
+      "original_sha256": "13ed3c1022dff64e7eceee610f228cb68130d86adf2dc9f2c55daaa6f1bdc87e",
+      "published_sha256": "13ed3c1022dff64e7eceee610f228cb68130d86adf2dc9f2c55daaa6f1bdc87e",
+      "chinese_annotation_copy": false,
+      "ast_identical_to_original": true
+    },
+    {
+      "path": "source/scripts/run_external.py",
+      "original_relative_path": "scripts/run_external.py",
+      "original_sha256": "e86440b013d18e810be7052cebb81b8692e541cf147fc80d68f0b45b260a35cf",
+      "published_sha256": "ae10a82bf4b6ec9a3190b01ec52ff7d99e4658d0a6a2fc5951b455e6897dbfce",
+      "chinese_annotation_copy": true,
+      "ast_identical_to_original": true
+    },
+    {
+      "path": "source/scripts/run_fashion_pilot.py",
+      "original_relative_path": "scripts/run_fashion_pilot.py",
+      "original_sha256": "ae98330c0833fe9b94228dd6dbedc64aae274ddfb6b92465a3263af1ad526580",
+      "published_sha256": "2c40480b21ac45d4cad2b8feaf7b7b0f9e1a452a9c760a94dc61db51619fc06a",
+      "chinese_annotation_copy": true,
+      "ast_identical_to_original": true
+    },
+    {
+      "path": "source/scripts/run_joint_response.py",
+      "original_relative_path": "scripts/run_joint_response.py",
+      "original_sha256": "25ad983a0657e0bc1cb83323339de2b83497bd0adc96187181959aab86badccc",
+      "published_sha256": "ffc5ed3d4fbe9f966381b62054f07138e66ff5cd3c5bc84428ba4f98ec20c5e7",
+      "chinese_annotation_copy": true,
+      "ast_identical_to_original": true
+    },
+    {
+      "path": "source/scripts/run_residual_controls.py",
+      "original_relative_path": "scripts/run_residual_controls.py",
+      "original_sha256": "67a5dc2063c6791fe118e7f04253ee3becff38014300fd305b133d848cc45f12",
+      "published_sha256": "6d7764dcda3f859ba3ddbe37f31eefa8c4098d8a6674b7687d4e9d72413c43ea",
+      "chinese_annotation_copy": true,
+      "ast_identical_to_original": true
+    },
+    {
+      "path": "source/scripts/run_scale_controls.py",
+      "original_relative_path": "scripts/run_scale_controls.py",
+      "original_sha256": "d02af25feb9067264f7a56cf8820da6d615d1f7fd3697acfb014e6ce78b55d5c",
+      "published_sha256": "64ff85938f65f405cf126d71533f0def6a0c953c8b673627e9cb56055a8eceee",
+      "chinese_annotation_copy": true,
+      "ast_identical_to_original": true
+    },
+    {
+      "path": "source/scripts/run_structure_controls.py",
+      "original_relative_path": "scripts/run_structure_controls.py",
+      "original_sha256": "c2bcd135ab74fc19c5257bc5f0ce244b192c671cfede15e10c37fbdd21be804f",
+      "published_sha256": "18ce55ba59301e82e78b2cb8960775746f9efdb64ff65964bd86e0a56c715ed8",
+      "chinese_annotation_copy": true,
+      "ast_identical_to_original": true
+    },
+    {
+      "path": "source/scripts/run_switch_controls.py",
+      "original_relative_path": "scripts/run_switch_controls.py",
+      "original_sha256": "82a437a06380c1e9d535024717f8e279eef0c44665ce2aef2d08c14f4194701b",
+      "published_sha256": "8f01fcbebedd02dd9d5b98571e5d553a80ee50af3915eca71b9cc2f7528cd40c",
+      "chinese_annotation_copy": true,
+      "ast_identical_to_original": true
+    },
+    {
+      "path": "source/scripts/scale_context.py",
+      "original_relative_path": "scripts/scale_context.py",
+      "original_sha256": "cfaa00a9175ff92dc309fdd05722687af5113120900cebf647ad57888e9333c4",
+      "published_sha256": "4cddb1c38706f2823d7a87531f85c032b5a2907a44f355e1f5aad0643e5b969d",
+      "chinese_annotation_copy": true,
+      "ast_identical_to_original": true
+    },
+    {
+      "path": "source/scripts/structure_runtime.py",
+      "original_relative_path": "scripts/structure_runtime.py",
+      "original_sha256": "28b249022bd4fc2586995ab8234aa91b0a1c863e886c564573783b6c0b7ddba5",
+      "published_sha256": "4eb97078839ff43a35af4c28a635a730c6fe67616837bd631c69756eec719d42",
+      "chinese_annotation_copy": true,
+      "ast_identical_to_original": true
+    },
+    {
+      "path": "source/scripts/summarize_dsprites_factors.py",
+      "original_relative_path": "scripts/summarize_dsprites_factors.py",
+      "original_sha256": "bbb6bf746ce3497a727414965daf2ed57413524ecf5d38f62c03678d467d3c2f",
+      "published_sha256": "bbb6bf746ce3497a727414965daf2ed57413524ecf5d38f62c03678d467d3c2f",
+      "chinese_annotation_copy": false,
+      "ast_identical_to_original": true
+    },
+    {
+      "path": "source/scripts/summarize_scale_results.py",
+      "original_relative_path": "scripts/summarize_scale_results.py",
+      "original_sha256": "a5a7eb78bc1d72b6d5f1efe12996dbbe12e206a081ad5abc4014800c694e7de9",
+      "published_sha256": "e33ab8da7a83caf02ecd0f6f43d5adc8c4a65656765c92179cdc1d1279f32e7a",
+      "chinese_annotation_copy": true,
+      "ast_identical_to_original": true
+    },
+    {
+      "path": "source/scripts/switch_context.py",
+      "original_relative_path": "scripts/switch_context.py",
+      "original_sha256": "3469473f41610168a93d7b6ac9b76729e14cfaa4f556d91eb592c57b68ea4751",
+      "published_sha256": "e2fa55fc0e356e3953a1802bb9785f7382b966605433edb66167261b8dd42e29",
+      "chinese_annotation_copy": true,
+      "ast_identical_to_original": true
+    },
+    {
+      "path": "source/scripts/tabulate_dsprites_results.py",
+      "original_relative_path": "scripts/tabulate_dsprites_results.py",
+      "original_sha256": "1848fd67bf748816503f286b21854515c4cd5f443017edc581c1851c8763f0e8",
+      "published_sha256": "1848fd67bf748816503f286b21854515c4cd5f443017edc581c1851c8763f0e8",
+      "chinese_annotation_copy": false,
+      "ast_identical_to_original": true
+    },
+    {
+      "path": "source/scripts/test_adaptive_mediator.py",
+      "original_relative_path": "scripts/test_adaptive_mediator.py",
+      "original_sha256": "fec167bbca80ffef062588474896c4da315954145f0fc5fae9e1f159dd4e0462",
+      "published_sha256": "fec167bbca80ffef062588474896c4da315954145f0fc5fae9e1f159dd4e0462",
+      "chinese_annotation_copy": false,
+      "ast_identical_to_original": true
+    },
+    {
+      "path": "source/scripts/test_cross_layer_mechanism.py",
+      "original_relative_path": "scripts/test_cross_layer_mechanism.py",
+      "original_sha256": "47070be0cd1c6608b0211eee142b160eab6e2a5683c9b521bac846185c1e97cc",
+      "published_sha256": "47070be0cd1c6608b0211eee142b160eab6e2a5683c9b521bac846185c1e97cc",
+      "chinese_annotation_copy": false,
+      "ast_identical_to_original": true
+    },
+    {
+      "path": "source/scripts/test_dsprites_mechanism.py",
+      "original_relative_path": "scripts/test_dsprites_mechanism.py",
+      "original_sha256": "2e71a9bbf3b2735a49ffbe32ff23e8891135768809c24e75f922e720bb52b067",
+      "published_sha256": "2e71a9bbf3b2735a49ffbe32ff23e8891135768809c24e75f922e720bb52b067",
+      "chinese_annotation_copy": false,
+      "ast_identical_to_original": true
+    },
+    {
+      "path": "source/scripts/test_joint_response.py",
+      "original_relative_path": "scripts/test_joint_response.py",
+      "original_sha256": "80c88255352023ddad2fb39a0785de05943f94f59c162d80d458c128f3c93c3a",
+      "published_sha256": "65c6d1cf5160378ea6359b5339219e8233e415d106cc2f368a3a8789c5db342b",
+      "chinese_annotation_copy": true,
+      "ast_identical_to_original": true
+    },
+    {
+      "path": "source/scripts/verify_adaptive_mediator.py",
+      "original_relative_path": "scripts/verify_adaptive_mediator.py",
+      "original_sha256": "385c9696ac7e6a92fd69f0902723fc4e760db03dd2796c006867ed4cf4497ec3",
+      "published_sha256": "385c9696ac7e6a92fd69f0902723fc4e760db03dd2796c006867ed4cf4497ec3",
+      "chinese_annotation_copy": false,
+      "ast_identical_to_original": true
+    },
+    {
+      "path": "source/scripts/verify_cross_layer_mechanism.py",
+      "original_relative_path": "scripts/verify_cross_layer_mechanism.py",
+      "original_sha256": "5c33cd1cceb14f0b0bf50d98d782d8ace84d809658870704a6f7a7a62663ceea",
+      "published_sha256": "5c33cd1cceb14f0b0bf50d98d782d8ace84d809658870704a6f7a7a62663ceea",
+      "chinese_annotation_copy": false,
+      "ast_identical_to_original": true
+    },
+    {
+      "path": "source/scripts/verify_external_delivery.py",
+      "original_relative_path": "scripts/verify_external_delivery.py",
+      "original_sha256": "98e720318f4a508a85a9be25b42d792b0751559b60606e1d7cc74ad50508ab13",
+      "published_sha256": "c51be7a6a00dc0e96cc772801bda833da47b7dca1c1c71a8a623d04bc30f9fec",
+      "chinese_annotation_copy": true,
+      "ast_identical_to_original": true
+    },
+    {
+      "path": "source/scripts/verify_joint_response.py",
+      "original_relative_path": "scripts/verify_joint_response.py",
+      "original_sha256": "6f10cbc020b85a061014397a3944998f841cfbd161d9e785bee19edf9a548d17",
+      "published_sha256": "0c96e1ac9f64edd8655452db17a4f9a0dbe09b8ded3ab01acd035a1d1737efb3",
+      "chinese_annotation_copy": true,
+      "ast_identical_to_original": true
+    },
+    {
+      "path": "source/scripts/verify_residual_delivery.py",
+      "original_relative_path": "scripts/verify_residual_delivery.py",
+      "original_sha256": "31912b029c02acb74f7d89a5579241e3ccd1c1354534b93f409ede4b353e6d84",
+      "published_sha256": "ee69d5d1bf9c8c8be14422b4c28f4f3b9f1f3142f30e93787edd54fd7e9f0d22",
+      "chinese_annotation_copy": true,
+      "ast_identical_to_original": true
+    },
+    {
+      "path": "source/scripts/verify_scale_delivery.py",
+      "original_relative_path": "scripts/verify_scale_delivery.py",
+      "original_sha256": "9f6ca196f1b0c2048a0cdd54022eb646690a973b4f4a93c0a0f182d3f3c5dc88",
+      "published_sha256": "7e007e759f4077df1ef7b99427886b8e238c74448496bed51028389a817110d7",
+      "chinese_annotation_copy": true,
+      "ast_identical_to_original": true
+    },
+    {
+      "path": "source/scripts/verify_structure_delivery.py",
+      "original_relative_path": "scripts/verify_structure_delivery.py",
+      "original_sha256": "32721078a8b95180b178d9528ba366d8ee013baebaa21f0de7b52de957eed9b8",
+      "published_sha256": "50f79dac292a12f9e24e6fa3eff83ce732b28ab4b31ba7df255dfc6e47a310ab",
+      "chinese_annotation_copy": true,
+      "ast_identical_to_original": false
+    },
+    {
+      "path": "source/scripts/verify_switch_delivery.py",
+      "original_relative_path": "scripts/verify_switch_delivery.py",
+      "original_sha256": "1f53dcae82bebd93fe0d938da9780dbabaf517f1167efaa5042e3c51aecf0939",
+      "published_sha256": "97877b33b9385b7efd21cc7f049274baad6f27dac64faca0e434bd66e4ea558d",
+      "chinese_annotation_copy": true,
+      "ast_identical_to_original": true
+    },
+    {
+      "path": "source/scripts/write_external_report.py",
+      "original_relative_path": "scripts/write_external_report.py",
+      "original_sha256": "bf4413ec74cc6b14414800f6fdd1e85449c8d4c8db4f8fdaf7346b1ecdec8257",
+      "published_sha256": "4672263a3364213faecda37b8048129dff24f89047fe9be54998db65caba9e7c",
+      "chinese_annotation_copy": true,
+      "ast_identical_to_original": true
+    },
+    {
+      "path": "source/scripts/write_followup_report.py",
+      "original_relative_path": "scripts/write_followup_report.py",
+      "original_sha256": "a1bcdf7d7b3665d0823e3303eee0fe6d8c59446ad511ddc630e6785d077ab65d",
+      "published_sha256": "1885b36a031089071498c918f17678012f611ed36bd69984e9465c35450ba4e2",
+      "chinese_annotation_copy": true,
+      "ast_identical_to_original": true
+    },
+    {
+      "path": "source/scripts/write_residual_report.py",
+      "original_relative_path": "scripts/write_residual_report.py",
+      "original_sha256": "1cae12d319f1a6906203c9dc6227b24ecaf9dd4eef918e2ef7d67fc4fcec46fa",
+      "published_sha256": "d4ffcb9263a859effd31af7512d2d6a2f25cfc430153cbced853a2e95624982c",
+      "chinese_annotation_copy": true,
+      "ast_identical_to_original": true
+    },
+    {
+      "path": "source/scripts/write_scale_report.py",
+      "original_relative_path": "scripts/write_scale_report.py",
+      "original_sha256": "ff2346e80014f92ef524d6ce94d61597f6419014092f403d1d5e5a049a2ecf47",
+      "published_sha256": "261a89eb1ac4afb44193c77f86db4856104c5c66d25526128128577ce2d912f3",
+      "chinese_annotation_copy": true,
+      "ast_identical_to_original": true
+    },
+    {
+      "path": "source/scripts/write_structure_report.py",
+      "original_relative_path": "scripts/write_structure_report.py",
+      "original_sha256": "1978a66147079c157d5de054f3d13c9ead0e66b6d14df86aff9f4e7ccc3e5c27",
+      "published_sha256": "d21120f94492564da836ad2439cce32b23356d6cde20a437ccc03b53cd92273c",
+      "chinese_annotation_copy": true,
+      "ast_identical_to_original": true
+    },
+    {
+      "path": "source/upstream/CAT_MT_phase7_v0.7/code/acquire_fashion.py",
+      "original_relative_path": "upstream/CAT_MT_phase7_v0.7/code/acquire_fashion.py",
+      "original_sha256": "ab4f38d1a0f7bd457b4f0571240e3c435e4194f030f5a1103bc9b9738abec15b",
+      "published_sha256": "c6399d89356a4098ace4e194fcb1fd44593156dd2ddf97c0135027646d68d8df",
+      "chinese_annotation_copy": true,
+      "ast_identical_to_original": true
+    },
+    {
+      "path": "source/upstream/CAT_MT_phase7_v0.7/code/analyze_and_verify.py",
+      "original_relative_path": "upstream/CAT_MT_phase7_v0.7/code/analyze_and_verify.py",
+      "original_sha256": "83724c4fd16c1e188398805e4bdbe3ad1501ba0aaca957b0af891c71b5925c74",
+      "published_sha256": "2effd9f6b5d5cf057c6b867e17db81e68389ec91308524f5092e4dfe4a79af24",
+      "chinese_annotation_copy": true,
+      "ast_identical_to_original": true
+    },
+    {
+      "path": "source/upstream/CAT_MT_phase7_v0.7/code/context_module.py",
+      "original_relative_path": "upstream/CAT_MT_phase7_v0.7/code/context_module.py",
+      "original_sha256": "44d27bd8395485801aa29cceea4235e7d0986d394003c7ea3ae7ac7cae18bd3f",
+      "published_sha256": "b9fc525ec07dab921e9baef04bce7d785e153b2a961d8b13954b4417ff4cbd84",
+      "chinese_annotation_copy": true,
+      "ast_identical_to_original": true
+    },
+    {
+      "path": "source/upstream/CAT_MT_phase7_v0.7/code/prepare_external.py",
+      "original_relative_path": "upstream/CAT_MT_phase7_v0.7/code/prepare_external.py",
+      "original_sha256": "d36741634cc94cb8abfb8f9cf97f62db2e8e60e9a80555a9cc40761b11c11179",
+      "published_sha256": "60d45b104f063ae0ccce8f4b23301935760c53c68f9c658d4d1b0cc1e3512c3c",
+      "chinese_annotation_copy": true,
+      "ast_identical_to_original": true
+    },
+    {
+      "path": "source/upstream/CAT_MT_phase7_v0.7/code/run_development.py",
+      "original_relative_path": "upstream/CAT_MT_phase7_v0.7/code/run_development.py",
+      "original_sha256": "b3b980b15fc376def4f5a2818d7eb2cd1335d69567b52873cc2208c165869691",
+      "published_sha256": "6d0efc41d723d5f96e53891a9077497ac61e8091afab0d96429adb76e305ea26",
+      "chinese_annotation_copy": true,
+      "ast_identical_to_original": true
+    },
+    {
+      "path": "source/upstream/CAT_MT_phase7_v0.7/code/runtime_backend_check.py",
+      "original_relative_path": "upstream/CAT_MT_phase7_v0.7/code/runtime_backend_check.py",
+      "original_sha256": "2533174dd78b53f840db2d81287c75b364cfbbdc6e97bb651e2abedec61ddc5d",
+      "published_sha256": "56934d8b426a178e6fcb430924dff180ac787cb37f4a5c4d2048c8bd5c92c275",
+      "chinese_annotation_copy": true,
+      "ast_identical_to_original": true
+    },
+    {
+      "path": "source/upstream/CAT_MT_phase7_v0.7/code/write_report.py",
+      "original_relative_path": "upstream/CAT_MT_phase7_v0.7/code/write_report.py",
+      "original_sha256": "7a22b9bafdae49f0ba6996f9f91ec82e56d059b5c05bbb966a846c860381f599",
+      "published_sha256": "d8dd7649ff104e499eb3a722fb71750783e8d053cf30454dca72a3f2b12c0f29",
+      "chinese_annotation_copy": true,
+      "ast_identical_to_original": true
+    },
+    {
+      "path": "source/upstream/CAT_MT_phase7_v0.7/vendor/confirmatory_core.py",
+      "original_relative_path": "upstream/CAT_MT_phase7_v0.7/vendor/confirmatory_core.py",
+      "original_sha256": "b8863e25c0f5cd1442e6447bc9cb4554567f2a4a6c8e8362efdd4d66a918fdf4",
+      "published_sha256": "2cbd5b21d7bbc51d267f734d353dcb4a5662294d0053811d39ec21ec608d98a8",
+      "chinese_annotation_copy": true,
+      "ast_identical_to_original": true
+    },
+    {
+      "path": "source/upstream/CAT_MT_phase7_v0.7/vendor/local_modules.py",
+      "original_relative_path": "upstream/CAT_MT_phase7_v0.7/vendor/local_modules.py",
+      "original_sha256": "37e0792c1baade7b746123866a3bdd5fc3c675435077c1e1ae7b72abfe797e4e",
+      "published_sha256": "6644946166315d5d877dc96378864dd45b7c2d9d9ffe3ea6e96cf705e0d289e3",
+      "chinese_annotation_copy": true,
+      "ast_identical_to_original": true
+    }
+  ],
+  "note": "Frozen originals are preserved outside this repository. Public copy retains comments and removes workstation-specific paths; provenance records any AST changes."
+}

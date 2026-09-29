@@ -1,0 +1,29 @@
+{
+  "demos": {
+    "run_demo.py": "PASS",
+    "run_dsprites_demo.py": "PASS"
+  },
+  "python": "3.12.14",
+  "platform": "Windows",
+  "versions": {
+    "numpy": "2.5.2",
+    "scipy": "1.18.1",
+    "torch": "2.12.1+cu132",
+    "threadpoolctl": "3.6.0",
+    "matplotlib": "3.11.1"
+  },
+  "broken_doc_links": [],
+  "status": "PASS",
+  "secret_or_workstation_path_hits": [],
+  "original_source_files_unchanged": 75,
+  "core_numerical_checks": "PASS; see numerical_controls.json",
+  "public_path_changes": [
+    "source/scripts/finalize_joint_response.py",
+    "source/scripts/package_snapshot.py",
+    "source/scripts/report_adaptive_mediator.py",
+    "source/scripts/report_cross_layer_mechanism.py",
+    "source/scripts/report_joint_response.py",
+    "source/scripts/verify_structure_delivery.py"
+  ],
+  "training_repeated_for_release": false
+}

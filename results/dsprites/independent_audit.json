@@ -1,0 +1,43 @@
+{
+  "status": "PASS",
+  "utc": "2026-09-29T12:10:04.217343+00:00",
+  "source_sha256": "99c299a6f25a18dc2e8051fd2dec76b8532546f1ca7966e0d33a08eb8e30d102",
+  "cases": 24,
+  "selection_rows": 38016,
+  "max_abs_errors": {
+    "finite_development_margin": 1.1275702593849246e-16,
+    "finite_development_vector": 1.1709383462843448e-17,
+    "finite_input_selection_margin": 1.2836953722228372e-16,
+    "finite_input_selection_vector": 9.75781955236954e-18,
+    "sum_layer_contributions": 1.2648736225084889e-14,
+    "metrics_natural_mse_margin": 2.636779683484747e-16,
+    "metrics_restore_mse_margin": 2.931682674400804e-16,
+    "metrics_transplant_error_mse_margin": 3.642919299551295e-16,
+    "summary_interaction_rms": 1.1102230246251565e-16,
+    "summary_restore_rms": 2.0122792321330962e-16,
+    "summary_transplant_error_rms": 2.5153490401663703e-16,
+    "summary_restore_ratio": 2.5646151868841116e-14,
+    "summary_transplant_error_ratio": 2.375877272697835e-14,
+    "metrics_natural_mse_vector": 1.8214596497756474e-17,
+    "metrics_restore_mse_vector": 2.3418766925686896e-17,
+    "metrics_transplant_error_mse_vector": 2.6454533008646308e-17
+  },
+  "legacy_manifest_hashes": {
+    "runs/cross_layer_20260928/delivery_manifest.json": "08296314e14459fcc89854a5633a2231a44cea0a531b263c5b1dcc902d2346da",
+    "runs/adaptive_mediator_20260928/delivery_manifest.json": "22e395dab7a97322c3c40ac4383dae11e30e447fad2f81a06a0857bab0a70ff9",
+    "audit/joint_response_manifest_20260925.json": "dc19631ab26896908ea00f0044ddc0408ce922734d19810b1be2a49cb2f87761"
+  },
+  "checks": [
+    "dense 24x16 contrasts",
+    "independent class projection",
+    "all singleton scores",
+    "global/class/input ranks",
+    "all recorded selections",
+    "all per-input metrics",
+    "teacher/class summary values",
+    "additive layer decomposition",
+    "strict pixel translation without clipping",
+    "freeze ordering and original artifact hashes"
+  ],
+  "limitation": "Audit confirms computations and preservation, not scientific novelty or uniqueness of a causal explanation."
+}

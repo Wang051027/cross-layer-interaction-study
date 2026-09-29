@@ -1,0 +1,70 @@
+{
+  "selection": "First four original ordered inputs, no outcome-based selection",
+  "teacher_seed": 202609071,
+  "position": "center",
+  "q": 8,
+  "input_ids": [
+    896,
+    897,
+    898,
+    899
+  ],
+  "strengths": [
+    1.0,
+    0.5
+  ],
+  "is_new_experiment": false,
+  "representative_of_full_six_teacher_results": false,
+  "files": [
+    {
+      "original_relative_path": "runs/fashion_switch_20260914/test/seed_202609071/center_q8/references.npz",
+      "sha256": "4e62ba6e829502d65b548bbeb021075f13a5b3ba34623fbb53f65e78ce323e85"
+    },
+    {
+      "original_relative_path": "runs/fashion_switch_20260914/test/seed_202609071/center_q8/screening_contexts.npz",
+      "sha256": "6938a13078bf349d3e1e3a65d8378a00cf1b8cc3db00c059f7271e45fd60d02b"
+    },
+    {
+      "original_relative_path": "runs/joint_response_20260925/cases/seed_202609071/center_q8/per_input.json",
+      "sha256": "a24e60119f2169fcce1a63d46f98cc6ed5c42b8f6c3c2984dac2a20d788c9694"
+    }
+  ],
+  "array_shapes": {
+    "ids": [
+      4
+    ],
+    "labels": [
+      4
+    ],
+    "nodes": [
+      8
+    ],
+    "h": [
+      4,
+      8
+    ],
+    "z": [
+      4,
+      736
+    ],
+    "W": [
+      736,
+      8
+    ],
+    "U": [
+      10,
+      736
+    ],
+    "responses_1.0": [
+      4,
+      256,
+      10
+    ],
+    "responses_0.5": [
+      4,
+      256,
+      10
+    ]
+  },
+  "included": "Cached responses and local internal states; no raw input images or teacher checkpoint"
+}

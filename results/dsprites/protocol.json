@@ -1,0 +1,73 @@
+{
+  "version": "dsprites-controlled-transfer-v1",
+  "utc": "2026-09-29T10:49:11.502090+00:00",
+  "seeds": [
+    202609291,
+    202609292,
+    202609293,
+    202609294,
+    202609295,
+    202609296
+  ],
+  "dataset": "official pinned dSprites; controlled central-position-domain subset",
+  "model": "same SmallResidualCNN blocks at native64; readout32->3; fresh weights",
+  "teacher": {
+    "epochs": 20,
+    "batch": 256,
+    "optimizer": "AdamW",
+    "lr": 0.002,
+    "min_lr": 2e-05,
+    "weight_decay": 0.0001,
+    "schedule": "cosine across20epochs",
+    "augmentation": "none",
+    "selection": "lowest validation cross entropy; keep earliest tie"
+  },
+  "quality_gate": {
+    "mean_validation_accuracy": 0.95,
+    "minimum_validation_accuracy": 0.9,
+    "failure": "report all models; do not claim task-competent mechanism if gate fails"
+  },
+  "split_manifest_sha256": "d7766c47fa9c21be400c431e59945bb5525c2c3dbadca3b748d7b1e289042242",
+  "data_files": {
+    "development_factors.npy": "f7fdc43ab5897d2b7f0e28316f51383194cc45d80c92d55a2cc494cc41516620",
+    "development_images.npy": "9c2b56212a376b41e82b13e409b3da5a51761940f18322383c93d95db05a3756",
+    "development_labels.npy": "24b923f378bf390bfecfce59efccb80edd6c82c9a0b4d69e536ed993f5dba245",
+    "evaluation_factors.npy": "fa29eab25e884c7e28b35286e2aead6e4f4afde3358b9be67dd02bd141363bdf",
+    "evaluation_images.npy": "788da2eee271eb90c87a8a8381916e67ed1264af6a8bd959f1cc971e12055417",
+    "evaluation_labels.npy": "24b923f378bf390bfecfce59efccb80edd6c82c9a0b4d69e536ed993f5dba245",
+    "indices.npz": "e966a3f232010a5d019a90ea00a9e3a062ab96f1c1bc8291d9206b20bf4caafe",
+    "train_factors.npy": "929e0194378f453164ac68d82788b0733102368ac512c4e03d5196dcd15cda0e",
+    "train_images.npy": "66dc6e5189ce60174a6b598d052a3913faf4e3650c447c09175014959537456e",
+    "train_labels.npy": "8d3bac2f54a9cf79a7fba90476452af6aecb66267cdf13f13f807d13b4df957e",
+    "translated_factors.npy": "fa29eab25e884c7e28b35286e2aead6e4f4afde3358b9be67dd02bd141363bdf",
+    "translated_images.npy": "3e3605e81f92677a5d574a62b6d7b505951a619059fbc5fae7fe410adb296911",
+    "translated_labels.npy": "24b923f378bf390bfecfce59efccb80edd6c82c9a0b4d69e536ed993f5dba245",
+    "validation_factors.npy": "582059ba4978c58a55c3efab6316b19fe8da3ccdaefebd0a75a406e22dd9f02e",
+    "validation_images.npy": "81593cb034417dff70fe05214bdb48c63cc45a5ce2755bec76343be37d41ed88",
+    "validation_labels.npy": "ade2716f558da5530a07fdcc2dd6a183aae415a76d5919953e4ce0057d9cd5b0"
+  },
+  "sources": {
+    "scripts/prepare_dsprites.py": "7e49b5f2138c8e22d0227957d5a15dca3c6276f259089cd5332add82ea7c10ea",
+    "scripts/dsprites_teacher.py": "f75e8c10fb0244a7e31b4562e8d8bb3ffc3b4cd3d174207852b5d370b27b2148",
+    "reports/dSprites_迁移评估协议_2026-09-29.md": "81300831ff786a7676e7ea8f6c10ea37f73c8fa811eafcabc95adc11ee8eb863"
+  },
+  "dependencies": {
+    "scripts/residual_teacher.py": "490b72ac4e21e69230a0cf6914b74453cf2f2285ebc49a132b6f812dae374a4b",
+    "scripts/external_experiment.py": "da841d0425f31c0523508db5abd62e6f438dce39ee574354aae482e571773d19",
+    "scripts/cross_layer_mechanism.py": "f142d77b9cc7de853f58e34b8e703854987c8b0d277a663ee48127d9055e0c81",
+    "scripts/adaptive_mediator.py": "5ba300899980ee5496f20b381c9a4d470fb853c9b2301336bc49a468b069e239",
+    "scripts/research_runtime.py": "5dfc4ff1d9ec98899bfa5bc67195bae706b31611df378ae71e04a2080cad15b2"
+  },
+  "old_manifests": {
+    "runs/cross_layer_20260928/delivery_manifest.json": "08296314e14459fcc89854a5633a2231a44cea0a531b263c5b1dcc902d2346da",
+    "runs/adaptive_mediator_20260928/delivery_manifest.json": "22e395dab7a97322c3c40ac4383dae11e30e447fad2f81a06a0857bab0a70ff9",
+    "audit/joint_response_manifest_20260925.json": "dc19631ab26896908ea00f0044ddc0408ce922734d19810b1be2a49cb2f87761"
+  },
+  "calibration_access": false,
+  "environment": {
+    "torch": "2.12.1+cu132",
+    "numpy": "2.5.2",
+    "device": "cuda",
+    "gpu": "NVIDIA GeForce RTX 5060 Laptop GPU"
+  }
+}

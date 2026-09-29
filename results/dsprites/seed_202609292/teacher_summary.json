@@ -1,0 +1,20 @@
+{
+  "seed": 202609292,
+  "best_epoch": 19,
+  "validation": {
+    "epoch": 19,
+    "lr": 3.35023096313049e-05,
+    "train_ce": 0.0009043031604960561,
+    "cross_entropy": 0.0009597936344410604,
+    "accuracy": 1.0,
+    "per_class_accuracy": [
+      1.0,
+      1.0,
+      1.0
+    ]
+  },
+  "parameters": 38035,
+  "checkpoint_sha256": "4297286befcd81742c32a58d6c02187d459e4d1696d26859a736e09adbef8428",
+  "seconds": 124.32127439999022,
+  "test_used_for_selection": false
+}

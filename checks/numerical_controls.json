@@ -1,0 +1,74 @@
+{
+  "status": "PASS",
+  "joint": {
+    "status": "passed",
+    "checks": {
+      "fwht_direct_q4": 1.7763568394002505e-15,
+      "inverse_q4": 3.0531133177191805e-16,
+      "parseval_q4": 2.220446049250313e-16,
+      "exact_known_quadratic_q4": 4.440892098500626e-16,
+      "known_quadratic_high_order_q4": 1.3877787807814457e-16,
+      "fwht_direct_q8": 7.815970093361102e-14,
+      "inverse_q8": 7.771561172376096e-16,
+      "parseval_q8": 4.440892098500626e-16,
+      "exact_known_quadratic_q8": 4.440892098500626e-15,
+      "known_quadratic_high_order_q8": 2.220446049250313e-16,
+      "known_cubic_degree3_energy": 0,
+      "stable_gate_additive": 4.929390229335695e-14,
+      "state_remainder_high_orders": 1.3877787807814457e-16,
+      "fixed_contrast": 4.440892098500626e-16
+    },
+    "controls": [
+      "arbitrary Walsh vs dense Hadamard",
+      "known quadratic",
+      "pure cubic invisible to pair-at-origin queries",
+      "stable ReLU additive",
+      "crossing ReLU nonlinear remainder",
+      "fixed target contrast"
+    ]
+  },
+  "cross_layer": {
+    "status": "PASS",
+    "controls": [
+      "affine zero interaction",
+      "threshold pair = 0.5",
+      "third-order effect visible only in conditional background",
+      "hidden interactions cancel at readout"
+    ]
+  },
+  "adaptive": {
+    "status": "PASS",
+    "controls": [
+      "perfect / ineffective / harmful finite intervention",
+      "zero interaction score",
+      "common shortlist includes both leading rankings",
+      "single-coordinate score is not group optimality"
+    ]
+  },
+  "dsprites": {
+    "status": "PASS",
+    "controls": [
+      "3/10-class margin",
+      "label-free centered vector",
+      "perfect/ineffective finite mediation",
+      "coordinate translation preserves channel"
+    ]
+  },
+  "random_network_forward": {
+    "status": "PASS",
+    "errors": {
+      "trace_hook": 0,
+      "source_interaction": 0,
+      "affine_identity": 3.073713158996405e-16,
+      "relu_identity": 1.0408340855860843e-17,
+      "output_decomposition": 3.839261536724842e-17,
+      "empty_restore": 0,
+      "empty_transplant": 0,
+      "all_restore": 0,
+      "all_transplant": 0,
+      "patch_hook_restore": 0,
+      "patch_hook_transplant": 1.3877787807814457e-17
+    }
+  },
+  "context": "Synthetic correctness control, not a trained model or research result"
+}

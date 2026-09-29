@@ -1,0 +1,45 @@
+# Generated research outputs and downloaded datasets
+source/data/
+source/runs/
+source/audit/
+source/incoming/
+source/upstream/**/data/
+source/upstream/**/runs/
+source/upstream/**/results/
+source/upstream/**/artifacts/
+demo_output/
+local_output/
+**/plot_cache/
+
+# Python environments and caches
+.venv*/
+venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+*.egg-info/
+dist/
+build/
+
+# Model weights, archives, credentials and workstation files
+*.pt
+*.pth
+*.ckpt
+*.zip
+*.npy
+.env
+.env.*
+*.pem
+*.key
+*.log
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+
+# Only the deliberate, small response examples belong in Git.
+*.npz
+!example/input.npz
+!example/dsprites/responses.npz

@@ -1,0 +1,4 @@
+# Only needed for the earliest CAT-MT v0.7 analysis scripts.
+-r requirements.txt
+pandas>=2.2,<4
+scikit-learn>=1.5,<2

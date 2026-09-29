@@ -1,0 +1,10 @@
+{
+  "status": "PASS",
+  "errors": {
+    "patch": 2.6645352591003757e-15,
+    "features": 5.421010862427522e-19,
+    "target": 0.0,
+    "finite": 0.0
+  },
+  "context": "original Fashion validation input only; CPU float64"
+}

@@ -1,0 +1,75 @@
+{
+  "utc": "2026-09-29T11:01:44.757197+00:00",
+  "training_protocol_sha256": "27220058edc7f75261f934b27cb6d1430a388c9c04ede22b3b4edbc3034ce49b",
+  "sources": {
+    "scripts/dsprites_mechanism.py": "742376268cda86b01a80959753030277d90982f0915d6db368a17da5beb14072",
+    "scripts/test_dsprites_mechanism.py": "2e71a9bbf3b2735a49ffbe32ff23e8891135768809c24e75f922e720bb52b067",
+    "scripts/run_dsprites_mechanism.py": "13ed3c1022dff64e7eceee610f228cb68130d86adf2dc9f2c55daaa6f1bdc87e"
+  },
+  "targets": [
+    "margin",
+    "vector"
+  ],
+  "budgets": [
+    16,
+    32
+  ],
+  "methods": [
+    "margin_global_gradient",
+    "margin_class_gradient",
+    "margin_input_gradient",
+    "margin_global_finite",
+    "margin_class_finite",
+    "margin_input_finite",
+    "vector_global_gradient",
+    "vector_class_gradient",
+    "vector_input_gradient",
+    "vector_global_finite",
+    "vector_class_finite",
+    "vector_input_finite",
+    "margin_input_full_gradient",
+    "vector_input_full_gradient",
+    "margin_global_single",
+    "margin_class_single",
+    "margin_input_single",
+    "random_0",
+    "random_1",
+    "random_2",
+    "random_3"
+  ],
+  "selection_alpha": 0.5,
+  "primary_alpha": 1.0,
+  "additional_alpha": 0.5,
+  "primary_budget": 16,
+  "shortlist": "training margin interaction top24 + margin single top16 + vector interaction top24; fill margin to64",
+  "source": "four highest mean development activations in central3x3 of block1 output; no test retuning",
+  "scopes": [
+    "global",
+    "class",
+    "input"
+  ],
+  "class_development_count": 48,
+  "translation_methods": [
+    "margin_global_gradient",
+    "margin_class_gradient",
+    "margin_input_gradient",
+    "margin_input_finite",
+    "random_0",
+    "all_reachable"
+  ],
+  "translation_budget": 16,
+  "translation_alpha": 1.0,
+  "translation_rule": "reuse base selections; absolute coordinates or source dx4/middle dx2 aligned coordinates",
+  "frames": [
+    "base_alpha1",
+    "base_alpha0.5",
+    "translation_absolute_alpha1",
+    "translation_aligned_alpha1"
+  ],
+  "evaluation_contexts": 48,
+  "images": 144,
+  "targets_not_independent": true,
+  "note": "Prior protocol text list of fixed sizes refers to old6272 middle scalars; this implementation derives dimensions from tensors",
+  "tolerance": 1e-09,
+  "statistics": "descriptive teacher-first; class/factor stratified; keep inactive records and absolute magnitudes"
+}

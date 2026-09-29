@@ -1,0 +1,2 @@
+# Both cached-response demos only need NumPy.
+numpy>=2.0,<3

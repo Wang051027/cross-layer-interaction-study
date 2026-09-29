@@ -1,0 +1,146 @@
+{
+  "status": "PASS",
+  "context": "Three cached rows from one model; demonstration only",
+  "panel_indices": [
+    0,
+    1,
+    2
+  ],
+  "max_abs_errors": {
+    "margin_natural_mse": 3.2959746043559335e-17,
+    "margin_restore_mse": 1.1904539853890839e-16,
+    "margin_transplant_error_mse": 1.9125326322644298e-16,
+    "vector_natural_mse": 0.0,
+    "vector_restore_mse": 8.673617379884035e-19,
+    "vector_transplant_error_mse": 1.734723475976807e-18,
+    "sum_layer_contributions": 5.126975233249453e-15
+  },
+  "ratios_lower_is_better": [
+    {
+      "target": "margin",
+      "label": 0,
+      "method": "margin_global_finite",
+      "restore_ratio": 0.6535128099378078,
+      "transplant_error_ratio": 0.6650549613654886
+    },
+    {
+      "target": "margin",
+      "label": 0,
+      "method": "margin_class_finite",
+      "restore_ratio": 0.6181806303359765,
+      "transplant_error_ratio": 0.6204115607776204
+    },
+    {
+      "target": "margin",
+      "label": 0,
+      "method": "margin_input_finite",
+      "restore_ratio": 0.5742489273963937,
+      "transplant_error_ratio": 0.5786097825221871
+    },
+    {
+      "target": "margin",
+      "label": 1,
+      "method": "margin_global_finite",
+      "restore_ratio": 0.7085820187517695,
+      "transplant_error_ratio": 0.7258222307385512
+    },
+    {
+      "target": "margin",
+      "label": 1,
+      "method": "margin_class_finite",
+      "restore_ratio": 0.6336243163473049,
+      "transplant_error_ratio": 0.6539924607778191
+    },
+    {
+      "target": "margin",
+      "label": 1,
+      "method": "margin_input_finite",
+      "restore_ratio": 0.5957693925698584,
+      "transplant_error_ratio": 0.6141186024509353
+    },
+    {
+      "target": "margin",
+      "label": 2,
+      "method": "margin_global_finite",
+      "restore_ratio": 1.004180759872112,
+      "transplant_error_ratio": 1.0038990843778903
+    },
+    {
+      "target": "margin",
+      "label": 2,
+      "method": "margin_class_finite",
+      "restore_ratio": 0.9412783595343163,
+      "transplant_error_ratio": 0.9486625257593851
+    },
+    {
+      "target": "margin",
+      "label": 2,
+      "method": "margin_input_finite",
+      "restore_ratio": 0.5830158602531755,
+      "transplant_error_ratio": 0.5906181766229548
+    },
+    {
+      "target": "vector",
+      "label": 0,
+      "method": "vector_global_finite",
+      "restore_ratio": 0.6754932200816124,
+      "transplant_error_ratio": 0.6892644520288643
+    },
+    {
+      "target": "vector",
+      "label": 0,
+      "method": "vector_class_finite",
+      "restore_ratio": 0.6670948253386684,
+      "transplant_error_ratio": 0.681106099508783
+    },
+    {
+      "target": "vector",
+      "label": 0,
+      "method": "vector_input_finite",
+      "restore_ratio": 0.5771770571239832,
+      "transplant_error_ratio": 0.5866960791301866
+    },
+    {
+      "target": "vector",
+      "label": 1,
+      "method": "vector_global_finite",
+      "restore_ratio": 0.8260698884569174,
+      "transplant_error_ratio": 0.8440201678640569
+    },
+    {
+      "target": "vector",
+      "label": 1,
+      "method": "vector_class_finite",
+      "restore_ratio": 0.763908734428116,
+      "transplant_error_ratio": 0.790151251846088
+    },
+    {
+      "target": "vector",
+      "label": 1,
+      "method": "vector_input_finite",
+      "restore_ratio": 0.6707103974027573,
+      "transplant_error_ratio": 0.6934222039643455
+    },
+    {
+      "target": "vector",
+      "label": 2,
+      "method": "vector_global_finite",
+      "restore_ratio": 1.0003419481168778,
+      "transplant_error_ratio": 0.9985398562563246
+    },
+    {
+      "target": "vector",
+      "label": 2,
+      "method": "vector_class_finite",
+      "restore_ratio": 0.968093263049401,
+      "transplant_error_ratio": 0.9676732719463973
+    },
+    {
+      "target": "vector",
+      "label": 2,
+      "method": "vector_input_finite",
+      "restore_ratio": 0.7674661146764041,
+      "transplant_error_ratio": 0.7516344495662306
+    }
+  ]
+}
