@@ -15,7 +15,7 @@
   "broken_doc_links": [],
   "status": "PASS",
   "secret_or_workstation_path_hits": [],
-  "original_source_files_unchanged": 75,
+  "original_source_files_unchanged": 178,
   "core_numerical_checks": "PASS; see numerical_controls.json",
   "public_path_changes": [
     "source/scripts/finalize_joint_response.py",
@@ -25,5 +25,18 @@
     "source/scripts/report_joint_response.py",
     "source/scripts/verify_structure_delivery.py"
   ],
-  "training_repeated_for_release": false
+  "training_repeated_for_release": false,
+  "release_date": "2026-11-03",
+  "source_files": 178,
+  "python_files": 182,
+  "added_source_files": 103,
+  "documentation_or_path_ast_changes": [
+    "source/scripts/audit_dsprites_joint_relu.py",
+    "source/scripts/finalize_joint_response.py",
+    "source/scripts/package_snapshot.py",
+    "source/scripts/report_adaptive_mediator.py",
+    "source/scripts/report_cross_layer_mechanism.py",
+    "source/scripts/report_joint_response.py",
+    "source/scripts/verify_structure_delivery.py"
+  ]
 }

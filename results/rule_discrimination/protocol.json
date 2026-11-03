@@ -1,0 +1,216 @@
+{
+  "utc": "2026-10-31T15:54:49.700068+00:00",
+  "design": "7b448c11f62bc262583ece33014eabe59d64609eab73572da95e8f97fb6c484a",
+  "source": {
+    "scripts/dsprites_triple_rule.py": "a1c753245129daaa270f0e2a631dfb0b4a1acba4cf989804b417572691774e1f",
+    "scripts/run_dsprites_triple_rule.py": "1486db50f54053a0d2aed07e4663b1603d1fdc9f574b1057429cb6f14288beeb",
+    "scripts/dsprites_teacher.py": "f75e8c10fb0244a7e31b4562e8d8bb3ffc3b4cd3d174207852b5d370b27b2148",
+    "scripts/residual_teacher.py": "490b72ac4e21e69230a0cf6914b74453cf2f2285ebc49a132b6f812dae374a4b",
+    "scripts/cross_layer_mechanism.py": "f142d77b9cc7de853f58e34b8e703854987c8b0d277a663ee48127d9055e0c81",
+    "scripts/shape_donor_mechanism.py": "db110e0033109a61a9b06be4eadbe013b3629525bc7ab9054743312f898acac2",
+    "scripts/dsprites_mechanism.py": "742376268cda86b01a80959753030277d90982f0915d6db368a17da5beb14072"
+  },
+  "inputs": {
+    "runs/dsprites_shape_donor_20261010/panel/data.npz": "5b3602f132db0d8cd576227a23eb6ed296b2b9abb254ecd660d5f691ade3b897",
+    "runs/dsprites_20260929/seed_202609291/teacher.pt": "bfd28341046304631e8b782e46a81e948020d9d7590a97426d234c78742e5f46",
+    "runs/dsprites_20260929/seed_202609292/teacher.pt": "4297286befcd81742c32a58d6c02187d459e4d1696d26859a736e09adbef8428",
+    "runs/dsprites_20260929/seed_202609293/teacher.pt": "babe2b16ba6dab13e7535323be15419dad3a7dfc4ef148a6fd6362000a81fc39",
+    "runs/dsprites_20260929/seed_202609294/teacher.pt": "0a4738a3c3424b066f8a16b3c1f09fe37a6b4ff832bfd771871f9a9acc5e653b",
+    "runs/dsprites_20260929/seed_202609295/teacher.pt": "bdfb32e47f77a825547001efb5f697ca62912e000627c8ec288066d8ed6ddf2d",
+    "runs/dsprites_20260929/seed_202609296/teacher.pt": "c57fd2a5a433bab4bd5dba2860c08d763bd4a24eef4f79fa4c57655a99b52699"
+  },
+  "split": {
+    "development": {
+      "cases": [
+        0,
+        3,
+        4,
+        18,
+        21,
+        22,
+        24,
+        27,
+        28,
+        42,
+        45,
+        46,
+        48,
+        51,
+        52,
+        66,
+        69,
+        70
+      ],
+      "images": [
+        0,
+        1,
+        2,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        21,
+        22,
+        23,
+        24,
+        25,
+        26,
+        33,
+        34,
+        35
+      ],
+      "official_ids": [
+        17903,
+        263663,
+        509423,
+        63983,
+        309743,
+        555503,
+        99823,
+        345583,
+        591343,
+        145903,
+        391663,
+        637423,
+        181743,
+        427503,
+        673263,
+        227823,
+        473583,
+        719343
+      ],
+      "cells": [
+        [
+          0,
+          17
+        ],
+        [
+          1,
+          22
+        ],
+        [
+          2,
+          17
+        ],
+        [
+          3,
+          22
+        ],
+        [
+          4,
+          17
+        ],
+        [
+          5,
+          22
+        ]
+      ]
+    },
+    "test": {
+      "cases": [
+        6,
+        9,
+        10,
+        12,
+        15,
+        16,
+        30,
+        33,
+        34,
+        36,
+        39,
+        40,
+        54,
+        57,
+        58,
+        60,
+        63,
+        64
+      ],
+      "images": [
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        15,
+        16,
+        17,
+        18,
+        19,
+        20,
+        27,
+        28,
+        29,
+        30,
+        31,
+        32
+      ],
+      "official_ids": [
+        23023,
+        268783,
+        514543,
+        58863,
+        304623,
+        550383,
+        104943,
+        350703,
+        596463,
+        140783,
+        386543,
+        632303,
+        186863,
+        432623,
+        678383,
+        222703,
+        468463,
+        714223
+      ],
+      "cells": [
+        [
+          0,
+          22
+        ],
+        [
+          1,
+          17
+        ],
+        [
+          2,
+          22
+        ],
+        [
+          3,
+          17
+        ],
+        [
+          4,
+          22
+        ],
+        [
+          5,
+          17
+        ]
+      ]
+    }
+  },
+  "seeds": [
+    202609291,
+    202609292,
+    202609293,
+    202609294,
+    202609295,
+    202609296
+  ],
+  "strengths": [
+    1.0,
+    0.5
+  ],
+  "software": {
+    "numpy": "2.5.2",
+    "torch": "2.12.1+cu132"
+  }
+}

@@ -1,0 +1,20 @@
+{
+  "status": "PASS",
+  "utc": "2026-10-31T15:57:49.077699+00:00",
+  "counts": {
+    "triples": 864,
+    "raw_logit_states": 3240,
+    "patch_states": 69120
+  },
+  "maximum_absolute_errors": {
+    "archived_original_logits": 0.0,
+    "empty_middle": 0.0,
+    "true_middle": 0.0,
+    "QH": 2.1316282072803006e-14,
+    "Qlogits": 6.217248937900877e-15,
+    "sparse_threshold_rule": 8.526512829121202e-14,
+    "channel_to_logit": 4.3125225612783424e-15,
+    "forecast_logit_residual": 7.605027718682322e-15,
+    "all_patch_logits": 0.0
+  }
+}

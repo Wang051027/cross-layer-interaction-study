@@ -2,11 +2,13 @@
 
 **神经元组合效应与跨层中介机制的受控研究**
 
-Research code for conditional neuron interactions, layer-wise nonlinear decomposition, and restoration/transplantation interventions in small residual CNNs. Experiments cover Fashion-MNIST and a controlled dSprites shape-classification subset. Chinese comments and reading guides are included.
+Research code for conditional neuron interactions, layer-wise nonlinear decomposition, held-condition prediction, and blocking/keep interventions in small residual CNNs. Experiments cover Fashion-MNIST and a controlled dSprites shape-classification subset. Chinese comments and reading guides are included.
 
 本项目把“层与层之间有什么关系”具体化为：**前层单元的组合干预产生哪些非加性效应，后层哪些状态能够阻断或重现这些效应，这些状态是否随输入因素而变化？**
 
 当前是探索性研究。计算核验支持交互定义、逐层分解和修补实现；现有结果尚不支持“已找到紧凑、稳定且充分的语义回路”。仓库名是研究方向名称，尚非定稿论文标题。
+
+代码更新于 2026 年 11 月 3 日，实验进度截至 11 月 1 日。最新实验在原 36 张 dSprites 图像内，按大小和角度留出条件，先冻结组合规则，再预测三组共同变化时的 block2 响应、输出及阻断效应。中间层预测通过预设判据，输出与干预预测未全部通过。方法、结果和阅读入口见 [最新实验说明](docs/LATEST_EXPERIMENT.md)。
 
 ## 先运行一个例子
 
@@ -40,13 +42,14 @@ python -B run_checks.py
 |---|---|
 | [代码阅读指南](docs/CODE_GUIDE.md) | 从研究问题、公式到具体函数 |
 | [复现范围和运行顺序](docs/REPRODUCTION.md) | 可立即运行的检查、完整实验所需档案、已知限制 |
-| [全部源码索引](docs/SCRIPT_INDEX.md) | 75 个研究源码文件的用途 |
+| [全部源码索引](docs/SCRIPT_INDEX.md) | 178 个研究源码文件的用途 |
+| [最新判别实验](docs/LATEST_EXPERIMENT.md) | 固定组合规则、留出条件预测、二阶基线与通道阻断 |
 | [研究逻辑](source/reports/dSprites_研究逻辑与复用边界_2026-09-29.md) | 原设想如何变成可证伪的跨层机制问题 |
 | [dSprites 再评估报告](source/reports/dSprites_旧研究再评估_2026-09-29.md) | 当前结果、失败边界和下一步问题 |
 | [数值附表](source/reports/dSprites_逐项结果表_2026-09-29.md) | 各目标、预算、强度和模型的结果 |
 | [发布来源记录](PROVENANCE.json) | 原始源码与注释／公开副本的对应哈希 |
 
-## 当前 dSprites 实验
+## 早期 dSprites 实验（2026 年 9 月 29 日）
 
 使用原生 64×64 二值图像，训练六个新初始化的三类小残差 CNN。训练／验证为 24,576／3,072 张；开发与评价面板各 144 条因素记录。评价固定中心位置，匹配形状、大小和角度，另设严格右移 4 像素的配对控制。
 
@@ -70,6 +73,6 @@ python -B run_checks.py
 
 `source/` 保留原项目的相对目录关系。历史完整实验入口依赖当时的数据、模型和冻结清单，**当前版本不是一键恢复全部历史实验的发行包**。不要把逐个执行所有脚本当成复现流程；详见 [REPRODUCTION.md](docs/REPRODUCTION.md)。
 
-原冻结研究目录未修改。公开副本保留已有注释，并将少数本机专用路径替换为相对占位路径；6 个历史报告／打包脚本因此存在路径字符串变化，详情见来源记录。数学核心未改变。
+公开副本保留技术注释，并将少数本机专用路径替换为相对占位路径。来源记录逐文件列出原始和发布哈希，以及文档字符串和路径调整造成的语法树差异。完整实验的冻结原件独立保存。
 
 第三方数据来源与许可见 [THIRD_PARTY.md](THIRD_PARTY.md)。本次未为原创项目代码指定开源许可证；数据集附带许可证不代表本仓库整体采用该许可证。

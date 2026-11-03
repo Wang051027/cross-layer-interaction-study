@@ -1,6 +1,7 @@
 {
-  "version": 1,
-  "scope": "Public reading copy and runnable examples; manifest excludes itself and .git",
+  "version": 2,
+  "release_date": "2026-11-03",
+  "scope": "Public research source and recorded result summaries; excludes models, datasets, and full historical arrays",
   "files": [
     {
       "path": ".gitattributes",
@@ -11,6 +12,21 @@
       "path": ".gitignore",
       "bytes": 675,
       "sha256": "c799812dce90d25b71dfad3d0c07cb6e7c3261c251e78f47cf033f58d1f92ddb"
+    },
+    {
+      "path": "PROVENANCE.json",
+      "bytes": 74146,
+      "sha256": "07f851664c2c05cad37b033e570c6006f918b7c486000d259d97d4b2c5dc6fda"
+    },
+    {
+      "path": "README.md",
+      "bytes": 5544,
+      "sha256": "e2a64798aee4ca29a06144a322f2b62bf2be9d9b809cbbc4a2d2542303a5974c"
+    },
+    {
+      "path": "THIRD_PARTY.md",
+      "bytes": 1613,
+      "sha256": "868e606962f4501875b57f6c6c26760a0c638e7c5b1bbd387bf8db6c9514c689"
     },
     {
       "path": "check_repository.py",
@@ -24,8 +40,8 @@
     },
     {
       "path": "checks/release_checks.json",
-      "bytes": 841,
-      "sha256": "67ce287d576352c9412e90ad86a4b26db0fb6d4536e528df1dd4a3bceb1e79df"
+      "bytes": 1338,
+      "sha256": "ce2f21b7794cf521e13b715c511179113ab0dc25c069d965da9fa0d36527345f"
     },
     {
       "path": "checks/run_demo.json",
@@ -39,18 +55,23 @@
     },
     {
       "path": "docs/CODE_GUIDE.md",
-      "bytes": 2494,
-      "sha256": "0b6c0fc89f54221e9e7f21c3d33fd71974d09460d3d129b7a8825de348a7214d"
+      "bytes": 2802,
+      "sha256": "a11d93b3921c1b872f2bac0be3b7acdba45cbc3e019914df71599c484be82dff"
+    },
+    {
+      "path": "docs/LATEST_EXPERIMENT.md",
+      "bytes": 4047,
+      "sha256": "5ff70804feda388dbd68187597f3a8b6dabe901722dc7e2c28f8901fabe64863"
     },
     {
       "path": "docs/REPRODUCTION.md",
-      "bytes": 4377,
-      "sha256": "cfbeb9ad96689b4faa77c8ac2c384900770f0e02038c40dd67e2742593309718"
+      "bytes": 5884,
+      "sha256": "99a98b469f089adef9193065d0ac993f0c61f34feb9befd54220a3737db1715d"
     },
     {
       "path": "docs/SCRIPT_INDEX.md",
-      "bytes": 11797,
-      "sha256": "675d0a1e5a906e2c9fa9cbdd44b44cf67325cece8406a1e845c17bf9f5073c85"
+      "bytes": 30491,
+      "sha256": "7c7dfbcd5d8d40d367665e181021bba205934cb6caa9b4ecffc0080e2979a2f0"
     },
     {
       "path": "example/dsprites/provenance.json",
@@ -83,16 +104,6 @@
       "sha256": "73f8586bf7ed665e09e8148e96ef1c88b2d8a2e46d947b1838bc4f78503d82df"
     },
     {
-      "path": "PROVENANCE.json",
-      "bytes": 30897,
-      "sha256": "4db2930ca9f5ada3f235e0ade18230732768257d1357687835da9b9f01652ad8"
-    },
-    {
-      "path": "README.md",
-      "bytes": 4959,
-      "sha256": "8c2ee82750599917f09e8fb19789e33be4c6b93fd46dc0727e09ecc3bd28ce4d"
-    },
-    {
       "path": "requirements-demo.txt",
       "bytes": 60,
       "sha256": "6adcbbb856fff16f449dc25d574df0fd6b2f6bbea163a8c7dcb512fc17093b06"
@@ -106,6 +117,11 @@
       "path": "requirements.txt",
       "bytes": 204,
       "sha256": "7c18102c60796a6a3e6127a6bc61e817317e6ea3da587328b1e58ffb1b3e8dc4"
+    },
+    {
+      "path": "results/dsprites/README.md",
+      "bytes": 706,
+      "sha256": "cbc029d38815714292e13d7a26430ef2956a3a1999fe846a7cf954f170fe2524"
     },
     {
       "path": "results/dsprites/descriptive_analysis.json",
@@ -146,11 +162,6 @@
       "path": "results/dsprites/protocol.json",
       "bytes": 3972,
       "sha256": "c25d5ae6dc76d51fb0e8a7e55c9096057d5e299cb6233605d26759969def0373"
-    },
-    {
-      "path": "results/dsprites/README.md",
-      "bytes": 706,
-      "sha256": "cbc029d38815714292e13d7a26430ef2956a3a1999fe846a7cf954f170fe2524"
     },
     {
       "path": "results/dsprites/seed_202609291/history.json",
@@ -218,6 +229,31 @@
       "sha256": "a80a52b26214b550d79d97c9d390e1ff062281ada624a74b6dbfd5b057e9e8b5"
     },
     {
+      "path": "results/rule_discrimination/analysis.json",
+      "bytes": 29349,
+      "sha256": "a11e354af50f1dfe6ab28b1e2112b08b84246fdbee87478acc0bba3ff15e398f"
+    },
+    {
+      "path": "results/rule_discrimination/design.json",
+      "bytes": 4291,
+      "sha256": "7b448c11f62bc262583ece33014eabe59d64609eab73572da95e8f97fb6c484a"
+    },
+    {
+      "path": "results/rule_discrimination/independent_audit.json",
+      "bytes": 538,
+      "sha256": "e0fba99c62c2ee2a613cb41be5a304cb32ba47ef7a56044dbc6958622799f7fd"
+    },
+    {
+      "path": "results/rule_discrimination/protocol.json",
+      "bytes": 4258,
+      "sha256": "216909e5b6aad106490bb9768e2c85350800006ec4287409305881bfb0387455"
+    },
+    {
+      "path": "results/rule_discrimination/tables/teacher_scores.csv",
+      "bytes": 53111,
+      "sha256": "f78092734ed236eaad964e53a1766f69e6f8027edb8fb5081648cd51b5f37338"
+    },
+    {
       "path": "run_checks.py",
       "bytes": 1659,
       "sha256": "672b38b8d7dd6a298204e6361c75a97f8241542ac40008f4d764b85e89591766"
@@ -234,8 +270,8 @@
     },
     {
       "path": "source/README.md",
-      "bytes": 639,
-      "sha256": "10b48412a61bc948a36613760b76ebc88cebdf7d1afe63023ca424eb57c611c2"
+      "bytes": 766,
+      "sha256": "94c2cf3ca4e1ecfc9a8dabd6d6121a7349b88ea6f7b1dbe5a7a2d78a10692c6c"
     },
     {
       "path": "source/reports/adaptive_mediator_20260928.png",
@@ -246,16 +282,6 @@
       "path": "source/reports/cross_layer_mechanism_20260928.png",
       "bytes": 253760,
       "sha256": "2e5f94d665ac6e12f28b6d681a3710f6d3940e20d0b2dd56049df1a952097006"
-    },
-    {
-      "path": "source/reports/dsprites_panel_20260929.png",
-      "bytes": 47958,
-      "sha256": "90cf1157ccdecc1feae27ea598773b80693801490a7a510f1d51d6232c3c5f76"
-    },
-    {
-      "path": "source/reports/dsprites_results_20260929.png",
-      "bytes": 323683,
-      "sha256": "6ba870a18e5d2c04844f0668ec9fe36696b50a1a93d1f290eab9cf621a343158"
     },
     {
       "path": "source/reports/dSprites_旧研究再评估_2026-09-29.md",
@@ -276,6 +302,16 @@
       "path": "source/reports/dSprites_逐项结果表_2026-09-29.md",
       "bytes": 11225,
       "sha256": "802bac16350944b4391acbaa8930f37134c1f0117d146c02f4eb23b7ee5f9922"
+    },
+    {
+      "path": "source/reports/dsprites_panel_20260929.png",
+      "bytes": 47958,
+      "sha256": "90cf1157ccdecc1feae27ea598773b80693801490a7a510f1d51d6232c3c5f76"
+    },
+    {
+      "path": "source/reports/dsprites_results_20260929.png",
+      "bytes": 323683,
+      "sha256": "6ba870a18e5d2c04844f0668ec9fe36696b50a1a93d1f290eab9cf621a343158"
     },
     {
       "path": "source/reports/局部线性回退规则_数学说明_2026-09-14.md",
@@ -318,14 +354,104 @@
       "sha256": "5ba300899980ee5496f20b381c9a4d470fb853c9b2301336bc49a468b069e239"
     },
     {
+      "path": "source/scripts/analyze_dsprites_coalition_context.py",
+      "bytes": 12835,
+      "sha256": "1881aa433169961cb77fc15a5df14b84954d6515ea5d9bb5dfa45ec67ca6b86d"
+    },
+    {
+      "path": "source/scripts/analyze_dsprites_downstream_routes.py",
+      "bytes": 12320,
+      "sha256": "7121b69f1aaa4badfe8c0e14d3b1b1144bfc2eabc5c52292b95b9d99bd22370d"
+    },
+    {
+      "path": "source/scripts/analyze_dsprites_triple_rule.py",
+      "bytes": 10000,
+      "sha256": "2681ae16c395213eb59b3b3fac43d6d076ba8a62aedbe1468c5f9bc0ff8f0d4f"
+    },
+    {
+      "path": "source/scripts/ar_factorial_mechanism.py",
+      "bytes": 6776,
+      "sha256": "d8f2a3e0a9b94413b4b145b613cdff5176130dfd2ed9e4378e6197d22a67faa8"
+    },
+    {
+      "path": "source/scripts/audit_dsprites_ar_factorial.py",
+      "bytes": 12488,
+      "sha256": "dfe55a653439cc037143416df66f5265058cdadc62bfd9239af1aa641246a816"
+    },
+    {
+      "path": "source/scripts/audit_dsprites_channel_gates.py",
+      "bytes": 15991,
+      "sha256": "49ffecb1c790da33af8c54e8abac43b1b6b053eb94deac075306d441d4417e85"
+    },
+    {
+      "path": "source/scripts/audit_dsprites_coalition_context.py",
+      "bytes": 9444,
+      "sha256": "dad4864459ba9368821a5b530a5ebca32b957c2dc1484f791b3fa7784cbe9dcb"
+    },
+    {
       "path": "source/scripts/audit_dsprites_data.py",
       "bytes": 3401,
       "sha256": "6a61e00969f11e5e44631192404e0bd30cffd32a8793a03f0b41473ad42d24a9"
     },
     {
+      "path": "source/scripts/audit_dsprites_downstream_routes.py",
+      "bytes": 12202,
+      "sha256": "81ab3a33a99773164745a6b8d1a248bbef37e8890113ba1afd3ce0f7c09039f6"
+    },
+    {
+      "path": "source/scripts/audit_dsprites_factor_transfer.py",
+      "bytes": 15905,
+      "sha256": "1ba8f299b7b578146bdf6332a81a91cf93ae809b72700c1c3143d6eef6f670e2"
+    },
+    {
+      "path": "source/scripts/audit_dsprites_gradient.py",
+      "bytes": 17557,
+      "sha256": "ce374188036c667c5b79cd88dfac163fcb4b5e2adc163e60b3e7f6f7652dde25"
+    },
+    {
+      "path": "source/scripts/audit_dsprites_joint_relu.py",
+      "bytes": 13220,
+      "sha256": "7def03784074e1d5129aeb3a6d55af96778516041097c8411c06a9d10053874f"
+    },
+    {
+      "path": "source/scripts/audit_dsprites_joint_window.py",
+      "bytes": 20840,
+      "sha256": "c74d2e4ff6570428bb9dcfefd016e385e13a1e77f17e474fa2fd876be144c3a5"
+    },
+    {
+      "path": "source/scripts/audit_dsprites_layer_transfer.py",
+      "bytes": 18573,
+      "sha256": "8a3ce1f292bc423a0f7dea3e4521b22db55f39c581853b13f842933483089af8"
+    },
+    {
+      "path": "source/scripts/audit_dsprites_residual_routes.py",
+      "bytes": 21395,
+      "sha256": "98f2a7bf86c4bf8480854b6bd4d596ad438561eb5184ae5bab0eff635ab9d8ed"
+    },
+    {
       "path": "source/scripts/audit_dsprites_results.py",
       "bytes": 10105,
       "sha256": "99c299a6f25a18dc2e8051fd2dec76b8532546f1ca7966e0d33a08eb8e30d102"
+    },
+    {
+      "path": "source/scripts/audit_dsprites_shape_donor.py",
+      "bytes": 19529,
+      "sha256": "6505665ad29584c72737ed2dced3eb613a65f0e90add21e028d40ecff3f12338"
+    },
+    {
+      "path": "source/scripts/audit_dsprites_triple_gates.py",
+      "bytes": 18507,
+      "sha256": "a3ec06907921236ad7cbcd503a49992942d7b189d510f25bada2c80491c35f2f"
+    },
+    {
+      "path": "source/scripts/audit_dsprites_triple_rule.py",
+      "bytes": 7813,
+      "sha256": "6bad000ad49c06d8ba35ed3641d58fb64ebc589c6b919f4b25bcd23a4dcfa5eb"
+    },
+    {
+      "path": "source/scripts/audit_dsprites_upstream_rescue.py",
+      "bytes": 21498,
+      "sha256": "c9ecbf943056b4634b4a0af6b8b076faf17c69f893695b56d9afd36331e890e4"
     },
     {
       "path": "source/scripts/audit_external_head_activity.py",
@@ -358,9 +484,29 @@
       "sha256": "57c1e0883d2270ca4cfa35dc0f87f55715a0f4214c87d8dfd45b19f8e77580a9"
     },
     {
+      "path": "source/scripts/channel_gate_mechanism.py",
+      "bytes": 8690,
+      "sha256": "974916fe679b519e37f2c43e1f7fd169b40196b35fa843cb65ffe6d79bf5190d"
+    },
+    {
+      "path": "source/scripts/coalition_context_mechanism.py",
+      "bytes": 6962,
+      "sha256": "df991c819397c9d7c2472bb146db57d5642d833ec3feb1a16daa2f5e0ed97613"
+    },
+    {
       "path": "source/scripts/cross_layer_mechanism.py",
       "bytes": 14466,
       "sha256": "f142d77b9cc7de853f58e34b8e703854987c8b0d277a663ee48127d9055e0c81"
+    },
+    {
+      "path": "source/scripts/diagnose_dsprites_channel_combinations.py",
+      "bytes": 5240,
+      "sha256": "62c02cd919fa598747a169cdc3fdab9b7ccae4ffc2e61515435fc098289fe511"
+    },
+    {
+      "path": "source/scripts/downstream_route_mechanism.py",
+      "bytes": 9361,
+      "sha256": "63c06bdfd248cc94b18e358cb5cd6c5ad94c8e385963d1618651177ff14a42af"
     },
     {
       "path": "source/scripts/dsprites_mechanism.py",
@@ -371,6 +517,11 @@
       "path": "source/scripts/dsprites_teacher.py",
       "bytes": 11246,
       "sha256": "f75e8c10fb0244a7e31b4562e8d8bb3ffc3b4cd3d174207852b5d370b27b2148"
+    },
+    {
+      "path": "source/scripts/dsprites_triple_rule.py",
+      "bytes": 11945,
+      "sha256": "a1c753245129daaa270f0e2a631dfb0b4a1acba4cf989804b417572691774e1f"
     },
     {
       "path": "source/scripts/dsprites_workflow.py",
@@ -388,14 +539,104 @@
       "sha256": "530f3ab24bf61c7e3b514041e903085c1587d80c8a68b56088ef8df40e57cbc9"
     },
     {
+      "path": "source/scripts/factor_mediator.py",
+      "bytes": 7326,
+      "sha256": "5cb41e182076058164b477cc3f2c8db4d1cdf07cd9bd8fa63f6d4c90d86871ee"
+    },
+    {
+      "path": "source/scripts/finalize_dsprites_ar_factorial.py",
+      "bytes": 2761,
+      "sha256": "0a3a9face8960105a0a62ef6ad3f15481327622c69ce684b235167ed861eafff"
+    },
+    {
+      "path": "source/scripts/finalize_dsprites_channel_gates.py",
+      "bytes": 3001,
+      "sha256": "ccd32850063728f062eb445aa191b0fb50f675d6a2dad0e818c866a64d87e144"
+    },
+    {
+      "path": "source/scripts/finalize_dsprites_coalition_context.py",
+      "bytes": 2410,
+      "sha256": "bd123f93fe8e60229763b92ed257a46145161c98370aeba73d8d6d356c1b5d61"
+    },
+    {
+      "path": "source/scripts/finalize_dsprites_downstream_routes.py",
+      "bytes": 2596,
+      "sha256": "3b4a2d7c1712df71ec589302707232e734df501d3509a49862c1c75f809e8520"
+    },
+    {
+      "path": "source/scripts/finalize_dsprites_gradient.py",
+      "bytes": 3047,
+      "sha256": "30c6aef6acd415bafbf10400021062b0a741ea4db1fd9852b70779c25f61f9a5"
+    },
+    {
+      "path": "source/scripts/finalize_dsprites_joint_relu.py",
+      "bytes": 2853,
+      "sha256": "389c8213d9d06628ca1303f6535d46efe4056b4b9cf9f9cd447f9cf1e1b7829a"
+    },
+    {
+      "path": "source/scripts/finalize_dsprites_joint_window.py",
+      "bytes": 3071,
+      "sha256": "813f00917d9faebb37ccc9c9639ce40bde2a8b7be3f969fb31d4390857daa86c"
+    },
+    {
+      "path": "source/scripts/finalize_dsprites_layer_transfer.py",
+      "bytes": 3383,
+      "sha256": "556555e3f5066706ecb1e24bcca437fde64c2d29698ee63e8299395785daea96"
+    },
+    {
+      "path": "source/scripts/finalize_dsprites_residual_routes.py",
+      "bytes": 2953,
+      "sha256": "5bb11c95b814c94842c6c732ede27f3da236a1b46097dc1329b40ef913eba33e"
+    },
+    {
+      "path": "source/scripts/finalize_dsprites_shape_donor.py",
+      "bytes": 2931,
+      "sha256": "05fac86975e83afaeb4e3d66cdbc8d0c9667edd44ad1e34dff141cb3e451ee4f"
+    },
+    {
+      "path": "source/scripts/finalize_dsprites_triple_gates.py",
+      "bytes": 3343,
+      "sha256": "0f7f7e500accc2938b676cd2fd6524dab9f1b559fcbc3f9a12553ced44d74064"
+    },
+    {
+      "path": "source/scripts/finalize_dsprites_upstream_rescue.py",
+      "bytes": 3233,
+      "sha256": "366cbb533d83523db4f3bdbb6408496b1963edd4eb7d52e3f9b81b95e292eed8"
+    },
+    {
       "path": "source/scripts/finalize_joint_response.py",
       "bytes": 12452,
       "sha256": "9355361d6fc995fd75266a91ec70f317d4fdaacf8b83e37a67e37257f9b959fc"
     },
     {
+      "path": "source/scripts/gradient_mechanism.py",
+      "bytes": 6205,
+      "sha256": "4d290742716a599a50e8ebaa44a729dfeee3959f01070f6406df72e78b3fe033"
+    },
+    {
+      "path": "source/scripts/joint_relu_mechanism.py",
+      "bytes": 10477,
+      "sha256": "07c0cab7570d3222f36470c02675ca439db4574e824d7f7e5ed763c7f24d6f9b"
+    },
+    {
       "path": "source/scripts/joint_response.py",
       "bytes": 8638,
       "sha256": "aec3da8ed807bd8e02b8e67d8cce18f161fb5e055bfea6a8ec56936d7785c383"
+    },
+    {
+      "path": "source/scripts/joint_window_measure.py",
+      "bytes": 4753,
+      "sha256": "0ada04ad9beee2a0adb1deefc68b1b45d76bd29f1b6826c39dd3e47d6fe854dc"
+    },
+    {
+      "path": "source/scripts/joint_window_mechanism.py",
+      "bytes": 11470,
+      "sha256": "541904e243deb47a6092dc0f3dd02fd43b15af9df11b5a6bf7cf43c066f17de5"
+    },
+    {
+      "path": "source/scripts/layer_transfer_mechanism.py",
+      "bytes": 9960,
+      "sha256": "b0f395ffe5592bc842d2da4aa55ea0a74109b1075f3090119c2908c5da62cfc4"
     },
     {
       "path": "source/scripts/make_audit_figure.py",
@@ -404,8 +645,8 @@
     },
     {
       "path": "source/scripts/package_snapshot.py",
-      "bytes": 15896,
-      "sha256": "4ab6cb72c4820edab921603f2f5b1044a2436c1dd13e9fa79b275bf7aedea897"
+      "bytes": 15883,
+      "sha256": "f37d28be84b4747f52284b6359a50232297a1c7f08c9cc8f0c7abba2fa024c07"
     },
     {
       "path": "source/scripts/plot_external_results.py",
@@ -453,6 +694,76 @@
       "sha256": "61ea688dde4a25af6e76dfabd02a93b8351e69be35ffd68a36597c5749d0b9e6"
     },
     {
+      "path": "source/scripts/report_dsprites_ar_factorial.py",
+      "bytes": 26062,
+      "sha256": "f37cc6d019d40798833e11fa1cfe29a0f893ccc3b67266e225c78b620dc913f3"
+    },
+    {
+      "path": "source/scripts/report_dsprites_channel_gates.py",
+      "bytes": 34774,
+      "sha256": "3d4bf14ca0baf4eac3f3bb867974914bf3ce169e3c5acf340096190f0b77a468"
+    },
+    {
+      "path": "source/scripts/report_dsprites_coalition_context.py",
+      "bytes": 21062,
+      "sha256": "acd3d52d823460204d3ce54ae124202e9e4a555a516dba1465cb9a0b9f9ad5b3"
+    },
+    {
+      "path": "source/scripts/report_dsprites_downstream_routes.py",
+      "bytes": 24045,
+      "sha256": "0943f743549a2d8f8fca949137463b47155835cc44de70313f775439035331be"
+    },
+    {
+      "path": "source/scripts/report_dsprites_factor_transfer.py",
+      "bytes": 22852,
+      "sha256": "41283cf50ad92be252e447aa13e66afe3d8d298a1a3454d031bf03807300aefb"
+    },
+    {
+      "path": "source/scripts/report_dsprites_gradient.py",
+      "bytes": 27302,
+      "sha256": "94d45dde41c3c6b766902f9fed4caf1c86181f89b8d3bcf60bd8ed1b223cc379"
+    },
+    {
+      "path": "source/scripts/report_dsprites_joint_relu.py",
+      "bytes": 22179,
+      "sha256": "40c675ed95c32858a186aa5905583288a613e10be6293759ef9f71d26fe1c8c7"
+    },
+    {
+      "path": "source/scripts/report_dsprites_joint_window.py",
+      "bytes": 35560,
+      "sha256": "2d032254a371e8909ec0a781967d97213b20ca16c3ce566ae45e302ef4011c7c"
+    },
+    {
+      "path": "source/scripts/report_dsprites_layer_transfer.py",
+      "bytes": 15846,
+      "sha256": "4a74ba9cab161239a0feaa7ef0c49bd54e5eda4e9cc5865d0d66f2ce4b31cdbc"
+    },
+    {
+      "path": "source/scripts/report_dsprites_residual_routes.py",
+      "bytes": 14553,
+      "sha256": "d1bdce588a4a9399ce32568851d08cfc7c5a2cac8fe48fe4e9d361e705a2f833"
+    },
+    {
+      "path": "source/scripts/report_dsprites_shape_donor.py",
+      "bytes": 39157,
+      "sha256": "9e56a52d2c4ae9983a440bafd5a1a63056e3861e5e3fbf70aed37e847c136472"
+    },
+    {
+      "path": "source/scripts/report_dsprites_triple_gates.py",
+      "bytes": 59822,
+      "sha256": "e37c6c451b2dfa7a65ef705e6d98aed6e3d871ffded34199e015a2c53830d095"
+    },
+    {
+      "path": "source/scripts/report_dsprites_triple_rule.py",
+      "bytes": 23748,
+      "sha256": "f303ee699d3a1d682a32029ca0c9b2af2f667940b8a9181ff86da40fdcc1ac77"
+    },
+    {
+      "path": "source/scripts/report_dsprites_upstream_rescue.py",
+      "bytes": 45222,
+      "sha256": "5876acbe1ff41ae76582f05193bf6484beb995b3afafb56972313d89367d9b0d"
+    },
+    {
       "path": "source/scripts/report_joint_response.py",
       "bytes": 26157,
       "sha256": "0f3e229f3a4ce75c03e1737aada830df9f94adddb8e49c0a87eed1a28c5e401a"
@@ -473,6 +784,16 @@
       "sha256": "978f4e064ed5778fb33095aa913067e0dadff4d2967c4fd86d5134c7d428be2e"
     },
     {
+      "path": "source/scripts/residual_route_mechanism.py",
+      "bytes": 9058,
+      "sha256": "e459e8726525d1030b1ae8b7b65ebf65aa667d2d96201fc47dba00df298c0df9"
+    },
+    {
+      "path": "source/scripts/residual_route_path.py",
+      "bytes": 3802,
+      "sha256": "c6e30ec951232af17bd8edc4f09f5d4c2d3d6ccf2fbf747784ccc8f6bd7bf35a"
+    },
+    {
       "path": "source/scripts/residual_teacher.py",
       "bytes": 17424,
       "sha256": "e42e9b363270616b5bbc0701395919dcd985af768f5521b79b928ffd54a25123"
@@ -488,9 +809,79 @@
       "sha256": "eacca933bd02bcebf809d26e7431d3286397c4ca548318a664a3899cb22d6f71"
     },
     {
+      "path": "source/scripts/run_dsprites_ar_factorial.py",
+      "bytes": 9888,
+      "sha256": "890883cd87c53b10b61b03dcc6a7dd1abe44b6a60b94fb12472c6875e245f531"
+    },
+    {
+      "path": "source/scripts/run_dsprites_channel_gates.py",
+      "bytes": 15752,
+      "sha256": "d9c39adc6129d2ed0b84fc3a8a842d066bc01e312f2e064bc7fdc1e5dd27fbf8"
+    },
+    {
+      "path": "source/scripts/run_dsprites_coalition_context.py",
+      "bytes": 9197,
+      "sha256": "cb0d6bac70c7e1bfd569729eefe0592dc5e44b139600f7af2c7a5dd93eb633bc"
+    },
+    {
+      "path": "source/scripts/run_dsprites_downstream_routes.py",
+      "bytes": 12875,
+      "sha256": "dab914c613592306067cb0211da9ce0d36c79c40cdea9d92a80aecb582924189"
+    },
+    {
+      "path": "source/scripts/run_dsprites_factor_transfer.py",
+      "bytes": 25388,
+      "sha256": "1e983c73a909d1269390ee045110d9f9486b7bf37396a6cc67d4c95a3eb39327"
+    },
+    {
+      "path": "source/scripts/run_dsprites_gradient.py",
+      "bytes": 22481,
+      "sha256": "b310061b94b72666d95899c80b23b8b2d4af32f68a08626ebdd017717ca29590"
+    },
+    {
+      "path": "source/scripts/run_dsprites_joint_relu.py",
+      "bytes": 11956,
+      "sha256": "b309ba7ef89843d3ae09044967fbe63f4e53e1148670c9e5ee10f040ea7b683b"
+    },
+    {
+      "path": "source/scripts/run_dsprites_joint_window.py",
+      "bytes": 11777,
+      "sha256": "a4ecfcdc337c428b952ec406117773f4d9db7bdcda70d81bbba66dc275cfeaa2"
+    },
+    {
+      "path": "source/scripts/run_dsprites_layer_transfer.py",
+      "bytes": 14055,
+      "sha256": "b82e31ce07e0d794cecc5fc268db12e351f70fa0535352dcfb777084875d23c1"
+    },
+    {
       "path": "source/scripts/run_dsprites_mechanism.py",
       "bytes": 20164,
       "sha256": "13ed3c1022dff64e7eceee610f228cb68130d86adf2dc9f2c55daaa6f1bdc87e"
+    },
+    {
+      "path": "source/scripts/run_dsprites_residual_routes.py",
+      "bytes": 13414,
+      "sha256": "73b9f18b9295b2291d33831ec6e6d87a92f5a251e3aa536a0393fe1386d90742"
+    },
+    {
+      "path": "source/scripts/run_dsprites_shape_donor.py",
+      "bytes": 23327,
+      "sha256": "4bde7a434a868a54d56d1a71c9fe567b24bab0607bd233d019021740280c49ff"
+    },
+    {
+      "path": "source/scripts/run_dsprites_triple_gates.py",
+      "bytes": 17058,
+      "sha256": "57e5a3a69e0cf9d86fe26c945d44091296f50ba0d43741124a9d2a7f49899742"
+    },
+    {
+      "path": "source/scripts/run_dsprites_triple_rule.py",
+      "bytes": 8201,
+      "sha256": "1486db50f54053a0d2aed07e4663b1603d1fdc9f574b1057429cb6f14288beeb"
+    },
+    {
+      "path": "source/scripts/run_dsprites_upstream_rescue.py",
+      "bytes": 12646,
+      "sha256": "61ce6c07b9115218b5b91b62fd23fd25477740f3b8feef3b5c5d444902e07e67"
     },
     {
       "path": "source/scripts/run_external.py",
@@ -533,6 +924,11 @@
       "sha256": "4cddb1c38706f2823d7a87531f85c032b5a2907a44f355e1f5aad0643e5b969d"
     },
     {
+      "path": "source/scripts/shape_donor_mechanism.py",
+      "bytes": 8709,
+      "sha256": "db110e0033109a61a9b06be4eadbe013b3629525bc7ab9054743312f898acac2"
+    },
+    {
       "path": "source/scripts/structure_runtime.py",
       "bytes": 12418,
       "sha256": "4eb97078839ff43a35af4c28a635a730c6fe67616837bd631c69756eec719d42"
@@ -568,14 +964,89 @@
       "sha256": "47070be0cd1c6608b0211eee142b160eab6e2a5683c9b521bac846185c1e97cc"
     },
     {
+      "path": "source/scripts/test_dsprites_ar_factorial.py",
+      "bytes": 2867,
+      "sha256": "73c8012c527be815cf9bbec8b7df23d6d820124687194a08eab5e2d216ed9f1d"
+    },
+    {
+      "path": "source/scripts/test_dsprites_channel_gates.py",
+      "bytes": 5535,
+      "sha256": "17ce41670fecd2618b854a5b74bbed43931eb494bdfe0bc733030aafc217707c"
+    },
+    {
+      "path": "source/scripts/test_dsprites_coalition_context.py",
+      "bytes": 3049,
+      "sha256": "d912be59eb108390e28c92137866c2ccf57f9c233e3b5ec6f11a7e8a6d8a78c4"
+    },
+    {
+      "path": "source/scripts/test_dsprites_downstream_routes.py",
+      "bytes": 3654,
+      "sha256": "a0c5acea1727b54921ac10696c12d572d95217c4e81641fb01b2c6e4a87da088"
+    },
+    {
+      "path": "source/scripts/test_dsprites_gradient.py",
+      "bytes": 4148,
+      "sha256": "7a47c3fd12e2bcd38689fcebff56eb4c86f644e7a7c9b114a958393620cecdd2"
+    },
+    {
+      "path": "source/scripts/test_dsprites_joint_relu.py",
+      "bytes": 3221,
+      "sha256": "d371b1e236613bfaa6ffb9f265b258fae00b602aeb0485dd991244dd3e6ba3e5"
+    },
+    {
+      "path": "source/scripts/test_dsprites_joint_window.py",
+      "bytes": 3548,
+      "sha256": "c4af35e64609c5b2984793bdcf5f93083952ef7e3d34c19e8badfb3c288e6a62"
+    },
+    {
+      "path": "source/scripts/test_dsprites_layer_transfer.py",
+      "bytes": 7254,
+      "sha256": "f9d8d90f58ab743cca76154b97f081f9bef7eddfe98d74561619a162c376f375"
+    },
+    {
       "path": "source/scripts/test_dsprites_mechanism.py",
       "bytes": 5234,
       "sha256": "2e71a9bbf3b2735a49ffbe32ff23e8891135768809c24e75f922e720bb52b067"
     },
     {
+      "path": "source/scripts/test_dsprites_residual_routes.py",
+      "bytes": 4493,
+      "sha256": "ad298a6d9e294dd372968e8ea549b949c868ed34595d1d241045263817faecb5"
+    },
+    {
+      "path": "source/scripts/test_dsprites_shape_donor.py",
+      "bytes": 5314,
+      "sha256": "80585a76493a40bc39480be8f6a8904179466d8c7ac838431a36adc87e867556"
+    },
+    {
+      "path": "source/scripts/test_dsprites_triple_gates.py",
+      "bytes": 5760,
+      "sha256": "098f2ac0ff7952052109ac38d16a4be78d024c28ee10b0b480bd405c8599f5c5"
+    },
+    {
+      "path": "source/scripts/test_dsprites_upstream_rescue.py",
+      "bytes": 3453,
+      "sha256": "dd6bdd871f40698eb866f348ca725c810d1a6c62870855c7832aa4b393e48044"
+    },
+    {
       "path": "source/scripts/test_joint_response.py",
       "bytes": 3901,
       "sha256": "65c6d1cf5160378ea6359b5339219e8233e415d106cc2f368a3a8789c5db342b"
+    },
+    {
+      "path": "source/scripts/triple_gate_mechanism.py",
+      "bytes": 7458,
+      "sha256": "1bde51882083464a090fcb731897ef27886e6e16af11208878c5e06747d0686b"
+    },
+    {
+      "path": "source/scripts/upstream_rescue_measure.py",
+      "bytes": 3509,
+      "sha256": "527573bcca61e14e6c6516cb806782540baebcdf6c6883b2a2716b60475e91dc"
+    },
+    {
+      "path": "source/scripts/upstream_rescue_mechanism.py",
+      "bytes": 11441,
+      "sha256": "8cfbbb47da3410d9811b40230bc4fc504880e013dc446125ec1a15c41b17fae7"
     },
     {
       "path": "source/scripts/verify_adaptive_mediator.py",
@@ -586,6 +1057,86 @@
       "path": "source/scripts/verify_cross_layer_mechanism.py",
       "bytes": 9864,
       "sha256": "5c33cd1cceb14f0b0bf50d98d782d8ace84d809658870704a6f7a7a62663ceea"
+    },
+    {
+      "path": "source/scripts/verify_dsprites_ar_factorial_delivery.py",
+      "bytes": 10747,
+      "sha256": "2844714357732c88a1bc29212453583f13651604f4320335365a0a1ae251c035"
+    },
+    {
+      "path": "source/scripts/verify_dsprites_channel_gates_delivery.py",
+      "bytes": 3044,
+      "sha256": "dd6079b09edd17aa0702e0ee2edc7159cb6f8b1ae825a217b36d6c5f5dd79491"
+    },
+    {
+      "path": "source/scripts/verify_dsprites_coalition_context_delivery.py",
+      "bytes": 15573,
+      "sha256": "9b860111c4237e7bcbaaad0dbabfe2dd3a9bc75c26f31b8dacecdd95bded4e88"
+    },
+    {
+      "path": "source/scripts/verify_dsprites_downstream_routes_delivery.py",
+      "bytes": 21793,
+      "sha256": "04148773f36b6e0b559fd85c2cad64d6b7102695c9ec051b3946e5ebccab9350"
+    },
+    {
+      "path": "source/scripts/verify_dsprites_factor_delivery.py",
+      "bytes": 3034,
+      "sha256": "b6f14dd245fc5eeec3c7cf179822b464680c1c7b5dcc641872b59f760584ef8f"
+    },
+    {
+      "path": "source/scripts/verify_dsprites_gate_sites.py",
+      "bytes": 6404,
+      "sha256": "c539560ed3d583c050df5d040cf5a8de2929b1414f600f9c5e7bd472895ca056"
+    },
+    {
+      "path": "source/scripts/verify_dsprites_gradient_delivery.py",
+      "bytes": 2418,
+      "sha256": "a445a9a9932d03342a6357f01c0d3561059d7225b4ec65f6a5ac72bdb4f4ae02"
+    },
+    {
+      "path": "source/scripts/verify_dsprites_joint_relu_delivery.py",
+      "bytes": 8427,
+      "sha256": "c64e377c4ed827937b0a3efdc401c66c15e512c2f381080b2199917ee86a98d9"
+    },
+    {
+      "path": "source/scripts/verify_dsprites_joint_window_delivery.py",
+      "bytes": 16067,
+      "sha256": "69bbe7f3c72808721ef059eb6e61ce8068a27cdb450697b0a651ceaa0ecfcccc"
+    },
+    {
+      "path": "source/scripts/verify_dsprites_layer_transfer_delivery.py",
+      "bytes": 5585,
+      "sha256": "aafb9a7daa8533b4765e2a904ea70ad88b42149800d6f28f9fc73a9a58eacebd"
+    },
+    {
+      "path": "source/scripts/verify_dsprites_residual_routes_delivery.py",
+      "bytes": 6392,
+      "sha256": "5fc9c6a800155b5da93ed185c77abbd1b841b36b15e9368485348dcca7281fa6"
+    },
+    {
+      "path": "source/scripts/verify_dsprites_route_sixth_order.py",
+      "bytes": 3578,
+      "sha256": "f8685d1d074aabcd1d67de8041aeebd54d7ce09ae3f4d5ea08e84b322e55ba81"
+    },
+    {
+      "path": "source/scripts/verify_dsprites_route_threshold.py",
+      "bytes": 3996,
+      "sha256": "28a7f0f01843628dabc93b6912808bf2da02b7bb64850e8c7ee9ff2cf4bf2a12"
+    },
+    {
+      "path": "source/scripts/verify_dsprites_shape_donor_delivery.py",
+      "bytes": 2651,
+      "sha256": "6f0a944701d3e277e47af8829397ee327a52bae17b564b45e308f3db0357e93a"
+    },
+    {
+      "path": "source/scripts/verify_dsprites_triple_gates_delivery.py",
+      "bytes": 4445,
+      "sha256": "8772584ac61b7c5801a2bc0d396fc9c3ece5ec4c537275b1d06ce98f6f917687"
+    },
+    {
+      "path": "source/scripts/verify_dsprites_upstream_rescue_delivery.py",
+      "bytes": 16494,
+      "sha256": "f7103528cd55cb96714943a9296610406fa89eacdc13fcbb04b5a297cf9364bf"
     },
     {
       "path": "source/scripts/verify_external_delivery.py",
@@ -696,11 +1247,6 @@
       "path": "third_party/dsprites/README.upstream.md",
       "bytes": 3781,
       "sha256": "5e1b50ba6f0d06a1e4cddfe84fe06432f06a9316fcd24e2a1a607edf96e4b8f2"
-    },
-    {
-      "path": "THIRD_PARTY.md",
-      "bytes": 1613,
-      "sha256": "868e606962f4501875b57f6c6c26760a0c638e7c5b1bbd387bf8db6c9514c689"
     }
   ]
 }

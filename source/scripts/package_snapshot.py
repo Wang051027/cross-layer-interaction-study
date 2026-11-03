@@ -69,7 +69,7 @@ def read(path):
 # 参数：kind；具体形状/来源结合调用处及下方关键步骤阅读。
 # 返回：f'# CAT-MT 研究资料：先读这里\n\n打包日期：{DATE}。研究结果截至 2026-09-11；此次打包没有新增实验或改变研究结论。\n\n{opening}\n…。
 def guide(kind):
-    opening = ("这是完整研究归档，包含当前研究目录的全部文件，以及对话中教学交互图的 HTML 源码。"
+    opening = ("这是完整研究归档，包含当前研究目录的全部文件，以及教学交互图的 HTML 源码。"
                if kind == "full" else
                "这是轻量阅读版，包含讲解、报告、图表、代码、结果表与审计记录。原始数据、模型权重、大型预测／参考数组及原始 ZIP 不在本阅读版中；完整数值复核请使用完整研究包。")
     return f"""# CAT-MT 研究资料：先读这里
@@ -101,7 +101,7 @@ def guide(kind):
 - `cat_mt_followup/runs/`：协议、代码快照、模型与结果；完整包含所有二进制数组。
 - `cat_mt_followup/data/`：数据来源、划分及审计；完整包含实际研究数据。
 - `cat_mt_followup/upstream/`、`incoming/`：原研究资料；完整包含原始 ZIP。
-- `supplements/local-diamond.html`：对话教学图的原 HTML 片段源码，使用 Codex 宿主样式，不是实验数据。
+- `supplements/local-diamond.html`：教学交互图的 HTML 片段源码，依赖外部页面样式，不是实验数据。
 - `PACKAGE_MANIFEST.json` 与 `MANIFEST.sha256`：本次归档包含文件的字节数和 SHA-256。
 
 ## 完整性与运行环境
