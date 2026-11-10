@@ -1,8 +1,4 @@
-"""独立审计下游定位与阻断：原forward、不同邻域算法、全部联合干预。
-
-不调用downstream_route_mechanism数值函数。全部单点地图用输出位移
-累加复核，并对选中前16点、旧j和边界点执行完整原forward抽查。
-"""
+"""按九种空间位移累加单点作用，用原模型前向运算复核前 16 个位置、目标开关、边界点及联合阻断。"""
 from __future__ import annotations
 import json
 import numpy as np
@@ -28,7 +24,7 @@ def check(name,a,b,tol=1e-9):
 
 @torch.no_grad()
 def shifted_scores(model,t0,t1,weight):
-    """按输出相对源的九种位移累加；不使用生产的unfold和翻转核。"""
+    """按输出相对源位置的九种位移累加贡献。"""
     b=model.block3;du=(t0['u']-t1['u'])[0];v=t1['v'][0]
     q=(torch.as_tensor(weight,device=v.device,dtype=v.dtype)@model.readout.weight)/1024
     scale=b.bn2.weight/torch.sqrt(b.bn2.running_var+b.bn2.eps)

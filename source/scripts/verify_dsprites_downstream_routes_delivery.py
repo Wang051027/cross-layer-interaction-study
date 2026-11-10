@@ -1,9 +1,4 @@
-"""只读核验下游定位交付：原始数组、全部表格、统计分母和封存文件。
-
-本脚本不重跑模型；完整模型干预由独立审计负责。这里独立展开67种
-名单、逐行对照数值证据，并验证输出余量、残差支路和抵消的恒等式。
-封存前只写核验记录；封存后完全只读，不修改已交付研究结果。
-"""
+"""逐行展开 67 种干预名单，核对输出余量、残差支路与抵消恒等式。"""
 from __future__ import annotations
 import argparse
 import ast
@@ -55,7 +50,7 @@ def rms(values):
 
 
 def instructions(s, layer, point):
-    """独立展开已封存名单，不调用生产代码的commands函数。"""
+    """从冻结名单展开各项阻断操作。"""
     result = []
     names = ('absolute', 'random0', 'random1', 'switch_only', 'stable_only', 'supporting', 'opposing')
     for i, name in enumerate(names):
@@ -236,7 +231,7 @@ def verify(before_manifest=False, deep=False):
             close(v['last_logits'][62,0],v['native_logits'][0]); close(v['last_logits'][62,1],v['native_logits'][1])
             close(v['last_logits'][60,0],v['native_logits'][1]); close(v['last_logits'][60,1],v['native_logits'][0])
     assert set(point_index)==expected_point_keys and tested['blocking']==9916
-    # 聚合使用已逐行核验的全部记录，不能把空教师或缺失skip轴记为零。
+    # 按模型汇总有效记录，保留缺失的 skip 项。
     grouped = defaultdict(list)
     for r in tables['blocking']:
         key = (int(r['seed']),int(r['context']),int(r['layer']),int(r['command']),'primary26' if r['primary']=='True' else 'controls')

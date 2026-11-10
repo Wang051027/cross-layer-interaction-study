@@ -57,7 +57,7 @@ def locate(model,t0,t1,weight,rng_seed):
     delta=torch.stack((t1['u'][0]-t0['u'][0],t1['e'][0]-t0['e'][0])).reshape(2,-1)
     switched=torch.stack(((t1['z'][0]>0)!=(t0['z'][0]>0),(t1['v'][0]>0)!=(t0['v'][0]>0))).reshape(2,-1)
     scores=torch.stack((first_point_effects(model,t0,t1,weight),((t1['e']-t0['e'])[0]*q).flatten()))
-    # 第一层整通道阻断用原finish计算，不能以单点和代替。
+    # 在第一层阻断整张通道图后运行 finish。
     batch=t1['u'].expand(32,-1,-1,-1).clone()
     for c in range(32):batch[c,c]=t0['u'][0,c]
     blocked=model.readout(model.block3.finish(batch,t1['x'].expand(32,-1,-1,-1)).mean((2,3)))

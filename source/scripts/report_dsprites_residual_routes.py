@@ -1,4 +1,4 @@
-"""从已审计路由结果生成CSV证据与科研图；不重新挑选输入或干预名单。"""
+"""将固定通道名单的传递、阈值与抵消结果写入 CSV 和图表。"""
 from __future__ import annotations
 import csv
 import os

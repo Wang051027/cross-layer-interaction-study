@@ -13,7 +13,7 @@ FIGDIR=BASE/'reports/figures/dsprites_downstream_routes_20261025'
 
 
 def read_table(name):
-    """只读结果表；图不另造数据。"""
+    """读取 CSV 结果表。"""
     with (RUN/f'tables/{name}.csv').open(encoding='utf-8-sig',newline='') as f:return list(csv.DictReader(f))
 
 
@@ -98,7 +98,7 @@ def report():
     for index,label in ((61,'原j'),(0,'排名第一单点'),(3,'最多64点'),(4,'最多256点'),(5,'最多1024点'),(44,'最多4通道'),(45,'最多8通道'),(63,'全部翻转位置'),(64,'全部未翻转但改变幅度的位置'),(62,'全部激活变化')):
         r=agg(0,index);meanrows.append(f"| {label} | {100*r['remaining_rms_ratio']:.2f}% | {r['spent_min']}–{r['spent_max']} |")
     pointrows='\n'.join(f"| ({r['channel']},{r['y']},{r['x']}) | {r['single_removed']:+.6f} | {'翻转' if r['switch'] else '保持开启、幅度改变'} |" for r in top0[:5])
-    # 留下最大余量的具体末层通道；这是固定预算后的读出贡献，不是新增选点。
+    # 记录固定预算下剩余读出贡献最大的末层通道。
     rc=[r for r in reschannels if int(r['record'])==ex['record']['record'] and r['context']=='1' and r['layer']=='0' and r['command']=='4']
     pos=sorted([r for r in rc if float(r['residual_contribution'])>0],key=lambda r:-float(r['residual_contribution']))[:4]
     neg=sorted([r for r in rc if float(r['residual_contribution'])<0],key=lambda r:float(r['residual_contribution']))[:4]
@@ -110,7 +110,7 @@ def report():
 
 2026年10月25日。沿用原36图与六个同架构冻结模型，不增加输入或训练。保留上轮全部26条严格恢复记录（15状态、5个有成功的模型），另加4个仅分解对照、每模型首个非空失败源干预共6条、原参照依赖失败例1条，合计37条案例×方法记录。没有把26条当独立样本。
 
-**原组合的输出作用分布在多个通道和空间位置；只盯开关翻转会遗漏大量保持开启的位置上的幅度传递。联合阻断能显著减少效应，但残差支路和正负抵消使“小净余量”不能直接证明路径已消失。** 以下结果是同面板输出指导定位，不是未见输入确认，也不声称最小或唯一电路。
+**原组合的输出作用分布在多个通道和空间位置；只盯开关翻转会遗漏大量保持开启的位置上的幅度传递。联合阻断能显著减少效应，但残差支路和正负抵消使“小净余量”不能直接证明路径已消失。** 位置按同一面板上的实测输出作用排序。
 
 ## 1. 阻断的对象与参照
 

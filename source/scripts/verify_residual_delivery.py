@@ -1,13 +1,4 @@
-# 中文阅读说明｜用途：核验残差阶段的时间顺序、文件哈希、计时配对与结果完整性。
-# 数据流：输入冻结协议和完成记录；输出交付审计，属于验证工具。
-# 阅读副本仅增加 # 注释，保留原语句、公式、参数和文档字符串。
-# 原研究目录的冻结源码未改；需要哈希核验的历史流程仍使用原目录。
-"""Preserve prior evidence and verify the completed residual study delivery.
-
-This does not retrain, rerun interventions, replace saved predictions, or package
-archives. The numerical array rescore is the completed frozen analysis; this
-audit rechecks its input hashes and adds classification and delivery checks.
-"""
+"""Verify residual-study file hashes and rescore the stored response arrays."""
 from pathlib import Path
 from datetime import datetime, timezone
 from collections import Counter, defaultdict
@@ -26,66 +17,45 @@ UPSTREAM = BASE / "upstream/CAT_MT_phase7_v0.7"
 SEEDS = list(range(202609071, 202609077))
 
 
-# 用途：读取本函数指定的记录文件，返回解析后的对象；JSON/CSV 形式见函数体。
-# 参数：path；具体形状/来源结合调用处及下方关键步骤阅读。
-# 返回：json.loads(path.read_text(encoding='utf-8'))。
 def read(path):
     return json.loads(path.read_text(encoding="utf-8"))
 
 
-# 用途：对文件字节计算 SHA-256，用于发现数据、源码或检查点是否改变。
-# 参数：path；具体形状/来源结合调用处及下方关键步骤阅读。
-# 返回：hashlib.file_digest(stream, 'sha256').hexdigest()。
 def sha(path):
     with path.open("rb") as stream:
         return hashlib.file_digest(stream, "sha256").hexdigest()
 
 
-# 用途：把结构化记录序列化为 JSON 并写到指定路径。
-# 参数：path、value；具体形状/来源结合调用处及下方关键步骤阅读。
-# 返回：结果通过文件、打印或对象/运行环境状态更新体现；没有显式 return。
 def dump(path, value):
-    # 把结构化配置或结果落盘，供后续阶段核验和报告读取。
     path.write_text(json.dumps(value, ensure_ascii=False, indent=2), encoding="utf-8")
 
 
-# 用途：把相对路径解析到指定根目录，并拒绝超出该目录的路径。
-# 参数：root、name；具体形状/来源结合调用处及下方关键步骤阅读。
-# 返回：path。
+# 把相对路径解析到指定根目录，并拒绝超出该目录的路径。
 def checked(root, name):
     path = (root / name).resolve()
     assert path.is_relative_to(root.resolve()), name
     return path
 
 
-# 用途：对数组样本或清单文件计算/核对哈希；本文件的输入形式决定具体用法。
-# 参数：root、entries；具体形状/来源结合调用处及下方关键步骤阅读。
-# 返回：len(entries)。
+# 对数组样本或清单文件计算/核对哈希；本文件的输入形式决定具体用法。
 def hashes(root, entries):
     for name, expected in entries.items():
-        # 核对内容承诺；注释版的文件字节会变化，原冻结实验应使用原研究目录。
         assert sha(checked(root, name)) == expected, name
     return len(entries)
 
 
-# 用途：读取带标题的 CSV，并按列名返回记录。
-# 参数：path；具体形状/来源结合调用处及下方关键步骤阅读。
-# 返回：list(csv.DictReader(stream))。
+# 读取带标题的 CSV，并按列名返回记录。
 def csv_rows(path):
     with path.open(encoding="utf-8", newline="") as stream:
         return list(csv.DictReader(stream))
 
 
-# 用途：把记录中的 UTC 字符串转为可比较的时间，核验阶段先后顺序。
-# 参数：record；具体形状/来源结合调用处及下方关键步骤阅读。
-# 返回：datetime.fromisoformat(record['utc'])。
+# 把记录中的 UTC 字符串转为可比较的时间，核验阶段先后顺序。
 def utc(record):
     return datetime.fromisoformat(record["utc"])
 
 
-# 用途：核对计时结果是否覆盖预期输入、方法和重复轮次，保持公平配对。
-# 参数：folder、input_key、methods、expected；具体形状/来源结合调用处及下方关键步骤阅读。
-# 返回：字典（字段见 return）。
+# 核对计时结果是否覆盖预期输入、方法和重复轮次，保持公平配对。
 def timing_check(folder, input_key, methods, expected):
     rows = csv_rows(folder / "raw.csv")
     assert len(rows) == expected
@@ -104,9 +74,7 @@ def timing_check(folder, input_key, methods, expected):
     return dict(rows=len(rows), methods=methods, validation_input_ids=sorted(input_ids))
 
 
-# 用途：核验残差阶段的时间顺序、文件哈希、计时配对与结果完整性。
-# 参数：无显式入参；使用本模块已配置的环境或文件。
-# 返回：结果通过文件、打印或对象/运行环境状态更新体现；没有显式 return。
+# 核验残差阶段的时间顺序、文件哈希、计时配对与结果完整性。
 def main():
     archive_hash = sha(BASE / "incoming/CAT_MT_background_selection_v0.7.zip")
     assert archive_hash == "8fe0094d2260e84e98905e53f2fdec211fa0644b1e0ecfa194ab2633ad6f0aae"
@@ -167,7 +135,6 @@ def main():
     assert np.array_equal(np.load(RUN / "intervention_ids.npy", allow_pickle=False), np.arange(512, 768))
 
     teachers, classification, case_counts = [], [], Counter()
-    # 逐个教师处理同一套设置；跨教师统计与一张图像内部的组合数量要分开。
     for seed in SEEDS:
         folder = RUN / f"seed_{seed}"
         teacher, history, fit = (read(folder / s) for s in
@@ -297,6 +264,5 @@ def main():
         links=link_count, snapshot_files=len(entries), bytes=snapshot["bytes"])))
 
 
-# 只有直接运行本文件时才触发这个入口；作为模块导入时不会执行此分支。
 if __name__ == "__main__":
     main()

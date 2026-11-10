@@ -1,8 +1,4 @@
-"""独立审计A/R四格：原forward、原开关注入、32单通道卷积及自动微分。
-
-不调用新核心的四格、阈值、固定开关、卷积展开或传递分解函数。
-审计全部既有案例；只使用原网络mid/finish和显式源组替换重建场。
-"""
+"""用原模型前向运算重建 A/R 四个状态，以 32 个单通道卷积和自动微分核对阈值及传递量。"""
 from __future__ import annotations
 import json
 import numpy as np
@@ -16,7 +12,7 @@ EPS = 1e-8
 
 
 def check(name, value, reference, tolerance=1e-9):
-    """保存各类最大误差，避免只验证同一汇总的重写。"""
+    """记录各项数值检查的最大误差。"""
     value = np.asarray(value); reference = np.asarray(reference)
     assert value.shape == reference.shape, (name, value.shape, reference.shape)
     error = float(np.max(abs(value.astype(float)-reference.astype(float)))) if value.size else 0.

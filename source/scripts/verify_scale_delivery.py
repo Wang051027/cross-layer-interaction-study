@@ -1,7 +1,3 @@
-# 中文阅读说明｜用途：核验规模/位置阶段的协议、数组、方法标签及交付文件。
-# 数据流：输入既有结果与历史承诺；输出保全清单，不修改原实验参数。
-# 阅读副本仅增加 # 注释，保留原语句、公式、参数和文档字符串。
-# 原研究目录的冻结源码未改；需要哈希核验的历史流程仍使用原目录。
 """Final preservation and delivery checks for the size/position study."""
 from pathlib import Path
 from datetime import datetime, timezone
@@ -19,34 +15,23 @@ RUN=BASE/"runs/fashion_scale_20260914"
 SEEDS=list(range(202609071,202609077))
 
 
-# 用途：对文件字节计算 SHA-256，用于发现数据、源码或检查点是否改变。
-# 参数：p；具体形状/来源结合调用处及下方关键步骤阅读。
-# 返回：hashlib.file_digest(f, 'sha256').hexdigest()。
 def sha(p):
     with p.open("rb") as f:return hashlib.file_digest(f,"sha256").hexdigest()
 
 
-# 用途：读取本函数指定的记录文件，返回解析后的对象；JSON/CSV 形式见函数体。
-# 参数：p；具体形状/来源结合调用处及下方关键步骤阅读。
-# 返回：json.loads(p.read_text(encoding='utf-8'))。
 def read(p):
     return json.loads(p.read_text(encoding="utf-8"))
 
 
-# 用途：按根目录核对每个保存文件的摘要，并防止路径越界。
-# 参数：root、values；具体形状/来源结合调用处及下方关键步骤阅读。
-# 返回：结果通过文件、打印或对象/运行环境状态更新体现；没有显式 return。
+# 按根目录核对每个保存文件的摘要，并防止路径越界。
 def check(root,values):
     for name,expected in values.items():
         path=(root/name).resolve()
         assert path.is_relative_to(root.resolve())
-        # 核对内容承诺；注释版的文件字节会变化，原冻结实验应使用原研究目录。
         assert sha(path)==expected,name
 
 
-# 用途：核验规模/位置阶段的协议、数组、方法标签及交付文件。
-# 参数：无显式入参；使用本模块已配置的环境或文件。
-# 返回：结果通过文件、打印或对象/运行环境状态更新体现；没有显式 return。
+# 核验规模/位置阶段的协议、数组、方法标签及交付文件。
 def main():
     archive=BASE/"incoming/CAT_MT_background_selection_v0.7.zip"
     assert sha(archive)=="8fe0094d2260e84e98905e53f2fdec211fa0644b1e0ecfa194ab2633ad6f0aae"
@@ -82,7 +67,6 @@ def main():
     check(BASE,impl["sources"]);check(RUN/"source",impl["sources"])
     check(RUN,freeze["artifacts"])
     assert len(freeze["artifacts"])==450
-    # 逐个教师处理同一套设置；跨教师统计与一张图像内部的组合数量要分开。
     for seed in SEEDS:
         assert sha(BASE/f"runs/fashion_residual_20260913/seed_{seed}/teacher.pt")==protocol["teachers_sha256"][str(seed)]
     for q in (4,8,12):
@@ -177,7 +161,6 @@ def main():
         local_links_checked=links,python_sources_parse=len(sources),
         archives_not_recreated=True,figure_review="Final PNG visually inspected; PDF exported from the same Matplotlib figure")
     audit_path=BASE/"audit/final_scale_delivery_20260914.json"
-    # 把结构化配置或结果落盘，供后续阶段核验和报告读取。
     audit_path.write_text(json.dumps(result,ensure_ascii=False,indent=2),encoding="utf-8")
     paths={p for p in RUN.rglob("*") if p.is_file()}
     paths.update(sources+docs+figures+[BASE/"RESEARCH_STATUS.json",audit_path,BASE/"audit/scale_interpretation_20260914.json"])
@@ -189,5 +172,4 @@ def main():
                          snapshot_files=len(entries),bytes=snapshot["bytes"],links=links)))
 
 
-# 只有直接运行本文件时才触发这个入口；作为模块导入时不会执行此分支。
 if __name__=="__main__":main()

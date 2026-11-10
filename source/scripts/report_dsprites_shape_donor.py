@@ -1,8 +1,4 @@
-"""只读提炼已独立审计的形状配对实验，生成中文报告、逐教师表和图。
-
-此文件不选择新名单、不重新拟合、不增加积分采样点。先在每个教师内
-计算比率，再对六教师取均值；共享图像和反向配对不冒充独立样本。
-"""
+"""将形状配对的恢复、移植和路径积分误差按模型汇总并绘图。"""
 from __future__ import annotations
 
 import csv
@@ -338,7 +334,7 @@ def write_report(a):
 
 
 def current(a):
-    """更新唯一可变进度入口；历史报告和根目录冻结文档不修改。"""
+    """更新项目当前进度。"""
     gain=a['primary_mean_gain_pp']
     path=mean([r['error_ratio'] for r in a['path'] if r['method']=='midpoint_32'])
     contents=f'''# 神经元组合与跨层机制研究当前进度

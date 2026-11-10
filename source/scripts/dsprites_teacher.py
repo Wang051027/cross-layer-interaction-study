@@ -1,8 +1,4 @@
-"""dSprites受控迁移：保留原残差架构，原生64×64输入，重新训练3类输出。
-
-训练只读取train/validation；六个种子都保留，模型冻结后才做机制评价。
-旧Fashion检查点、源码和交付记录不修改。
-"""
+"""在 64×64 的 dSprites 图像上训练六个三类残差网络，按照验证损失选取检查点。"""
 import os
 os.environ['CUBLAS_WORKSPACE_CONFIG']=':4096:8'
 for key in ('OMP_NUM_THREADS','MKL_NUM_THREADS','OPENBLAS_NUM_THREADS'):os.environ[key]='1'
@@ -195,7 +191,7 @@ def train(device):
 
 
 def load_teacher(seed,device='cpu',double=True):
-    """只加载新dSprites权重；拒绝沿用旧Fashion分类器权重冒充迁移完成。"""
+    """加载指定种子的 dSprites 检查点，设置浮点精度、设备和评价模式。"""
     model=DSpritesCNN()
     model.load_state_dict(torch.load(RUN/f'seed_{seed}'/'teacher.pt',map_location='cpu',weights_only=True))
     return (model.double() if double else model).to(device).eval()

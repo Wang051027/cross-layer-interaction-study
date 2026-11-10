@@ -1,4 +1,4 @@
-"""只读核验本轮文件、汇总与历史研究输入，不运行实验或写事件。"""
+"""核对层间传递实验的文件、汇总表与历史输入。"""
 from __future__ import annotations
 
 import argparse

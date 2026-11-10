@@ -1,9 +1,4 @@
-"""独立检查上游修复：原forward注入、裁剪卷积候选分数及自动微分。
-
-不调用新核心的源状态、重建、排名、权重、干预或输出分解函数。
-全部既有案例和22方法均检查；第一开关单候选另用5×5原卷积计算，
-区别于生产的边权展开。审计失败时不生成完成记录。
-"""
+"""复核 22 种上游干预。用 5×5 卷积重计算第一处 ReLU 的候选得分，以原网络前向运算和自动微分核对恢复效果。"""
 from __future__ import annotations
 import json
 import numpy as np
@@ -113,7 +108,7 @@ def original_upstream(model, x0, x1, h0, z10, z20, selection):
 
 @torch.no_grad()
 def candidate_audit(model, x0, x1, h0, h1, z10, z11, z20, z21, selection, mask, point, w, direction, random_seed):
-    """验证全部有效候选和确定性排名；不读取输出或救回结果。"""
+    """按基准修复量核对候选通道和并列排名。"""
     rows = [g+1 for g in range(4) if mask & (1 << g)]; b = model.block2
     _, y, x = np.unravel_index(point, (32, 32, 32)); source_scores = np.zeros(16)
     source_ids = np.flatnonzero(selection['source_pool']); source_fields = []

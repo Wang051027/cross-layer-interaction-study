@@ -1,7 +1,3 @@
-# 中文阅读说明｜用途：调度残差块内部干预的开发、计时、冻结、测试与回读复核。
-# 数据流：预测先保存承诺，再由原始未融合网络独立产生参考；测试不会重新拟合方法。
-# 阅读副本仅增加 # 注释，保留原语句、公式、参数和文档字符串。
-# 原研究目录的冻结源码未改；需要哈希核验的历史流程仍使用原目录。
 """Frozen residual-block context experiment, including independent references."""
 from __future__ import annotations
 import argparse
@@ -14,9 +10,7 @@ from residual_context import *
 from prepare_external import load_idx
 
 
-# 用途：读取保存的图像与训练/验证上下文索引，保持已有划分。
-# 参数：无显式入参；使用本模块已配置的环境或文件。
-# 返回：(images, train_ids, val_ids)。
+# 读取保存的图像与训练/验证上下文索引，保持已有划分。
 def training_data():
     images=np.load(DATA / "official_train_images.npy",mmap_mode="r",allow_pickle=False)
     with np.load(DATA / "context_indices.npz",allow_pickle=False) as saved:
@@ -24,18 +18,14 @@ def training_data():
     return images,train_ids,val_ids
 
 
-# 用途：分批执行教师前缀，拼接全部输入的源激活与残差旁路。
-# 参数：model、x；具体形状/来源结合调用处及下方关键步骤阅读。
-# 返回：(torch.cat([p[0] for p in pairs]), torch.cat([p[1] for p in pairs]))。
+# 分批执行教师前缀，拼接全部输入的源激活与残差旁路。
 @torch.no_grad()
 def prefix(model,x):
     pairs=[model.prefix(x[i:i+64]) for i in range(0,len(x),64)]
     return torch.cat([p[0] for p in pairs]),torch.cat([p[1] for p in pairs])
 
 
-# 用途：复制源特征图、按掩码衰减指定坐标，再运行原教师尾部生成各强度参考。
-# 参数：model_gpu、sources、residuals、bits；具体形状/来源结合调用处及下方关键步骤阅读。
-# 返回：values。
+# 复制源特征图、按掩码衰减指定坐标，再运行原教师尾部生成各强度参考。
 def references(model_gpu,sources,residuals,bits):
     bt=bits.cuda();values={}
     with torch.no_grad():
@@ -50,9 +40,6 @@ def references(model_gpu,sources,residuals,bits):
     return values
 
 
-# 用途：用规模较小且有可比较答案的情形检查实现，数值不一致时立即停止。
-# 参数：run；具体形状/来源结合调用处及下方关键步骤阅读。
-# 返回：结果通过文件、打印或对象/运行环境状态更新体现；没有显式 return。
 def smoke(run):
     verify_protocol(run)
     images,train_ids,val_ids=training_data()
@@ -95,9 +82,7 @@ def smoke(run):
     event(run,"residual_smoke_passed",**dict(errors))
 
 
-# 用途：在小规模检查通过后保存实现副本和哈希，固定后续运行使用的代码。
-# 参数：run；具体形状/来源结合调用处及下方关键步骤阅读。
-# 返回：结果通过文件、打印或对象/运行环境状态更新体现；没有显式 return。
+# 在小规模检查通过后保存实现副本和哈希，固定后续运行使用的代码。
 def lock(run):
     verify_protocol(run)
     assert read_json(run / "smoke.json")["status"]=="passed"
@@ -112,13 +97,9 @@ def lock(run):
     event(run,"residual_implementation_locked",sha256=sha(run / "implementation.json"))
 
 
-# 用途：检查已保存的协议、输入、源码或冻结记录；验证失败就停止。
-# 参数：run、frozen；具体形状/来源结合调用处及下方关键步骤阅读。
-# 返回：结果通过文件、打印或对象/运行环境状态更新体现；没有显式 return。
 def verify(run,frozen=False):
     verify_protocol(run)
     impl=read_json(run / "implementation.json")
-    # 核对内容承诺；注释版的文件字节会变化，原冻结实验应使用原研究目录。
     assert sha(run / "implementation.json")== (run / "implementation.sha256").read_text(encoding="ascii").strip()
     assert impl["protocol_sha256"]==sha(run / "protocol.json")
     for name,value in impl["sources"].items():
@@ -130,9 +111,7 @@ def verify(run,frozen=False):
         for name,value in frozen_record["artifacts"].items():assert sha(run/name)==value,name
 
 
-# 用途：处理一位残差教师的指定输入：构造局部状态、保存预测，再生成原尾部参考和指标。
-# 参数：run、seed、ids、x、out、phase；具体形状/来源结合调用处及下方关键步骤阅读。
-# 返回：rows。
+# 处理一位残差教师的指定输入：构造局部状态、保存预测，再生成原尾部参考和指标。
 def case(run,seed,ids,x,out,phase):
     assert not (out / "completion.json").exists()
     out.mkdir(exist_ok=True)
@@ -152,7 +131,6 @@ def case(run,seed,ids,x,out,phase):
                 fresh=rt.evaluate(rt.prepare(sources[i:i+1],residuals[i:i+1]),bits,alpha).numpy()
                 runtime_check=max(runtime_check,float(np.abs(value[i]-fresh).max()))
     assert runtime_check<1e-9
-    # 保存具名数值数组，便于后来按同一索引回读和独立复算。
     np.savez_compressed(out / "predictions.npz",**predictions,ids=ids)
     dump(out / "prediction_commitment.json",dict(utc=now(),sha256=sha(out / "predictions.npz")))
     gpu=load_teacher(directory,device="cuda");references.nodes=nodes
@@ -172,16 +150,13 @@ def case(run,seed,ids,x,out,phase):
     return rows
 
 
-# 用途：对固定的开发输入拟合或检查方法，保存测试前需要的参数和结果。
-# 参数：run；具体形状/来源结合调用处及下方关键步骤阅读。
-# 返回：结果通过文件、打印或对象/运行环境状态更新体现；没有显式 return。
+# 对固定的开发输入拟合或检查方法，保存测试前需要的参数和结果。
 def develop(run):
     verify(run);assert not (run / "test_opened.json").exists()
     assert (run / "training_complete.json").exists()
     images,train_ids,val_ids=training_data()
     train_x=torch.tensor(normalized(images[train_ids]),dtype=torch.float64)
     val_x=torch.tensor(normalized(images[val_ids]),dtype=torch.float64)
-    # 逐个教师处理同一套设置；跨教师统计与一张图像内部的组合数量要分开。
     for seed in SEEDS:
         directory=run / f"seed_{seed}"
         if not (directory / "fit_complete.json").exists():
@@ -200,9 +175,7 @@ def develop(run):
     dump(run / "development_complete.json",dict(utc=now(),seeds=SEEDS,official_test_model_access=False,calibration_model_access=False))
 
 
-# 用途：在统一设备、线程、查询量和输入下测量各方法，区分准备与查询开销。
-# 参数：run；具体形状/来源结合调用处及下方关键步骤阅读。
-# 返回：结果通过文件、打印或对象/运行环境状态更新体现；没有显式 return。
+# 在统一设备、线程、查询量和输入下测量各方法，区分准备与查询开销。
 def timing(run):
     verify(run);assert not (run / "test_opened.json").exists()
     assert (run / "development_complete.json").exists() and (run / "training_complete.json").exists()
@@ -227,9 +200,6 @@ def timing(run):
                     for name,rt in runtimes.items():
                         if workload=="cached":functions[name]=lambda rt=rt,name=name:rt.evaluate(cached[name],bt)
                         else:
-                            # 用途：构造当前运行时的一次实际执行，供计时循环调用。
-                            # 参数：rt；具体形状/来源结合调用处及下方关键步骤阅读。
-                            # 返回：rt.evaluate(rt.prepare(s, r), bt)。
                             def fn(rt=rt):
                                 s,r=model.prefix(x[i:i+1]);return rt.evaluate(rt.prepare(s,r),bt)
                             functions[name]=fn
@@ -266,9 +236,7 @@ def timing(run):
     dump(out / "completion.json",dict(utc=now(),rows=len(raw),max_path_difference=maximum,training_concurrent=False))
 
 
-# 用途：把开发阶段选定的模型、方法、预算与相关文件写入测试前冻结记录。
-# 参数：run；具体形状/来源结合调用处及下方关键步骤阅读。
-# 返回：结果通过文件、打印或对象/运行环境状态更新体现；没有显式 return。
+# 把开发阶段选定的模型、方法、预算与相关文件写入测试前冻结记录。
 def freeze(run):
     verify(run);assert not (run / "test_opened.json").exists() and not (run / "freeze.json").exists()
     assert (run / "development_complete.json").exists() and (run / "timing/completion.json").exists()
@@ -284,9 +252,7 @@ def freeze(run):
     event(run,"residual_frozen",artifacts=len(files),sha256=sha(run / "freeze.json"))
 
 
-# 用途：核验冻结状态后处理预留测试输入，保存预测、原网络参考及评分。
-# 参数：run；具体形状/来源结合调用处及下方关键步骤阅读。
-# 返回：结果通过文件、打印或对象/运行环境状态更新体现；没有显式 return。
+# 核验冻结状态后处理预留测试输入，保存预测、原网络参考及评分。
 def test(run):
     verify(run,True);out=run / "test";out.mkdir(exist_ok=True)
     assert not (out / "completion.json").exists()
@@ -323,9 +289,6 @@ def test(run):
     event(run,"residual_test_complete",cases=6)
 
 
-# 用途：回读已保存数组重新评分并汇总，核对结果与既有记录的一致性。
-# 参数：run；具体形状/来源结合调用处及下方关键步骤阅读。
-# 返回：结果通过文件、打印或对象/运行环境状态更新体现；没有显式 return。
 def analyze(run):
     verify(run,True);assert read_json(run / "test/completion.json")["status"]=="completed"
     out=run / "analysis";out.mkdir(exist_ok=False)
@@ -383,15 +346,11 @@ def analyze(run):
     event(run,"residual_analysis_complete",arrays_rescored=dict(counts),max_difference=maximum)
 
 
-# 用途：调度残差块内部干预的开发、计时、冻结、测试与回读复核。
-# 参数：无显式入参；使用本模块已配置的环境或文件。
-# 返回：结果通过文件、打印或对象/运行环境状态更新体现；没有显式 return。
+# 调度残差块内部干预的开发、计时、冻结、测试与回读复核。
 def main():
-    # 解析运行阶段/路径等命令行参数；具体允许的阶段由 choices 或分派逻辑限定。
     parser=argparse.ArgumentParser();parser.add_argument("--stage",required=True,
         choices=("smoke","lock","develop","timing","freeze","test","analyze"))
     args=parser.parse_args();configure_cpu();globals()[args.stage](RUN)
 
 
-# 只有直接运行本文件时才触发这个入口；作为模块导入时不会执行此分支。
 if __name__=="__main__":main()

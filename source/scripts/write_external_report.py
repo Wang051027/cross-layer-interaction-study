@@ -1,7 +1,3 @@
-# 中文阅读说明｜用途：生成早期六教师实验的中文报告和根目录状态。
-# 数据流：读取既有汇总；这是历史报告生成器，会写根目录状态，不应覆盖当前版本。
-# 阅读副本仅增加 # 注释，保留原语句、公式、参数和文档字符串。
-# 原研究目录的冻结源码未改；需要哈希核验的历史流程仍使用原目录。
 """Human-readable report from the completed frozen experiment only."""
 from __future__ import annotations
 import csv
@@ -15,20 +11,13 @@ SEEDS=list(range(202609071,202609077))
 NAMES={"greedy":"背景选择","weight":"权重范数","pca_fused":"融合 PCA"}
 
 
-# 用途：读取 UTF-8 JSON，返回其中的协议、配置或结果对象。
-# 参数：path；具体形状/来源结合调用处及下方关键步骤阅读。
-# 返回：json.loads(path.read_text(encoding='utf-8'))。
 def read_json(path):return json.loads(path.read_text(encoding="utf-8"))
-# 用途：读取 CSV 表格为记录列表，供报告查找和汇总。
-# 参数：path；具体形状/来源结合调用处及下方关键步骤阅读。
-# 返回：list(csv.DictReader(f))。
+# 读取 CSV 表格为记录列表，供报告查找和汇总。
 def read_csv(path):
     with path.open(encoding="utf-8",newline="") as f:return list(csv.DictReader(f))
 
 
-# 用途：生成早期六教师实验的中文报告和根目录状态。
-# 参数：无显式入参；使用本模块已配置的环境或文件。
-# 返回：结果通过文件、打印或对象/运行环境状态更新体现；没有显式 return。
+# 生成早期六教师实验的中文报告和根目录状态。
 def main():
     primary=read_json(RUN / "analysis/primary_statistics.json")
     verification=read_json(RUN / "analysis/verification.json")
@@ -42,14 +31,10 @@ def main():
     classification=read_csv(RUN / "test/teacher_classification.csv")
     activity=read_csv(BASE / "audit/head_activity_20260911.csv")
     choices=read_json(RUN / "frozen_before_test.json")["validation_choices"]
-    # 用途：按层、方法和预算定位报告需要的准确性汇总。
-    # 参数：layer、method、k；具体形状/来源结合调用处及下方关键步骤阅读。
-    # 返回：next((r for r in summary if r['layer'] == str(layer) and r['alpha'] == '1.0' and (r['me…。
+    # 按层、方法和预算定位报告需要的准确性汇总。
     def find_summary(layer,method,k):
         return next(r for r in summary if r["layer"]==str(layer) and r["alpha"]=="1.0" and r["method"]==method and r["k"]==str(k))
-    # 用途：按层、方法、预算规则和成本口径定位保存的成本记录。
-    # 参数：layer、method、rule、scope；具体形状/来源结合调用处及下方关键步骤阅读。
-    # 返回：next((r for r in cost if r['layer'] == str(layer) and r['method'] == method and (r['rul…。
+    # 按层、方法、预算规则和成本口径定位保存的成本记录。
     def find_cost(layer,method,rule,scope="from_image"):
         return next(r for r in cost if r["layer"]==str(layer) and r["method"]==method and r["rule"]==rule and r["queries"]=="256" and r["workload"]==scope)
     fixed_rows=[]
@@ -74,7 +59,6 @@ def main():
             cached=find_cost(layer,method,"fixed32","cached")
             time_rows.append(f"| L{layer} | {NAMES[method]} | {float(fresh['milliseconds_mean']):.3f} | {float(fresh['paired_speedup_mean']):.3f} ± {float(fresh['paired_speedup_sd']):.3f} | {float(cached['paired_speedup_mean']):.3f}× | {fresh['seeds_meet_10pct']}/6 |")
     teacher_rows=[]
-    # 逐个教师处理同一套设置；跨教师统计与一张图像内部的组合数量要分开。
     for seed in SEEDS:
         t=read_json(RUN / f"seed_{seed}/teacher_summary.json")
         c=next(r for r in classification if r["seed"]==str(seed))
@@ -210,9 +194,7 @@ PCA 使用相同数量的编码值。它的线性编码器已与前一全连接�
         primary_sign_flip_p=p,primary_t95_interval=primary["t95_interval"],
         next_steps=["activity-aware simple baseline and GAP plus linear-head architecture control","finer or calibrated budgets and response-aware low-rank controls with fresh evaluation conditions"],
         latest_report="reports/六种子外部测试与推进建议_2026-09-11.md")
-    # 把结构化配置或结果落盘，供后续阶段核验和报告读取。
     (BASE / "RESEARCH_STATUS.json").write_text(json.dumps(state,ensure_ascii=False,indent=2),encoding="utf-8")
 
 
-# 只有直接运行本文件时才触发这个入口；作为模块导入时不会执行此分支。
 if __name__=="__main__":main()

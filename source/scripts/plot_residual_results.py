@@ -1,7 +1,3 @@
-# 中文阅读说明｜用途：绘制残差块背景选择、基线和成本比较结果。
-# 数据流：读取残差阶段保存数据；输出静态图，不重新计算网络参考输出。
-# 阅读副本仅增加 # 注释，保留原语句、公式、参数和文档字符串。
-# 原研究目录的冻结源码未改；需要哈希核验的历史流程仍使用原目录。
 """Presentation-only scientific figure for the completed residual experiment."""
 from pathlib import Path
 import os
@@ -14,16 +10,11 @@ matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 
 
-# 用途：读取本函数指定的记录文件，返回解析后的对象；JSON/CSV 形式见函数体。
-# 参数：path；具体形状/来源结合调用处及下方关键步骤阅读。
-# 返回：list(csv.DictReader(f))。
 def read(path):
     with path.open(encoding="utf-8",newline="") as f:return list(csv.DictReader(f))
 
 
-# 用途：绘制残差块背景选择、基线和成本比较结果。
-# 参数：无显式入参；使用本模块已配置的环境或文件。
-# 返回：结果通过文件、打印或对象/运行环境状态更新体现；没有显式 return。
+# 绘制残差块背景选择、基线和成本比较结果。
 def main():
     run=BASE / "runs/fashion_residual_20260913"
     data=read(run / "analysis/seed_nrmse.csv")
@@ -99,5 +90,4 @@ def main():
     plt.close(fig)
 
 
-# 只有直接运行本文件时才触发这个入口；作为模块导入时不会执行此分支。
 if __name__=="__main__":main()

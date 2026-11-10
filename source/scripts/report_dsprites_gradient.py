@@ -1,8 +1,4 @@
-"""从已审计原始数据提取梯度结论，生成中文报告、逐教师表和静态图。
-
-分析不修改选择规则或数值原件；比率先在教师内聚合，图中保留六教师
-差异。相关性是描述性结果，不把共享面板图像当作独立重复。
-"""
+"""从逐例响应计算模型内梯度变化和交互误差，生成逐模型结果表和图。"""
 from __future__ import annotations
 
 import csv
@@ -82,7 +78,6 @@ def analyze():
         primary.append(dict(seed=seed,restore_gain_pp=100*(fixed['restore_ratio']-state['restore_ratio']),
                             transplant_gain_pp=100*(fixed['transplant_error_ratio']-state['transplant_error_ratio'])))
         # 仅作事后数值敏感性检查：剔除独立审计认出的近并列截断病例。
-        # 原主结果不改、不另选名单，不按效果好坏决定剔除哪些输入。
         affected=sorted({r['image'] for r in rank_notes if r['seed']==seed})
         full_metrics=load(RUN/f'evaluation/seed_{seed}/alpha_1.0/metrics_margin.npz')
         keep=np.ones(36,dtype=bool);keep[affected]=False

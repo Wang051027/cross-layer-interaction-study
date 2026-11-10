@@ -1,4 +1,4 @@
-"""封存本轮层间传递结果；历史交付保持只读。"""
+"""汇总层间传递实验的输出文件和哈希。"""
 from __future__ import annotations
 
 import json

@@ -1,4 +1,4 @@
-"""锁定既有解后执行四状态验证；不扩大输入、不训练、不新增输出驱动搜索。"""
+"""在已选恢复端点上分别替换组内和组外通道，运行四个状态。"""
 from __future__ import annotations
 import argparse
 import json
@@ -68,7 +68,7 @@ def initialize():
     for name in CODE:
         target=RUN/'source/scripts'/name; target.parent.mkdir(parents=True,exist_ok=True); shutil.copy2(BASE/'scripts'/name,target)
     p=dict(version='coalition-context-v1',utc=teacher.now(),client_date='2026-10-25',
-        scope='same36images/72dependentpairs/6frozen samearchitecture teachers/masks3,15;no training/newinput/newsearch',
+        scope='36 images, 72 directed pairs, six frozen models of the same architecture, source masks 3 and 15',
         endpoints=list(core.ENDPOINTS),selection='12 aligned solutions targeted+2random in4families, plus4 movingA targeted controls;all864 states,including failures/noops;no newtask-output selection',
         four_states=list(core.STATES),definition='H00=before originalfulltarget;H11=after frozenI;H10=Cafter+outsidebefore;H01=Cbefore+outsideafter;wholechannel maps;no A/R in these fields',
         modes=list(core.MODES),point_control='frozen originalj postfirstReLU value patched to nonnegative nativeu00 oru11;secondReLU originalforward;offmanifoldpossible',

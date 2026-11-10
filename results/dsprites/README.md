@@ -1,7 +1,12 @@
-# 已保存的 dSprites 结果记录
+# dSprites 训练与评价记录
 
-这里是 2026-09-29 完成的原实验结果副本，包括描述性汇总、两种独立审计、协议、模型冻结摘要和六个模型的训练历史。它们帮助阅读代码与核对报告，但不包含全部逐图原始数组或模型权重。
+2026 年 9 月 29 日的实验包含 6 个模型和 24 种评价设置。独立审计核对了 38,016 个中介选择集合。
 
-协议与审计中的相对路径、哈希属于原运行；本目录不冒充完整运行目录。`model_freeze.json` 所列模型不随仓库分发。
+| 文件 | 内容 |
+| --- | --- |
+| [model_freeze.json](model_freeze.json) | 六个模型的训练种子、检查点和哈希 |
+| [descriptive_analysis.json](descriptive_analysis.json) | 各选择方法的恢复、移植和逐模型统计 |
+| [independent_audit.json](independent_audit.json) | 评价响应与中介选择的核验结果 |
+| [independent_data_audit.json](independent_data_audit.json) | 像素、标签和因素划分的核验结果 |
 
-原实验 6 个模型、24 个评价设置；独立审计核查 38,016 个选择集合。这里没有在发布代码时重新训练模型。可在当前仓库独立重算的示例见根目录 `run_dsprites_demo.py`，其三条记录仅用于说明计算。
+权重保存在[六个模型的种子目录](../../reproduction/held_condition/runs/dsprites_20260929)。在仓库根目录运行 `python -B run_dsprites_demo.py`，可重算三个形状类别各一条样本的指标。

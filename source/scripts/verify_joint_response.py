@@ -1,12 +1,4 @@
-# 中文阅读说明｜用途：用显式多项式和直接奇偶基矩阵独立复核本轮数值与汇总。
-# 数据流：不调用 joint_response 的公式函数；检查保存系数、抽定输入预测、全部统计和 CSV。
-# 阅读副本仅增加 # 注释，保留原语句、公式、参数和文档字符串。
-# 原研究目录的冻结源码未改；需要哈希核验的历史流程仍使用原目录。
-"""Independent parity-basis and explicit-polynomial audit of the saved analysis.
-
-Does not import the analysis implementation. Tests all saved local coefficients,
-all aggregate metrics, and direct predictions/projections on deterministic inputs.
-"""
+"""Check saved local coefficients, aggregate scores and projections with an explicit polynomial and parity basis."""
 import os
 for key in ('OMP_NUM_THREADS','OPENBLAS_NUM_THREADS','MKL_NUM_THREADS'):
     os.environ[key]='1'
@@ -22,17 +14,9 @@ RUN=BASE/'runs/joint_response_20260925'
 TOL=1e-9
 errors={}
 
-# 用途：读取本函数指定的记录文件，返回解析后的对象；JSON/CSV 形式见函数体。
-# 参数：path；具体形状/来源结合调用处及下方关键步骤阅读。
-# 返回：json.loads(Path(path).read_text(encoding='utf-8'))。
 def read(path): return json.loads(Path(path).read_text(encoding='utf-8'))
-# 用途：对文件字节计算 SHA-256，用于发现数据、源码或检查点是否改变。
-# 参数：path；具体形状/来源结合调用处及下方关键步骤阅读。
-# 返回：hashlib.sha256(Path(path).read_bytes()).hexdigest()。
 def sha(path): return hashlib.sha256(Path(path).read_bytes()).hexdigest()
-# 用途：按绝对容差比较两个实现的结果，同时要求缺失值和有限值的位置一致。
-# 参数：name、actual、expected；具体形状/来源结合调用处及下方关键步骤阅读。
-# 返回：结果通过文件、打印或对象/运行环境状态更新体现；没有显式 return。
+# 按绝对容差比较两个实现的结果，同时要求缺失值和有限值的位置一致。
 def same(name, actual, expected):
     a,b=np.asarray(actual,dtype=float),np.asarray(expected,dtype=float)
     assert np.array_equal(np.isnan(a),np.isnan(b)),name
@@ -41,21 +25,14 @@ def same(name, actual, expected):
     error=float(np.max(np.abs(a[valid]-b[valid]))) if np.any(valid) else 0.
     errors[name]=max(errors.get(name,0.),error)
     assert error<TOL,(name,error)
-# 用途：把 JSON 的 null 转回 NaN，便于用统一数值规则复核。
-# 参数：value；具体形状/来源结合调用处及下方关键步骤阅读。
-# 返回：np.nan if value is None else value。
+# 把 JSON 的 null 转回 NaN，便于用统一数值规则复核。
 def val(value): return np.nan if value is None else value
-# 用途：从记录中提取指定字段为数组，用于独立重算汇总。
-# 参数：rows、key；具体形状/来源结合调用处及下方关键步骤阅读。
-# 返回：np.array([val(r[key]) for r in rows])。
+# 从记录中提取指定字段为数组，用于独立重算汇总。
 def values(rows,key): return np.array([val(r[key]) for r in rows])
 
-# 用途：逐设置检查保存系数，以直接矩阵法复算抽定输入，并独立重算全部教师/组汇总。
-# 参数：无显式入参；使用本模块已配置的环境或文件。
-# 返回：结果通过文件、打印或对象/运行环境状态更新体现；没有显式 return。
+# 逐设置检查保存系数，以直接矩阵法复算抽定输入，并独立重算全部教师/组汇总。
 def run():
     protocol=read(RUN/'protocol.json');summary=read(RUN/'summary.json')
-    # 核对内容承诺；注释版的文件字节会变化，原冻结实验应使用原研究目录。
     assert sha(RUN/'protocol.json')==(RUN/'protocol.sha256').read_text().strip()
     for rel,digest in protocol['input_manifest'].items(): assert sha(BASE/rel)==digest,rel
     for rel,digest in protocol['sources'].items():
@@ -112,7 +89,7 @@ def run():
                     same('direct_parity_coefficients',direct_coeff,coef[prefix+'walsh_low2'][index])
                     for degree in (1,2):
                         take=orders[low_ids]<=degree
-                        # 直接重建最佳低阶函数，再从原始响应计算残差，而不是只复用能量公式。
+                        # 重建最佳低阶函数，由原始响应计算残差。
                         projected=basis[:,take]@direct_coeff[take]
                         residual=y[index]-projected
                         for tn,err,truth in [('vector',residual,y[index]),('scalar',residual@target_weights,target)]:
@@ -183,10 +160,8 @@ def run():
         implementation_sha256=sha(__file__),summary_sha256=sha(RUN/'summary.json'))
     output=RUN/'independent_verification.json'
     if output.exists():raise FileExistsError('Preserve existing verification')
-    # 把结构化配置或结果落盘，供后续阶段核验和报告读取。
     output.write_text(json.dumps(result,ensure_ascii=False,indent=2,allow_nan=False),encoding='utf-8')
     print(json.dumps({k:v for k,v in result.items() if k!='differences'},ensure_ascii=False))
 
-# 只有直接运行本文件时才触发这个入口；作为模块导入时不会执行此分支。
 if __name__=='__main__':
     with threadpool_limits(limits=1):run()

@@ -1,8 +1,4 @@
-"""独立回读因素迁移实验：矩阵差分、增广最小二乘及数据去重检查。
-
-不使用实验实现的指标、回归、预测或排名函数；只读原始数组及冻结参数。
-审计失败时不写PASS。旧证据目录只读，不调用会更新旧审计记录的函数。
-"""
+"""由原始响应、差分矩阵和增广最小二乘重算因素迁移结果，核对划分中的重复图像。"""
 from __future__ import annotations
 
 import dsprites_teacher as teacher
@@ -17,7 +13,7 @@ COUNTS = {}
 
 
 def compare(name, actual, expected, atol=1e-10):
-    """保存每类检查的最大差异和数值数量，避免只留下一个笼统PASS。"""
+    """记录各项核验的数值个数和最大差异。"""
     a, b = np.asarray(actual), np.asarray(expected)
     assert a.shape == b.shape, (name, a.shape, b.shape)
     assert np.isfinite(a).all() and np.isfinite(b).all(), name
@@ -54,7 +50,7 @@ def interaction(raw, labels, mode, matrix):
 
 
 def singleton_scores(natural, singleton, labels, matrix):
-    """由原始单点修补logits重算两目标的收益，不能信任已保存评分。"""
+    """用单点修补的 logit 重算两种评价目标的收益。"""
     scores = []
     for mode in ('margin', 'vector'):
         original = interaction(natural, labels, mode, matrix)
@@ -66,7 +62,7 @@ def singleton_scores(natural, singleton, labels, matrix):
 
 
 def independent_basis(factors, physical, rule):
-    """通过复指数及显式幂次构造同一协议的基函数，不调用被审计模块。"""
+    """用复指数与显式幂次构造因素基函数。"""
     theta = physical[:, 3]
     exponentials = np.exp(1j * theta[:, None] * np.array([1, 2, 3])[None])
     angular = np.stack((exponentials.imag, exponentials.real), axis=-1).reshape(len(theta), 6)

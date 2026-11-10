@@ -1,7 +1,4 @@
-"""独立检查 dSprites 来源行、标签、因素分组与跨划分像素重合。
-
-只读官方数值数组和当前划分；派生平移单独核验，不把它当成官方新行。
-"""
+"""按官方索引核对 dSprites 像素、标签和因素划分，逐像素验证平移对照。"""
 import hashlib,itertools
 from pathlib import Path
 import numpy as np

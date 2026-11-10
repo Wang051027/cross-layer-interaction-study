@@ -1,8 +1,4 @@
-"""将旧跨层计算迁移到任意图片尺寸/类别数；不修改旧冻结源码。
-
-直接复用组合差分、原网络逐层计算和ReLU代数分解。新增部分处理动态尺寸、
-三类margin、标签无关输出向量、全局/按类/逐图选择，以及严格平移坐标。
-"""
+"""计算 dSprites 形状分类的条件差分和中介修补。支持类别 margin、中心化输出向量与平移坐标。"""
 import numpy as np
 import torch
 from torch.nn import functional as F

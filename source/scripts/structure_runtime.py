@@ -1,7 +1,3 @@
-# 中文阅读说明｜用途：实现活动优先排序和 GAP/线性读出结构对照。
-# 数据流：GAP 第三位置在池化之后，没有剩余非线性；前两位置仍需保留局部边界。
-# 阅读副本仅增加 # 注释，保留原语句、公式、参数和文档字符串。
-# 原研究目录的冻结源码未改；需要哈希核验的历史流程仍使用原目录。
 """Activity-only selection controls and exact GAP/linear structural controls.
 
 No original model, fit, runtime or primary analysis is modified.
@@ -22,9 +18,7 @@ BUDGETS = [16, 32]
 STRENGTHS = [1., .5]
 
 
-# 用途：从训练门控频率构造活动优先、门控方差、频率和固定活动随机排序。
-# 参数：mod、fit、seed、layer；具体形状/来源结合调用处及下方关键步骤阅读。
-# 返回：result。
+# 从训练门控频率构造活动优先、门控方差、频率和固定活动随机排序。
 def activity_orders(mod, fit, seed, layer):
     g = fit.gate
     norm = np.linalg.norm(mod.W.numpy(), axis=1) * np.linalg.norm(mod.U.numpy(), axis=0)
@@ -42,9 +36,7 @@ def activity_orders(mod, fit, seed, layer):
     return result
 
 
-# 用途：把方法名对应的排序接入统一运行时；完整预算直接使用精确基线。
-# 参数：mod、fit、orders、method、k；具体形状/来源结合调用处及下方关键步骤阅读。
-# 返回：HeadRuntime(mod, fit, 'exact', 64) / HeadRuntime(mod, replace(fit, order=orders[method]), 'greedy', k) / HeadRuntime(mod, fit, method, k)。
+# 把方法名对应的排序接入统一运行时；完整预算直接使用精确基线。
 def head_runtime(mod, fit, orders, method, k):
     if k == 64:
         return HeadRuntime(mod, fit, "exact", 64)
@@ -53,21 +45,15 @@ def head_runtime(mod, fit, orders, method, k):
     return HeadRuntime(mod, fit, method, k)
 
 
-# 用途：以全局平均池化和线性分类器读出的结构对照网络。
-# 结构：继承 nn.Module；成员字段和方法共同保存本阶段需要的状态。
+# 以全局平均池化和线性分类器读出的结构对照网络。
 class GapCNN(nn.Module):
-    # 用途：建立对象所需的网络层、固定映射或配置。以全局平均池化和线性分类器读出的结构对照网络。
-    # 参数：无额外参数；读取或初始化对象状态。
-    # 返回：初始化对象字段，没有显式返回值。
     def __init__(self):
         super().__init__()
         self.conv1 = nn.Conv2d(1, 8, 3, padding=1)
         self.conv2 = nn.Conv2d(8, 16, 3, padding=1)
         self.readout = nn.Linear(16, 10)
 
-    # 用途：返回所选干预层位置的激活：第一次 ReLU、第二次 ReLU 或池化之后。
-    # 参数：x、layer；具体形状/来源结合调用处及下方关键步骤阅读。
-    # 返回：h / h if layer == 2 else F.max_pool2d(h, 2)。
+    # 返回所选干预层位置的激活：第一次 ReLU、第二次 ReLU 或池化之后。
     def source(self, x, layer):
         h = F.relu(self.conv1(x))
         if layer == 1:
@@ -75,9 +61,7 @@ class GapCNN(nn.Module):
         h = F.relu(self.conv2(h))
         return h if layer == 2 else F.max_pool2d(h, 2)
 
-    # 用途：从对应层继续到池化、空间平均和线性读出。
-    # 参数：h、layer；具体形状/来源结合调用处及下方关键步骤阅读。
-    # 返回：self.readout(h.mean((2, 3)))。
+    # 从对应层继续到池化、空间平均和线性读出。
     def tail(self, h, layer):
         if layer == 1:
             h = F.relu(self.conv2(h))
@@ -85,33 +69,23 @@ class GapCNN(nn.Module):
             h = F.max_pool2d(h, 2)
         return self.readout(h.mean((2, 3)))
 
-    # 用途：执行该网络的前向计算并返回分类 logits；训练时反向传播由外部训练循环控制。
-    # 参数：x；具体形状/来源结合调用处及下方关键步骤阅读。
-    # 返回：self.tail(self.source(x, 1), 1)。
     def forward(self, x):
         return self.tail(self.source(x, 1), 1)
 
 
-# 用途：载入 GAP 结构对照模型，并按参数决定是否转为双精度。
-# 参数：directory、double；具体形状/来源结合调用处及下方关键步骤阅读。
-# 返回：model.double() if double else model。
+# 载入 GAP 结构对照模型，并按参数决定是否转为双精度。
 def load_gap(directory, double=True):
     model = GapCNN().eval()
     model.load_state_dict(torch.load(directory / "teacher.pt", weights_only=True, map_location="cpu"))
     return model.double() if double else model
 
 
-# 用途：对 GAP 网络的不同干预位置构建受影响局部计算；池化之后为纯线性。
-# 结构：成员字段和方法共同保存本阶段需要的状态。
 class GapLocal:
     """Exact affected pooling windows followed by a fused linear readout.
 
     L1: after ReLU1; L2: after ReLU2, before MaxPool; L3: after MaxPool.
     At L3 there is no remaining nonlinear operation and no background is needed.
     """
-    # 用途：建立对象所需的网络层、固定映射或配置。对 GAP 网络的不同干预位置构建受影响局部计算；池化之后为纯线性。
-    # 参数：model、shape、nodes、layer；具体形状/来源结合调用处及下方关键步骤阅读。
-    # 返回：初始化对象字段，没有显式返回值。
     def __init__(self, model, shape, nodes, layer):
         self.model, self.shape, self.nodes, self.layer = model, tuple(shape), np.array(nodes), layer
         self.q = len(nodes)
@@ -146,9 +120,7 @@ class GapLocal:
             channels = self.pool_ids // ((height//2)*(width//2))
             self.linear = model.readout.weight[:, channels].T.detach() / ((height//2)*(width//2))
 
-    # 用途：提取源值及受影响池化窗口；第三位置没有剩余边界状态。
-    # 参数：source；具体形状/来源结合调用处及下方关键步骤阅读。
-    # 返回：(h, h[:0].reshape(0, 4)) / (h, pre.flatten()[self.window_ids])。
+    # 提取源值及受影响池化窗口；第三位置没有剩余边界状态。
     @torch.no_grad()
     def prepare(self, source):
         h = source.flatten()[self.nodes]
@@ -157,9 +129,7 @@ class GapLocal:
         pre = self.model.conv2(source) if self.layer == 1 else source
         return h, pre.flatten()[self.window_ids]
 
-    # 用途：按所选方法重算边界或固定原区域；第三位置直接使用线性响应。
-    # 参数：context、bits、alpha、method、mean_window；具体形状/来源结合调用处及下方关键步骤阅读。
-    # 返回：delta @ self.linear / dp @ self.linear。
+    # 按所选方法重算边界或固定原区域；第三位置直接使用线性响应。
     @torch.no_grad()
     def evaluate(self, context, bits, alpha=1., method="exact", mean_window=None):
         h, window = context
@@ -182,9 +152,7 @@ class GapLocal:
             dp = changed.amax(2) - baseline.amax(1)[None]
         return dp @ self.linear
 
-    # 用途：直接改变原特征图并运行 GAP 教师尾部，验证局部计算是否准确。
-    # 参数：source、bits、alpha；具体形状/来源结合调用处及下方关键步骤阅读。
-    # 返回：self.model.tail(intervened, self.layer) - self.model.tail(source, self.layer)。
+    # 直接改变原特征图并运行 GAP 教师尾部，验证局部计算是否准确。
     @torch.no_grad()
     def full_evaluate(self, source, bits, alpha=1.):
         intervened = source.expand(len(bits), -1, -1, -1).clone()
@@ -192,9 +160,7 @@ class GapLocal:
         return self.model.tail(intervened, self.layer) - self.model.tail(source, self.layer)
 
 
-# 用途：计算当前设置的预测误差并附上教师、方法、预算等标签；分母规则见函数体。
-# 参数：prediction、reference、seed、layer、method、k、alpha、architecture；具体形状/来源结合调用处及下方关键步骤阅读。
-# 返回：字典（字段见 return）。
+# 按模型、方法和预算记录预测误差。
 def metrics(prediction, reference, seed, layer, method, k, alpha, architecture):
     held = bit_design(8).sum(1) > 2
     result = score(prediction, reference, held)
@@ -208,9 +174,7 @@ def metrics(prediction, reference, seed, layer, method, k, alpha, architecture):
         input_fraction_over_10pct=float((per_input > .1).mean()) if len(per_input) else 0.)
 
 
-# 用途：随机化方法的运行次序并重复计时，保存逐轮记录以保持配对。
-# 参数：functions、rng、rounds、repetitions；具体形状/来源结合调用处及下方关键步骤阅读。
-# 返回：records。
+# 随机化方法的运行次序并重复计时，保存逐轮记录以保持配对。
 def timed_functions(functions, rng, rounds=15, repetitions=3):
     records = []
     with torch.no_grad():

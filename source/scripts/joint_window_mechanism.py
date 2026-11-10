@@ -1,9 +1,4 @@
-"""在固定名单内找原C每一成员都必要的上游恢复，几何搜索不读取任务输出。
-
-三种参照分别是移动AI、固定原A1、真实HI保留组外值且C用原A1消融。
-后两种只依赖HI与固定A1，因此只改变A/R分解不可能使它们恢复。
-所有新控制为半/全强度非负激活的凸组合，不使用负的强制gate激活。
-"""
+"""在移动基准、固定基准和实测组外背景下搜索触发 ReLU 的上游干预，并逐一检验原通道组的必要成员。"""
 from __future__ import annotations
 import numpy as np
 import torch
@@ -141,11 +136,7 @@ def best_index(scores, budgets, amounts):
 
 @torch.no_grad()
 def search(c, selection):
-    """固定网格后只在已选路径附近细化；读出F、任务梯度都不参与选择。
-
-这是同面板有限搜索，找不到不证明该上游不存在其他强度/名单的恢复。
-随机对照有相同前缀、强度网格和最大预算，最优实际预算允许不同。
-"""
+    """按阈值余量搜索强度网格，再沿选中路径局部细化。定向与随机对照使用相同的候选前缀、网格和最大预算。"""
     pp = paths(selection); coarse = []
     for p in pp: coarse.append(geometry(c, local_fields(c, p['family'], p['ids'], GRID)).cpu().numpy())
     coarse = np.asarray(coarse); score = objectives(coarse)

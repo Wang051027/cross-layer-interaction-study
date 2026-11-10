@@ -1,4 +1,4 @@
-"""冻结协议→半强度选点选通道→封存→全强度，不增加输入或训练。"""
+"""按半强度响应选定通道与 ReLU 坐标，在全强度下验证联合触发。"""
 from __future__ import annotations
 import argparse
 import json

@@ -1,7 +1,3 @@
-# 中文阅读说明｜用途：组织活动筛选和 GAP 结构对照报告。
-# 数据流：从既有结果生成表格和结论文本；属于历史文档生成器。
-# 阅读副本仅增加 # 注释，保留原语句、公式、参数和文档字符串。
-# 原研究目录的冻结源码未改；需要哈希核验的历史流程仍使用原目录。
 """Presentation-only report generator for the completed frozen controls."""
 from pathlib import Path
 import csv
@@ -16,22 +12,15 @@ LABELS={"greedy":"训练残差贪心选择","weight":"权重范数","pca_fused":
         "activity":"激活频率","active_random_mean":"活跃单元随机（4 次均值）"}
 
 
-# 用途：读取 UTF-8 JSON，返回其中的协议、配置或结果对象。
-# 参数：path；具体形状/来源结合调用处及下方关键步骤阅读。
-# 返回：json.loads(path.read_text(encoding='utf-8'))。
 def read_json(path):return json.loads(path.read_text(encoding="utf-8"))
 
 
-# 用途：读取 CSV 表格为记录列表，供报告查找和汇总。
-# 参数：path；具体形状/来源结合调用处及下方关键步骤阅读。
-# 返回：list(csv.DictReader(f))。
+# 读取 CSV 表格为记录列表，供报告查找和汇总。
 def read_csv(path):
     with path.open(encoding="utf-8",newline="") as f:return list(csv.DictReader(f))
 
 
-# 用途：组织活动筛选和 GAP 结构对照报告。
-# 参数：无显式入参；使用本模块已配置的环境或文件。
-# 返回：结果通过文件、打印或对象/运行环境状态更新体现；没有显式 return。
+# 组织活动筛选和 GAP 结构对照报告。
 def main():
     audit=read_json(RUN / "analysis/verification.json")
     complete=read_json(RUN / "test/completion.json")
@@ -43,15 +32,11 @@ def main():
     gaps=read_csv(RUN / "test/gap_classification.csv")
     old_classes=read_csv(BASE / "runs/fashion_external_20260911/test/teacher_classification.csv")
     interpretation=read_json(BASE / "audit/structure_interpretation_20260911.json")
-    # 用途：筛选满足当前表格条件的结果行；并查集中的同名函数另有专门说明。
-    # 参数：method、layer、k、architecture、stratum；具体形状/来源结合调用处及下方关键步骤阅读。
-    # 返回：next((r for r in summary if r['stratum'] == stratum and r['architecture'] == architectu…。
+    # 筛选满足当前表格条件的结果行；并查集中的同名函数另有专门说明。
     def find(method,layer,k=16,architecture="cnn",stratum="all"):
         return next(r for r in summary if r["stratum"]==stratum and r["architecture"]==architecture and r["layer"]==str(layer)
             and r["method"]==method and r["k"]==str(k) and r["alpha"]=="1.0")
-    # 用途：把结果记录格式化为可读的表格单元，缺失值按本报告规则展示。
-    # 参数：r；具体形状/来源结合调用处及下方关键步骤阅读。
-    # 返回：f"{100 * float(r['nrmse_mean']):.2f}% ± {100 * float(r['nrmse_sd']):.2f}%"。
+    # 把结果记录格式化为可读的表格单元，缺失值按本报告规则展示。
     def cell(r):return f"{100*float(r['nrmse_mean']):.2f}% ± {100*float(r['nrmse_sd']):.2f}%"
     fixed=[]
     for method,label in LABELS.items():
@@ -66,7 +51,6 @@ def main():
                 d=[float(r["greedy_minus_control"])*100 for r in differences if r["layer"]==str(layer) and r["k"]==str(k) and r["alpha"]=="1.0" and r["control"]==method]
                 contrasts.append(f"| L{layer} | {k} | {LABELS[method]} | {st.mean(d):+.2f} | {sum(v < -1e-10 for v in d)}／{sum(abs(v) <= 1e-10 for v in d)}／{sum(v > 1e-10 for v in d)} |")
     identical=0
-    # 逐个教师处理同一套设置；跨教师统计与一张图像内部的组合数量要分开。
     for seed in SEEDS:
         for row in read_json(RUN / f"cnn_seed_{seed}/completion.json")["diagnostics"]:
             identical+=int(row["active_weight_equals_weight_at16"] and row["active_weight_equals_weight_at32"])
@@ -195,7 +179,7 @@ GAP 测试均值 **{gap_accuracy:.2f}%**，原 CNN 为 **{cnn_accuracy:.2f}%**�
 
 当前证据支持继续研究“有限组合干预下的背景选择”：在较紧的 k=16 预算，残差选择的额外收益通过了这一轮简单基线检查；在误差较低的 k=32 预算，收益变小且受教师影响，完整速度优势也有限。线性尾部控制进一步明确了适用边界：关键是干预后可能切换的非线性运算，而不是固定要求一种 64 单元头部背景。
 
-下一步应在任务能力足够的网络中选择更早的非线性块，保留当前门控基线、最快局部精确基线和完整成本口径，再检验选择的额外价值。需要预留新的评价条件；当前不宣称已经找到最少背景、人类语义模块或跨任务机制迁移方法。
+下一步应在任务能力足够的网络中选择更早的非线性块，保留当前门控基线、最快局部精确基线和完整成本口径，再检验选择的额外价值。该比较需要留出新的评价条件。
 
 完整的原始设想—数学—算法—实验讲解见 [从原始设想到当前实验](从原始设想到当前实验_2026-09-11.md)。证据入口：[协议](../runs/fashion_structure_20260911/protocol.json)、[测试前冻结](../runs/fashion_structure_20260911/freeze.json)、[全部汇总](../runs/fashion_structure_20260911/analysis/summary.csv)、[核验](../runs/fashion_structure_20260911/analysis/verification.json)。
 """
@@ -230,7 +214,6 @@ GAP 测试均值 **{gap_accuracy:.2f}%**，原 CNN 为 **{cnn_accuracy:.2f}%**�
         methods_explained="reports/从原始设想到当前实验_2026-09-11.md",
         next_steps=["evaluate response-aware selection beyond activity/gate controls in a task-competent nonlinear architecture",
                     "study input-specific background uncertainty with genuinely reserved evaluation conditions"])
-    # 把结构化配置或结果落盘，供后续阶段核验和报告读取。
     (BASE / "RESEARCH_STATUS.json").write_text(json.dumps(state,ensure_ascii=False,indent=2),encoding="utf-8")
     readme_path=BASE / "README.md"
     readme=readme_path.read_text(encoding="utf-8")
@@ -247,5 +230,4 @@ GAP 测试均值 **{gap_accuracy:.2f}%**，原 CNN 为 **{cnn_accuracy:.2f}%**�
     readme_path.write_text(readme,encoding="utf-8")
 
 
-# 只有直接运行本文件时才触发这个入口；作为模块导入时不会执行此分支。
 if __name__=="__main__":main()

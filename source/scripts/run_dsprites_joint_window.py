@@ -1,4 +1,4 @@
-"""同面板联合必要性恢复：协议→几何搜索冻结→整图输出；不训练不增加图像。"""
+"""按阈值余量搜索联合必要的上游干预，再运行完整网络测量输出。"""
 from __future__ import annotations
 import argparse
 import json
@@ -36,7 +36,7 @@ def verify_protocol():
 
 
 def verify_folder(folder):
-    """已完成目录只验证，不重新写入。"""
+    """校验已完成阶段的文件清单。"""
     for name, digest in teacher.read(folder/'completion.json')['files'].items(): assert teacher.sha(folder/name) == digest
 
 

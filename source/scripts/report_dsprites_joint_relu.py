@@ -221,7 +221,6 @@ def make_figures(tables):
     axes[0].legend(title='Teacher seed suffix', ncol=3, fontsize=8, loc='upper left')
     fig.suptitle('Actual output effects of frozen gate lists | pooled fixed source masks\nAmplitude and direction are different measurements')
     save(fig, 'output')
-    # 全坐标普查只描述完整强度分布；它不重新决定任何干预名单。
     fig, axes = plt.subplots(1, 2, figsize=(11, 4.3), layout='constrained')
     for ax, mask in zip(axes, MASKS):
         for alpha, offset, color in ((.5, -.2, '#156082'), (1., .2, '#E97132')):

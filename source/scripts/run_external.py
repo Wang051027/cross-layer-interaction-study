@@ -1,8 +1,4 @@
-# 中文阅读说明｜用途：调度原六教师外部数据实验：初始化、开发、计时、冻结与测试。
-# 数据流：命令行 --stage 选择阶段；依赖前序模型和协议，不能在已完成目录随意重跑。
-# 阅读副本仅增加 # 注释，保留原语句、公式、参数和文档字符串。
-# 原研究目录的冻结源码未改；需要哈希核验的历史流程仍使用原目录。
-"""Stage-gated six-seed Fashion-MNIST experiment; never tune on official test."""
+"""Train and evaluate six Fashion-MNIST models using the frozen development split and test protocol."""
 from __future__ import annotations
 import argparse
 import platform
@@ -24,14 +20,10 @@ SOURCES = ["scripts/external_experiment.py", "scripts/run_external.py", "scripts
     "upstream/CAT_MT_phase7_v0.7/code/acquire_fashion.py"]
 
 
-# 用途：建立新的实验目录并保存数据、模型配置及源码的可核对协议。
-# 参数：run；具体形状/来源结合调用处及下方关键步骤阅读。
-# 返回：结果通过文件、打印或对象/运行环境状态更新体现；没有显式 return。
 def initialize(run):
     run.mkdir(parents=True, exist_ok=False)
     original = read_json(UPSTREAM / "protocol/external_protocol.json")
     assert original["teacher"]["seeds"] == SEEDS
-    # 核对内容承诺；注释版的文件字节会变化，原冻结实验应使用原研究目录。
     assert sha(UPSTREAM / "protocol/external_protocol.json") == "d88eb0fc980282b53fda7807f246f2442b4ac7a05c98faaf38a53f32e850b1a8"
     old = read_json(PILOT / "pilot_protocol.json")
     assert all(sha(BASE / "scripts" / name)==value for name,value in old["code_sha256"].items())
@@ -92,9 +84,7 @@ def initialize(run):
     event(run,"execution_protocol_locked",sha256=sha(run / "execution_protocol.json"),first_teacher_sha256=summary["checkpoint_sha256"])
 
 
-# 用途：核对协议、源码及依赖文件的原始哈希，确认执行条件未被更换。
-# 参数：run；具体形状/来源结合调用处及下方关键步骤阅读。
-# 返回：protocol。
+# 核对协议、源码及依赖文件的原始哈希，确认执行条件未被更换。
 def verify_protocol(run):
     protocol = read_json(run / "execution_protocol.json")
     assert sha(run / "execution_protocol.json")==(run / "execution_protocol.sha256").read_text().strip()
@@ -106,9 +96,7 @@ def verify_protocol(run):
     return protocol
 
 
-# 用途：读取固定的训练数据及划分索引，供开发阶段使用。
-# 参数：无显式入参；使用本模块已配置的环境或文件。
-# 返回：(np.load(DATA / 'official_train_images.npy', mmap_mode='r', allow_pickle=False), np.loa…。
+# 读取固定的训练数据及划分索引，供开发阶段使用。
 def train_data():
     return (np.load(DATA / "official_train_images.npy",mmap_mode="r",allow_pickle=False),
             np.load(DATA / "official_train_labels.npy",mmap_mode="r",allow_pickle=False),
@@ -116,9 +104,7 @@ def train_data():
             np.load(DATA / "context_indices.npz",allow_pickle=False))
 
 
-# 用途：仅利用该阶段规定的训练/验证输入完成模型或方法开发并保存选择。
-# 参数：run、protocol、first_only；具体形状/来源结合调用处及下方关键步骤阅读。
-# 返回：结果通过文件、打印或对象/运行环境状态更新体现；没有显式 return。
+# 仅利用该阶段规定的训练/验证输入完成模型或方法开发并保存选择。
 def development(run, protocol, first_only=False):
     assert not (run / "test_opened.json").exists(), "No development after test is opened"
     x,y,indices,contexts = train_data()
@@ -130,22 +116,17 @@ def development(run, protocol, first_only=False):
     event(run,"development_stage_complete",seeds=SEEDS[:1] if first_only else SEEDS,official_test_model_access=False)
 
 
-# 用途：在统一设备、线程、查询量和输入下测量各方法，区分准备与查询开销。
-# 参数：run；具体形状/来源结合调用处及下方关键步骤阅读。
-# 返回：结果通过文件、打印或对象/运行环境状态更新体现；没有显式 return。
+# 在统一设备、线程、查询量和输入下测量各方法，区分准备与查询开销。
 def timing(run):
     assert not (run / "test_opened.json").exists()
     x,_,_,contexts = train_data()
-    # 逐个教师处理同一套设置；跨教师统计与一张图像内部的组合数量要分开。
     for seed in SEEDS:
         assert (run / f"seed_{seed}/development_complete.json").exists()
         benchmark_seed(run,seed,x,contexts)
     event(run,"all_timing_completed",seeds=SEEDS,official_test_model_access=False)
 
 
-# 用途：把开发阶段选定的模型、方法、预算与相关文件写入测试前冻结记录。
-# 参数：run；具体形状/来源结合调用处及下方关键步骤阅读。
-# 返回：结果通过文件、打印或对象/运行环境状态更新体现；没有显式 return。
+# 把开发阶段选定的模型、方法、预算与相关文件写入测试前冻结记录。
 def freeze(run):
     assert not (run / "test_opened.json").exists()
     if (run / "frozen_before_test.json").exists():
@@ -167,9 +148,7 @@ def freeze(run):
     event(run,"all_artifacts_frozen_before_test",sha256=sha(run / "frozen_before_test.json"),choices=choices)
 
 
-# 用途：核对最终冻结清单，确保模型、拟合参数和实验选择没有在测试后改变。
-# 参数：run；具体形状/来源结合调用处及下方关键步骤阅读。
-# 返回：lock。
+# 核对最终冻结清单，确保模型、拟合参数和实验选择没有在测试后改变。
 def verify_freeze(run):
     assert sha(run / "frozen_before_test.json")==(run / "frozen_before_test.sha256").read_text().strip()
     lock = read_json(run / "frozen_before_test.json")
@@ -180,9 +159,7 @@ def verify_freeze(run):
     return lock
 
 
-# 用途：在冻结教师上批量计算官方测试分类表现，仅记录评价结果。
-# 参数：directory、images、labels；具体形状/来源结合调用处及下方关键步骤阅读。
-# 返回：(logits, dict(accuracy=float((logits.argmax(1) == labels).mean()), cross_entropy=float(…。
+# 在冻结教师上批量计算官方测试分类表现，仅记录评价结果。
 def classify(directory, images, labels):
     model = make_teacher("fashion").eval()
     model.load_state_dict(torch.load(directory / "teacher.pt",weights_only=True,map_location="cpu"))
@@ -196,9 +173,7 @@ def classify(directory, images, labels):
     return logits,dict(accuracy=float((logits.argmax(1)==labels).mean()),cross_entropy=float(loss),n=len(labels),backend="CPU float32")
 
 
-# 用途：核验冻结状态后处理预留测试输入，保存预测、原网络参考及评分。
-# 参数：run；具体形状/来源结合调用处及下方关键步骤阅读。
-# 返回：结果通过文件、打印或对象/运行环境状态更新体现；没有显式 return。
+# 核验冻结状态后处理预留测试输入，保存预测、原网络参考及评分。
 def test(run):
     lock = verify_freeze(run)
     out = run / "test"
@@ -224,7 +199,6 @@ def test(run):
             classification = read_json(out / f"classification_{seed}.json")
         else:
             logits,classification = classify(directory,images,labels)
-            # 保存具名数值数组，便于后来按同一索引回读和独立复算。
             np.savez_compressed(out / f"classification_{seed}.npz",logits=logits,labels=labels)
             classification.update(seed=seed,used_for_selection=False)
             dump(out / f"classification_{seed}.json",classification)
@@ -291,11 +265,8 @@ def test(run):
     event(run,"official_test_completed",seeds=SEEDS,full_tail_intervened_outputs=6*2*2*256*256)
 
 
-# 用途：调度原六教师外部数据实验：初始化、开发、计时、冻结与测试。
-# 参数：无显式入参；使用本模块已配置的环境或文件。
-# 返回：None。
+# 调度原六教师外部数据实验：初始化、开发、计时、冻结与测试。
 def main():
-    # 解析运行阶段/路径等命令行参数；具体允许的阶段由 choices 或分派逻辑限定。
     parser=argparse.ArgumentParser()
     parser.add_argument("--stage",choices=("init","pilot32","development","timing","freeze","test"),required=True)
     parser.add_argument("--run-dir",type=Path,default=DEFAULT_RUN)
@@ -314,5 +285,4 @@ def main():
     elif args.stage=="test":test(run)
 
 
-# 只有直接运行本文件时才触发这个入口；作为模块导入时不会执行此分支。
 if __name__=="__main__":main()

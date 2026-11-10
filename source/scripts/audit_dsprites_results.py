@@ -1,9 +1,4 @@
-"""独立回读 dSprites 原始输出，重算交互/中介分数，并检查冻结与历史完整性。
-
-不调用被审计的 project、contrasts、finite_scores 或 metric_arrays。
-用显式差分矩阵与类别投影矩阵计算相同量，避免只核对文件能否打开。
-本脚本是结果后处理，不参与训练、选择或实验规则制定。
-"""
+"""从 dSprites 的逐例输出重算中介评分。用差分矩阵和类别投影矩阵核对交互量。"""
 import itertools
 import json
 from pathlib import Path
@@ -40,7 +35,7 @@ def interactions(raw,labels,mode,contrast):
 
 
 def check(name,actual,expected,maxima,tolerance=1e-10):
-    """所有数值检查保留最大绝对差，不使用过宽的相对容差掩盖小信号。"""
+    """记录各项数值核验的最大绝对差。"""
     error=float(np.max(np.abs(np.asarray(actual)-np.asarray(expected))))
     maxima[name]=max(maxima.get(name,0.),error)
     assert error<tolerance,(name,error,tolerance)
@@ -73,7 +68,7 @@ def audit():
     """核查每个教师/设置，生成独立审计记录；失败立即停止。"""
     verify_all()
     maxima={};contrast,meta,stencil=matrix();summary=read(RUN/'summary.json')
-    # 像素平移是人为派生的配对对照；不能把父图潜变量当作新的官方行。
+    # 派生平移图与其官方原图共用因素标签。
     base=np.load(DATA/'evaluation_images.npy');moved=np.load(DATA/'translated_images.npy')
     assert np.array_equal(base[:,:,:-4],moved[:,:,4:])
     assert not moved[:,:,:4].any() and np.array_equal(base.sum((1,2)),moved.sum((1,2)))
@@ -103,7 +98,7 @@ def audit():
                 expected=np.mean(natural**2,(-2,-1))[:,None]-.5*(
                     np.mean(single[:,:,0]**2,(-2,-1))+np.mean((single[:,:,1]-natural[:,None])**2,(-2,-1)))
                 check('finite_'+stage+'_'+mode,a['finite_scores'][:,ti],expected,maxima)
-        # 全部 144×44 方案的名单与冻结分数一致，尾部补位不能参与干预。
+        # 核对 144×44 份名单的有效坐标，跳过尾部填充。
         specs=read(RUN/'input_selection'/f'seed_{seed}'/'specs.json')
         short=selected['shortlist'];pool=selected['pool']
         for i,label in enumerate(selected['labels']):

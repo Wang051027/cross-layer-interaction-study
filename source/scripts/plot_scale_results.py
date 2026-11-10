@@ -1,7 +1,3 @@
-# 中文阅读说明｜用途：绘制不同源坐标规模、位置和精确回退策略的已有结果。
-# 数据流：输入规模/位置阶段统计文件；输出误差与成本图。
-# 阅读副本仅增加 # 注释，保留原语句、公式、参数和文档字符串。
-# 原研究目录的冻结源码未改；需要哈希核验的历史流程仍使用原目录。
 """Scientific figure from completed, frozen evaluation and timing records."""
 from pathlib import Path
 import os
@@ -15,9 +11,7 @@ matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 
 
-# 用途：绘制不同源坐标规模、位置和精确回退策略的已有结果。
-# 参数：无显式入参；使用本模块已配置的环境或文件。
-# 返回：结果通过文件、打印或对象/运行环境状态更新体现；没有显式 return。
+# 绘制不同源坐标规模、位置和精确回退策略的已有结果。
 def main():
     data=json.loads((BASE/"audit/scale_interpretation_20260914.json").read_text(encoding="utf-8"))
     sizes=[4,8,12]
@@ -77,5 +71,4 @@ def main():
     plt.close(fig)
 
 
-# 只有直接运行本文件时才触发这个入口；作为模块导入时不会执行此分支。
 if __name__=="__main__":main()

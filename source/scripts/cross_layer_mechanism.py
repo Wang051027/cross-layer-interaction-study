@@ -1,9 +1,4 @@
-"""跨层交互的逐层计算、固定门控分解与中介恢复/移植。
-
-源点为 block1 的完整输出；block2/block3 的主分支和旁路均自然传播。
-这里用原始、未融合的冻结网络取得参考。分解是代数诊断，不等于唯一因果路径。
-所有模型计算均为评价模式；本文件不训练权重，也不自行读测试数据。
-"""
+"""从 block1 注入组合干预，沿 block2 和 block3 的卷积及残差支路分解响应，并测量中介恢复与移植。"""
 from __future__ import annotations
 import itertools
 import numpy as np
@@ -67,7 +62,7 @@ def trace(model, altered):
     b2, b3 = model.block2, model.block3
     z21 = b2.bn1(b2.conv1(altered))
     h21 = F.relu(z21)
-    # block2 是降采样块，旁路为 Conv+BN；不能固定为未干预值。
+    # block2 的降采样旁路对干预后的输入执行 Conv 和 BN。
     z22 = b2.bn2(b2.conv2(h21)) + b2.shortcut(altered)
     h22 = F.relu(z22)
     z31 = b3.bn1(b3.conv1(h22))
@@ -210,15 +205,11 @@ def patch_outputs(model, middle, selections, chunk=128):
 
 @torch.no_grad()
 def reachable_middle(model, nodes, device):
-    """用连接拓扑界定 block2 输出候选池；不按测试响应或当前 ReLU 符号筛选。
-
-    卷积权重非零的位置视为可能连接。两条残差路径取并集，包含所有结构
-    可达坐标；这是保守支持集，不声称每个坐标在当前图上都会产生效应。
-    """
+    """沿非零卷积权重传播源坐标，合并卷积与残差支路的可达位置，得到 block2 候选池。"""
     basis = torch.zeros((1, 16, 28, 28), dtype=torch.float64, device=device)
     basis.flatten()[nodes] = 1
     def support_conv(conv, x):
-        """传播可能受影响的支持集，不读取当前输入的门控。"""
+        """沿非零卷积核传播可达位置掩码。"""
         return (F.conv2d(x, (conv.weight != 0).to(x.dtype), None,
                         conv.stride, conv.padding, conv.dilation, conv.groups) > 0).to(x.dtype)
     block = model.block2

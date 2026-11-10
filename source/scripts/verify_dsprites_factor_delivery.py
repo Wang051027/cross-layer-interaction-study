@@ -1,8 +1,4 @@
-"""只读核验本轮交付；不查询模型，不重写报告，也不更改审计记录。
-
-默认核对全部新证据和源码快照。--deep-inputs另外核对原源码及实验输入，
-包括约3GB官方像素数组；最新进度入口可以更新，其历史副本由清单保护。
-"""
+"""核对因素迁移实验的清单和代码快照。--deep-inputs 额外检查原始输入和源码哈希。"""
 from pathlib import Path
 import argparse
 import hashlib
@@ -13,7 +9,7 @@ RUN = BASE / 'runs/dsprites_factor_transfer_20261007'
 
 
 def sha(path):
-    """固定内存开销流式读取，不加载大数组到内存。"""
+    """分块读取文件并计算 SHA-256。"""
     value = hashlib.sha256()
     with Path(path).open('rb') as stream:
         for block in iter(lambda: stream.read(8 * 1024 * 1024), b''):

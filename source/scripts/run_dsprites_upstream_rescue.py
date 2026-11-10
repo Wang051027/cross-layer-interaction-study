@@ -93,7 +93,7 @@ def init():
 
 
 def sources_for(model, panel, device):
-    """只复用已冻结36图，不读取其他图像或标签。"""
+    """提取冻结面板中 36 张图的源层激活。"""
     with torch.no_grad():
         pixels = torch.as_tensor(panel['images'][:, None], device=device, dtype=torch.float64)
         return torch.cat([model.block1(model.stem(x)) for x in pixels.split(16)])

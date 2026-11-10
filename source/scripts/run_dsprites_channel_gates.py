@@ -1,8 +1,4 @@
-"""通道配对与ReLU定位：init → discover → seal → evaluate → summarize。
-
-继承10月10日状态梯度8通道名单，主比较固定半强度排名第一的通道对。
-半强度坐标与两个随机对照封存后，全强度不重新选择。原四轮交付只读。
-"""
+"""在八通道名单中按半强度效应选取通道对和开关位置，再与两组随机名单一起评价全强度响应。"""
 from __future__ import annotations
 
 import argparse
@@ -53,7 +49,7 @@ def verify_protocol():
 
 
 def initialize(device):
-    """保全旧836个文件条目，明确本轮使用已见面板定位机制，不宣称新泛化。"""
+    """核验前序文件，并记录本轮配对、选点规则和开关干预协议。"""
     assert not RUN.exists(),'Preserve existing run';preservation={}
     for old in OLDER:
         manifest=BASE/f'runs/{old}/delivery_manifest.json';record=teacher.read(manifest)

@@ -1,4 +1,4 @@
-"""固定上轮所有名单，独立运行A0/A1×R0/R1；不扩大输入，不训练。"""
+"""在冻结通道名单上交叉组合 A0、A1 和 R0、R1，运行四种干预。"""
 from __future__ import annotations
 import argparse
 import json
@@ -45,7 +45,7 @@ def verify_protocol():
 
 
 def verify_folder(folder):
-    """完成目录只核验，不重新生成。"""
+    """校验已完成阶段的文件清单。"""
     for name, digest in teacher.read(folder/'completion.json')['files'].items(): assert teacher.sha(folder/name) == digest
 
 

@@ -1,7 +1,3 @@
-# 中文阅读说明｜用途：执行 Fashion-MNIST 首个教师的训练、验证干预和初步方法比较。
-# 数据流：读取固定划分与原数值模块；产生首轮模型、预测及报告所需表格。
-# 阅读副本仅增加 # 注释，保留原语句、公式、参数和文档字符串。
-# 原研究目录的冻结源码未改；需要哈希核验的历史流程仍使用原目录。
 """First fixed teacher, train/validation feasibility only; no official test access.
 
 This implements the previously frozen architecture/training settings. Execution
@@ -26,24 +22,14 @@ from research_runtime import (BASE, UPSTREAM, Fit, LocalModule, HeadRuntime, mak
 from threadpoolctl import threadpool_limits
 
 
-# 用途：对文件字节计算 SHA-256，用于发现数据、源码或检查点是否改变。
-# 参数：path；具体形状/来源结合调用处及下方关键步骤阅读。
-# 返回：hashlib.sha256(path.read_bytes()).hexdigest()。
 def sha(path):
     return hashlib.sha256(path.read_bytes()).hexdigest()
 
 
-# 用途：把结构化记录序列化为 JSON 并写到指定路径。
-# 参数：path、value；具体形状/来源结合调用处及下方关键步骤阅读。
-# 返回：结果通过文件、打印或对象/运行环境状态更新体现；没有显式 return。
 def dump(path, value):
-    # 把结构化配置或结果落盘，供后续阶段核验和报告读取。
     path.write_text(json.dumps(value,indent=2,allow_nan=False),encoding="utf-8")
 
 
-# 用途：追加带时间的执行事件，记录阶段进度及已完成的结果。
-# 参数：output、kind、**kwargs；具体形状/来源结合调用处及下方关键步骤阅读。
-# 返回：结果通过文件、打印或对象/运行环境状态更新体现；没有显式 return。
 def event(output, kind, **kwargs):
     value = dict(utc=datetime.now(timezone.utc).isoformat(),event=kind,**kwargs)
     with (output / "events.jsonl").open("a",encoding="utf-8") as f:
@@ -51,17 +37,12 @@ def event(output, kind, **kwargs):
     print(json.dumps(value),flush=True)
 
 
-# 用途：用统一字段顺序写出多行 CSV 记录。
-# 参数：path、rows；具体形状/来源结合调用处及下方关键步骤阅读。
-# 返回：结果通过文件、打印或对象/运行环境状态更新体现；没有显式 return。
 def write_csv(path, rows):
     with path.open("w",encoding="utf-8",newline="") as f:
         writer=csv.DictWriter(f,fieldnames=list(rows[0]));writer.writeheader();writer.writerows(rows)
 
 
-# 用途：在 eval/no_grad 模式批量计算验证交叉熵与准确率，用于选择检查点。
-# 参数：model、x、y；具体形状/来源结合调用处及下方关键步骤阅读。
-# 返回：(float(loss.item() / len(x)), float(correct.item() / len(x)))。
+# 在 eval/no_grad 模式批量计算验证交叉熵与准确率，用于选择检查点。
 def teacher_validation(model, x, y):
     model.eval()
     loss = torch.zeros((),device=x.device)
@@ -75,9 +56,7 @@ def teacher_validation(model, x, y):
     return float(loss.item()/len(x)), float(correct.item()/len(x))
 
 
-# 用途：训练首个 Fashion-MNIST 教师并按验证表现保存检查点。
-# 参数：output、x、y、indices、protocol；具体形状/来源结合调用处及下方关键步骤阅读。
-# 返回：结果通过文件、打印或对象/运行环境状态更新体现；没有显式 return。
+# 训练首个 Fashion-MNIST 教师并按验证表现保存检查点。
 def train(output, x, y, indices, protocol):
     config=protocol["teacher"]
     seed=config["seeds"][0]
@@ -105,7 +84,6 @@ def train(output, x, y, indices, protocol):
         for begin in range(0,len(xt),config["batch"]):
             ix=order[begin:begin+config["batch"]]
             optimizer.zero_grad(set_to_none=True)
-            # 这里才会计算训练梯度并更新模型；后续干预阶段固定模型权重。
             loss=F.cross_entropy(model(xt[ix]),yt[ix]);loss.backward();optimizer.step()
             total += loss.detach()*len(ix)
         val_loss,val_accuracy=teacher_validation(model,xv,yv)
@@ -115,7 +93,6 @@ def train(output, x, y, indices, protocol):
         if val_loss < best_loss:
             best_loss=val_loss;best_epoch=epoch;stale=0
             state={key:value.detach().cpu().clone() for key,value in model.state_dict().items()}
-            # 把当前选中的模型参数保存为检查点，后续干预从该固定权重载入。
             torch.save(state,output / "teacher_seed_202609071.pt")
         else:
             stale+=1
@@ -135,9 +112,7 @@ def train(output, x, y, indices, protocol):
     torch.cuda.empty_cache()
 
 
-# 用途：在固定空间窗口内按训练样本的平均激活选择源坐标，保持并列时的索引顺序。
-# 参数：sources、q；具体形状/来源结合调用处及下方关键步骤阅读。
-# 返回：central[np.argsort(-means[central], kind='stable')[:q]]。
+# 在固定空间窗口内按训练样本的平均激活选择源坐标，保持并列时的索引顺序。
 def choose_nodes(sources,q):
     _, channels, height, width=sources.shape
     ids=np.arange(channels*height*width).reshape(channels,height,width)
@@ -146,9 +121,7 @@ def choose_nodes(sources,q):
     return central[np.argsort(-means[central],kind="stable")[:q]]
 
 
-# 用途：用固定训练/验证上下文拟合局部方法，保存预测、原尾部参考与评分。
-# 参数：output、x、contexts、protocol；具体形状/来源结合调用处及下方关键步骤阅读。
-# 返回：结果通过文件、打印或对象/运行环境状态更新体现；没有显式 return。
+# 用固定训练/验证上下文拟合局部方法，保存预测、原尾部参考与评分。
 def evaluate(output,x,contexts,protocol):
     model=make_teacher("fashion").double().eval()
     model.load_state_dict(torch.load(output / "teacher_seed_202609071.pt",weights_only=True,map_location="cpu"))
@@ -171,7 +144,6 @@ def evaluate(output,x,contexts,protocol):
         fit_start=time.perf_counter()
         fit=fit_module(mod,tc,bits[low],202609071+layer*101)
         fit_seconds=time.perf_counter()-fit_start
-        # 保存具名数值数组，便于后来按同一索引回读和独立复算。
         np.savez_compressed(output / f"background_fit_L{layer}.npz",**fit.__dict__,nodes=nodes,layer=layer)
         event(output,"selector_frozen",layer=layer,nodes=nodes.tolist(),fit_seconds=fit_seconds,
               training_contexts=len(tc),fit_sha256=sha(output / f"background_fit_L{layer}.npz"))
@@ -231,11 +203,8 @@ def evaluate(output,x,contexts,protocol):
          scope="first external task train/validation feasibility; not six-seed external test result"))
 
 
-# 用途：执行 Fashion-MNIST 首个教师的训练、验证干预和初步方法比较。
-# 参数：无显式入参；使用本模块已配置的环境或文件。
-# 返回：结果通过文件、打印或对象/运行环境状态更新体现；没有显式 return。
+# 执行 Fashion-MNIST 首个教师的训练、验证干预和初步方法比较。
 def main():
-    # 解析运行阶段/路径等命令行参数；具体允许的阶段由 choices 或分派逻辑限定。
     ap=argparse.ArgumentParser();ap.add_argument("--stage",choices=("all","evaluate"),default="all");args=ap.parse_args()
     output=BASE / "runs/fashion_pilot_20260910"
     data=BASE / "data/fashion_mnist/prepared"
@@ -277,6 +246,5 @@ def main():
     evaluate(output,x,contexts,protocol)
 
 
-# 只有直接运行本文件时才触发这个入口；作为模块导入时不会执行此分支。
 if __name__=="__main__":
     main()

@@ -12,6 +12,7 @@ import shutil
 import subprocess
 import sys
 from uuid import uuid4
+from zipfile import ZipFile
 
 from check_repository import main as check_release
 
@@ -57,15 +58,20 @@ def prepare(work):
     for name in ("scripts", "upstream"):
         shutil.copytree(ROOT / "source" / name, base / name,
                         ignore=shutil.ignore_patterns("__pycache__", "*.pyc"))
-    # 公布的阅读副本中有一个模型定义文件增加过注释，复跑使用原始冻结字节。
-    shutil.copytree(BUNDLE / "original_source", base, dirs_exist_ok=True)
+    protocol = read(REFERENCE / "protocol.json")
+    with ZipFile(BUNDLE / "protocol_sources.zip") as frozen:
+        if sorted(frozen.namelist()) != sorted(protocol["source"]):
+            raise ValueError("Source archive differs from the protocol file list")
+        for name in protocol["source"]:
+            if name != f"scripts/{Path(name).name}" or not name.endswith(".py"):
+                raise ValueError(f"Invalid source path in protocol: {name}")
+            (base / name).write_bytes(frozen.read(name))
     shutil.copytree(BUNDLE / "runs", base / "runs")
     (base / "reports").mkdir()
     shutil.copyfile(REFERENCE / "source/CURRENT_RESEARCH.md", base / "CURRENT_RESEARCH.md")
     run = base / "runs" / EXPERIMENT
     run.mkdir()
     shutil.copyfile(REFERENCE / "design.json", run / "design.json")
-    protocol = read(REFERENCE / "protocol.json")
     for path, expected in {**protocol["source"], **protocol["inputs"]}.items():
         if digest(base / path) != expected:
             raise ValueError(f"Original protocol hash differs: {path}")

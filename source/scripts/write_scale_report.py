@@ -1,7 +1,3 @@
-# 中文阅读说明｜用途：组织规模/位置变化、近似接受率及精确回退结果的中文报告。
-# 数据流：按明确设置取数并格式化；会写历史报告及根目录状态。
-# 阅读副本仅增加 # 注释，保留原语句、公式、参数和文档字符串。
-# 原研究目录的冻结源码未改；需要哈希核验的历史流程仍使用原目录。
 """Presentation-only Chinese report and project-status update."""
 from pathlib import Path
 from datetime import datetime,timezone
@@ -14,23 +10,15 @@ RUN=BASE/"runs/fashion_scale_20260914"
 LABEL={"center":"中心","upper_left":"左上"}
 
 
-# 用途：读取本函数指定的记录文件，返回解析后的对象；JSON/CSV 形式见函数体。
-# 参数：p；具体形状/来源结合调用处及下方关键步骤阅读。
-# 返回：json.loads(p.read_text(encoding='utf-8'))。
 def read(p):
     return json.loads(p.read_text(encoding="utf-8"))
 
 
-# 用途：读取保存的表格记录；不在这里重新运行实验。
-# 参数：p；具体形状/来源结合调用处及下方关键步骤阅读。
-# 返回：list(csv.DictReader(f))。
 def rows(p):
     with p.open(encoding="utf-8",newline="") as f:return list(csv.DictReader(f))
 
 
-# 用途：组织规模/位置变化、近似接受率及精确回退结果的中文报告。
-# 参数：无显式入参；使用本模块已配置的环境或文件。
-# 返回：结果通过文件、打印或对象/运行环境状态更新体现；没有显式 return。
+# 组织规模/位置变化、近似接受率及精确回退结果的中文报告。
 def main():
     data=read(BASE/"audit/scale_interpretation_20260914.json")
     done=read(RUN/"test/completion.json")
@@ -38,31 +26,21 @@ def main():
     protocol=read(RUN/"protocol.json")
     assert data["status"]=="passed" and verification["status"]=="passed"
     conditions=[(p,q) for p in LABEL for q in (4,8,12)]
-    # 用途：从规模/位置结果中取出指定方法和强度的记录。
-    # 参数：pos、q、m、f、alpha；具体形状/来源结合调用处及下方关键步骤阅读。
-    # 返回：next((r for r in data['summaries'] if r['position'] == pos and int(r['q']) == q and (r[…。
+    # 从规模/位置结果中取出指定方法和强度的记录。
     def metric(pos,q,m,f,alpha=1.):
         return next(r for r in data["summaries"] if r["position"]==pos and int(r["q"])==q and r["method"]==m
                     and float(r["fraction"])==f and float(r["alpha"])==alpha)
-    # 用途：取当前设置的报告数值，供统一格式化与文字插入。
-    # 参数：pos、q、m、f、alpha；具体形状/来源结合调用处及下方关键步骤阅读。
-    # 返回：100 * float(metric(pos, q, m, f, alpha)['nrmse_mean'])。
+    # 取当前设置的报告数值，供统一格式化与文字插入。
     def value(pos,q,m,f,alpha=1.):
         return 100*float(metric(pos,q,m,f,alpha)["nrmse_mean"])
-    # 用途：把结果记录格式化为可读的表格单元，缺失值按本报告规则展示。
-    # 参数：pos、q、m、f、alpha；具体形状/来源结合调用处及下方关键步骤阅读。
-    # 返回：f"{100 * float(r['nrmse_mean']):.2f} ± {100 * float(r['nrmse_sd']):.2f}"。
+    # 把结果记录格式化为可读的表格单元，缺失值按本报告规则展示。
     def cell(pos,q,m,f,alpha=1.):
         r=metric(pos,q,m,f,alpha)
         return f"{100*float(r['nrmse_mean']):.2f} ± {100*float(r['nrmse_sd']):.2f}"
-    # 用途：查询所指定位置、规模与强度的上界/回退统计。
-    # 参数：pos、q、alpha；具体形状/来源结合调用处及下方关键步骤阅读。
-    # 返回：next((r for r in data['bound_summary'] if r['position'] == pos and r['q'] == q and (r['…。
+    # 查询所指定位置、规模与强度的上界/回退统计。
     def bound(pos,q,alpha=1.):
         return next(r for r in data["bound_summary"] if r["position"]==pos and r["q"]==q and r["alpha"]==alpha)
-    # 用途：按工作场景和查询集合读取已有加速比，避免混用不同计时口径。
-    # 参数：pos、q、m、workload、query_set；具体形状/来源结合调用处及下方关键步骤阅读。
-    # 返回：next((r for r in data['timing'] if r['position'] == pos and r['q'] == q and (r['method'…。
+    # 按工作场景和查询集合读取已有加速比，避免混用不同计时口径。
     def speed(pos,q,m,workload="from_image",query_set="evaluation"):
         return next(r for r in data["timing"] if r["position"]==pos and r["q"]==q and r["method"]==m
                     and r["query_set"]==query_set and r["workload"]==workload)
@@ -253,7 +231,6 @@ q=12 不是 4096 组合的完整测试。扩大 q 同时改变了可干预坐标
         external_official_test_batches=4,calibration_model_access=False,
         next_steps=["freeze and benchmark exact corrections only at states that may switch over the source-subset interval",
                     "extend beyond the final residual branch with explicit multi-layer nonlinear background accounting"])
-    # 把结构化配置或结果落盘，供后续阶段核验和报告读取。
     (BASE/"RESEARCH_STATUS.json").write_text(json.dumps(state,ensure_ascii=False,indent=2),encoding="utf-8")
     readme=BASE/"README.md";text=readme.read_text(encoding="utf-8")
     marker="<!-- SCALE_LATEST -->";end="<!-- END_SCALE_LATEST -->"
@@ -303,5 +280,4 @@ q=12 不是 4096 组合的完整测试。扩大 q 同时改变了可干预坐标
     story.write_text(text,encoding="utf-8")
 
 
-# 只有直接运行本文件时才触发这个入口；作为模块导入时不会执行此分支。
 if __name__=="__main__":main()

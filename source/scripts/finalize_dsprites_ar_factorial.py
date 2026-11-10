@@ -1,4 +1,4 @@
-"""封存A/R四格实验，不修改九份历史交付。"""
+"""生成基准 A 与组合残差 R 四种干预状态的文件清单。"""
 from __future__ import annotations
 import json
 import shutil

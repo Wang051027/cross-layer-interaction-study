@@ -1,7 +1,3 @@
-# 中文阅读说明｜用途：汇总可翻转状态筛选的准确性、全流程成本和补充全组合验证。
-# 数据流：读取 switch 阶段结果；生成表格、图和报告，明确区分复用验证与新增参考。
-# 阅读副本仅增加 # 注释，保留原语句、公式、参数和文档字符串。
-# 原研究目录的冻结源码未改；需要哈希核验的历史流程仍使用原目录。
 """Presentation derived only from completed exact-switch experiment records."""
 from pathlib import Path
 from collections import defaultdict
@@ -21,38 +17,25 @@ POSITIONS = ("center", "upper_left")
 LABELS = dict(center="中心", upper_left="左上")
 
 
-# 用途：读取本函数指定的记录文件，返回解析后的对象；JSON/CSV 形式见函数体。
-# 参数：path；具体形状/来源结合调用处及下方关键步骤阅读。
-# 返回：json.loads(path.read_text(encoding='utf-8'))。
 def read(path):
     return json.loads(path.read_text(encoding="utf-8"))
 
 
-# 用途：读取保存的表格记录；不在这里重新运行实验。
-# 参数：path；具体形状/来源结合调用处及下方关键步骤阅读。
-# 返回：list(csv.DictReader(stream))。
 def rows(path):
     with path.open(encoding="utf-8",newline="") as stream:
         return list(csv.DictReader(stream))
 
 
-# 用途：把已经生成的报告或记录文本写到指定路径。
-# 参数：path、value；具体形状/来源结合调用处及下方关键步骤阅读。
-# 返回：结果通过文件、打印或对象/运行环境状态更新体现；没有显式 return。
+# 把已经生成的报告或记录文本写到指定路径。
 def write(path, value):
     path.write_text(value,encoding="utf-8")
 
 
-# 用途：计算或格式化报告所需统计量，具体尺度和百分比转换在函数体中完成。
-# 参数：values；具体形状/来源结合调用处及下方关键步骤阅读。
-# 返回：(float(np.mean(values)), float(np.std(values, ddof=1)))。
 def stats(values):
     return float(np.mean(values)), float(np.std(values,ddof=1))
 
 
-# 用途：按设置汇总已有误差与成本；模型种子与输入的层级在函数体中明确处理。
-# 参数：无显式入参；使用本模块已配置的环境或文件。
-# 返回：结果通过文件、打印或对象/运行环境状态更新体现；没有显式 return。
+# 按模型和输入汇总误差与计算成本。
 def summarize():
     numerical = rows(RUN/"analysis/results.csv")
     groups = defaultdict(list)
@@ -116,16 +99,11 @@ def summarize():
     print(json.dumps(dict(status="summarized",accuracy_groups=len(accuracy),timing_groups=len(timing),screen_groups=len(screen_summary))))
 
 
-# 用途：按当前报告固定条件筛选记录，供图表使用。
-# 参数：records、**labels；具体形状/来源结合调用处及下方关键步骤阅读。
-# 返回：next((r for r in records if all((str(r[k]) == str(v) for k, v in labels.items()))))。
+# 按当前报告固定条件筛选记录，供图表使用。
 def select(records, **labels):
     return next(r for r in records if all(str(r[k]) == str(v) for k,v in labels.items()))
 
 
-# 用途：根据已保存汇总绘制图像，不重新选择模型或生成参考答案。
-# 参数：无显式入参；使用本模块已配置的环境或文件。
-# 返回：结果通过文件、打印或对象/运行环境状态更新体现；没有显式 return。
 def plot():
     os.environ["MPLCONFIGDIR"] = str(BASE/"runs/residual_figure_cache")
     import matplotlib
@@ -169,26 +147,18 @@ def plot():
     print(json.dumps(dict(status="plotted")))
 
 
-# 用途：把表头和数据行组织为报告表格；Word/Markdown 的输出形式由本文件决定。
-# 参数：headers、values；具体形状/来源结合调用处及下方关键步骤阅读。
-# 返回：'| ' + ' | '.join(headers) + ' |\n| ' + ' | '.join(['---'] * len(headers)) + ' |\n' + '…。
+# 把表头和数据行组织为报告表格；Word/Markdown 的输出形式由本文件决定。
 def table(headers, values):
     return "| "+" | ".join(headers)+" |\n| "+" | ".join(["---"]*len(headers))+" |\n"+"\n".join("| "+" | ".join(map(str,row))+" |" for row in values)
 
 
-# 用途：把已有结果填入中文报告，保留该阶段实验范围与限制。
-# 参数：无显式入参；使用本模块已配置的环境或文件。
-# 返回：结果通过文件、打印或对象/运行环境状态更新体现；没有显式 return。
+# 把已有结果填入中文报告，保留该阶段实验范围与限制。
 def report():
     d = read(AUDIT)
-    # 用途：在统一设备、线程、查询量和输入下测量各方法，区分准备与查询开销。
-    # 参数：position、q、query_set、workload、method；具体形状/来源结合调用处及下方关键步骤阅读。
-    # 返回：select(d['timing'], position=position, q=q, query_set=query_set, workload=workload, met…。
+    # 在统一设备、线程、查询量和输入下测量各方法，区分准备与查询开销。
     def timing(position,q,query_set="evaluation",workload="from_image",method="switch_exact"):
         return select(d["timing"],position=position,q=q,query_set=query_set,workload=workload,method=method)
-    # 用途：按阶段和干预设置读取准确性汇总，区分验证与测试记录。
-    # 参数：position、q、method、alpha、phase；具体形状/来源结合调用处及下方关键步骤阅读。
-    # 返回：select(d['accuracy'], position=position, q=q, method=method, alpha=alpha, phase=phase)。
+    # 按阶段和干预设置读取准确性汇总，区分验证与测试记录。
     def acc(position,q,method="switch_exact",alpha=1.,phase="test"):
         return select(d["accuracy"],position=position,q=q,method=method,alpha=alpha,phase=phase)
     exact_max = max(r["max_abs"] for r in d["accuracy"] if r["method"] == "switch_exact")
@@ -436,7 +406,7 @@ S₊、S₋、C 与 M 都依赖当前图片及被允许变化的源集合。换�
 <!-- SWITCH_ACCESS -->
 9 月 14 日固定可翻转状态筛选的协议与数值实现，9 月 17 日完成全部验证。复用六个残差教师及前轮 36 组源坐标，没有重训、方法拟合或新分类评估。128 个开发上下文复用既有独立参考；q=12 在每教师、位置的前四个验证输入上另遍历全部 4096 组合，两种强度共 393,216 个新参考向量。
 
-冻结 {len(freeze['artifacts'])} 个开发文件后，开启第五批组合干预索引 **896–1023**。128 张图像与前四批不重叠，产生 1,864,704 个原始未融合网络参考向量。q=4／8 全枚举，q=12 仍使用原固定 335 组合，新批次不宣称逐图遍历全部 4096 组合。预测和筛选上下文在新参考生成前保存。624 组预测指标与独立 NumPy 算式核验通过。
+冻结 {len(freeze['artifacts'])} 个开发文件后，开启第五批组合干预索引 **896–1023**。128 张图像与前四批不重叠，产生 1,864,704 个原始未融合网络参考向量。q=4／8 全枚举，q=12 仍使用原固定 335 组合。预测和筛选上下文在新参考生成前保存。624 组预测指标与独立 NumPy 算式核验通过。
 
 项目仍有 18 个独立训练教师，五批累计 120 个实验设置；本轮 36 个设置复用旧教师，补充完整组合检查也使用旧验证输入，不作为新的独立样本集。5000 张校准图仍未用于模型评价。官方分类池已有访问，全部批次仍来自同一数据集，均按描述性后续诊断报告。详见 [本轮报告](../../reports/{REPORT}) 与 [测试前冻结](../../runs/fashion_switch_20260914/freeze.json)。
 """
@@ -476,9 +446,7 @@ S₊、S₋、C 与 M 都依赖当前图片及被允许变化的源集合。换�
     print(json.dumps(dict(status="reported",report=REPORT),ensure_ascii=True))
 
 
-# 只有直接运行本文件时才触发这个入口；作为模块导入时不会执行此分支。
 if __name__ == "__main__":
-    # 解析运行阶段/路径等命令行参数；具体允许的阶段由 choices 或分派逻辑限定。
     parser = argparse.ArgumentParser()
     parser.add_argument("--stage",required=True,choices=("summarize","plot","report"))
     globals()[parser.parse_args().stage]()

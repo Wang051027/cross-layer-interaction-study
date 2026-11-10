@@ -1,8 +1,4 @@
-"""三阶前置核验：手算多项式、阈值抵消和旧开发图原网络正向。
-
-不读取本轮定位面板或结果。原block3.forward采用where门控覆盖，
-不复用新尾部修补函数；自动微分核对第一层传播权重。
-"""
+"""在手算多项式、阈值抵消例子和开发图上核对三阶差分，用自动微分复核第一层传播权重。"""
 from __future__ import annotations
 
 import dsprites_teacher as teacher

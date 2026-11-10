@@ -187,7 +187,7 @@ def verify_freeze(name):
 
 
 def select_inputs(device):
-    """只运行新输入的半强度干预以选出中介，不读取完整强度的任何输出。"""
+    """用半强度干预响应选择各输入的中介。"""
     verify_freeze('fixed_freeze')
     assert not (RUN/'evaluation_opened.json').exists()
     assert not (RUN/'adaptive_freeze.json').exists()

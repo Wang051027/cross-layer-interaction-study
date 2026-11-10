@@ -1,9 +1,4 @@
-"""从已有冻结阶段接续 dSprites 评估，或在全新目录中启动训练阶段。
-
-不删除、不覆盖旧结果。--continue 等待正在执行的开发阶段提交六个完成标志，
-随后依次冻结、逐图选点、冻结、评价、汇总和独立核验。每步退出失败即停止。
---train-safe 仅修正初版训练器最后一条日志的 UTC 重名问题，模型计算完全不变。
-"""
+"""接续 dSprites 的训练、选点、冻结、评价与核验。train-safe 将训练完成时间写入独立日志字段。"""
 from pathlib import Path
 import argparse,subprocess,sys,time
 import dsprites_teacher as teacher
@@ -28,7 +23,7 @@ def execute(script,*arguments):
 
 
 def continue_evaluation():
-    """接续当前已启动的开发进程；等待上限 45 分钟，不读取中间未完成数组。"""
+    """等待开发阶段的六个完成标志，最长 45 分钟，然后接续评价。"""
     deadline=time.monotonic()+2700
     while not all((teacher.RUN/'development'/f'seed_{s}'/'completion.json').exists() for s in teacher.SEEDS):
         if time.monotonic()>deadline:raise TimeoutError('Development did not complete; preserve partial artifacts and inspect logs')

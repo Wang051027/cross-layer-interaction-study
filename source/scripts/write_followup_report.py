@@ -1,7 +1,3 @@
-# 中文阅读说明｜用途：生成首轮导入复核和 Fashion-MNIST 验证阶段的历史报告。
-# 数据流：输入复核、成本及首教师结果；执行时会写旧版首页和状态。
-# 阅读副本仅增加 # 注释，保留原语句、公式、参数和文档字符串。
-# 原研究目录的冻结源码未改；需要哈希核验的历史流程仍使用原目录。
 """Build the handoff from saved, actually executed results."""
 from __future__ import annotations
 import csv
@@ -11,16 +7,12 @@ from pathlib import Path
 BASE=Path(__file__).resolve().parents[1]
 
 
-# 用途：读取 CSV 表格为记录列表，供报告查找和汇总。
-# 参数：path；具体形状/来源结合调用处及下方关键步骤阅读。
-# 返回：list(csv.DictReader(f))。
+# 读取 CSV 表格为记录列表，供报告查找和汇总。
 def read_csv(path):
     with path.open(encoding="utf-8",newline="") as f:return list(csv.DictReader(f))
 
 
-# 用途：生成首轮导入复核和 Fashion-MNIST 验证阶段的历史报告。
-# 参数：无显式入参；使用本模块已配置的环境或文件。
-# 返回：结果通过文件、打印或对象/运行环境状态更新体现；没有显式 return。
+# 生成首轮导入复核和 Fashion-MNIST 验证阶段的历史报告。
 def main():
     replay=BASE / "runs/upstream_replay_20260910_v2"
     timing=BASE / "runs/pca_cost_audit_20260910_v2"
@@ -34,14 +26,10 @@ def main():
     new=read_csv(pilot / "validation_results.csv")
     newtime=read_csv(pilot / "timing/timing_summary.csv")
     assert audit["status"]=="passed" and completed["status"]=="completed"
-    # 用途：提取原包对应数据集、层和方法的误差，供接续报告对照。
-    # 参数：ds、layer、method；具体形状/来源结合调用处及下方关键步骤阅读。
-    # 返回：100 * float(next((r for r in old if r['dataset'] == ds and r['layer'] == str(layer) and…。
+    # 提取原包对应数据集、层和方法的误差，供接续报告对照。
     def old_error(ds,layer,method):
         return 100*float(next(r for r in old if r["dataset"]==ds and r["layer"]==str(layer) and r["method"]==method)["nrmse_mean"])
-    # 用途：提取新增实验对应层、方法和预算的误差。
-    # 参数：layer、method、k；具体形状/来源结合调用处及下方关键步骤阅读。
-    # 返回：100 * float(next((r for r in new if r['layer'] == str(layer) and r['method'] == method …。
+    # 提取新增实验对应层、方法和预算的误差。
     def new_error(layer,method,k):
         return 100*float(next(r for r in new if r["layer"]==str(layer) and r["method"]==method and r["k"]==str(k) and r["alpha"]=="1.0")["nrmse"])
     old_table="\n".join(f"| {ds.title()} L{layer} | {old_error(ds,layer,'greedy'):.2f}% | {old_error(ds,layer,'weight'):.2f}% | {old_error(ds,layer,'pca_fused'):.2f}% |"
@@ -183,9 +171,7 @@ NRMSE 定义为 sqrt(所有被评分 logit 变化误差的平方和 / 对应真�
                original_primary_contrast_unchanged=True,
                next_steps=["budget 32 matched-cost controls on validation","remaining five locked teachers","frozen six-seed official test"],
                latest_report="reports/复核与首轮外部实验_2026-09-10.md")
-    # 把结构化配置或结果落盘，供后续阶段核验和报告读取。
     (BASE / "RESEARCH_STATUS.json").write_text(json.dumps(state,ensure_ascii=False,indent=2),encoding="utf-8")
 
 
-# 只有直接运行本文件时才触发这个入口；作为模块导入时不会执行此分支。
 if __name__=="__main__":main()

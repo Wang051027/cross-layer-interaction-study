@@ -31,7 +31,7 @@ CODE = ('scripts/gradient_mechanism.py', 'scripts/run_dsprites_gradient.py', 'sc
 
 
 def event(kind, **details):
-    """只写新运行日志；日志不供选择器读取。"""
+    """将阶段事件追加到运行日志。"""
     value = dict(utc=teacher.now(), event=kind, **details)
     with (RUN / 'events.jsonl').open('a', encoding='utf-8') as stream:
         stream.write(json.dumps(value, ensure_ascii=False) + '\n')
@@ -187,11 +187,7 @@ def load_panel(device):
 
 
 def select(device):
-    """半强度梯度预测和实际单点参照选点，尚不读取其他干预强度。
-
-    实际单点查询用于衡量预测准确度及input_finite参照，绝不回调梯度
-    预测规则。所有方法都使用同一候选名单，前九种方法预算均为16。
-    """
+    """在半强度下按梯度预测或实测单点收益选择中介。前九种方法共用候选名单和 16 个位置的预算。"""
     verify_protocol(); assert not (RUN / 'selection_freeze.json').exists()
     panel, images = load_panel(device); bits, stencil, metadata = mechanism.design()
     tensor_bits = torch.as_tensor(bits, dtype=torch.float64, device=device)

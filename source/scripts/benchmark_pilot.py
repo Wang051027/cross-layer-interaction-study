@@ -1,7 +1,3 @@
-# 中文阅读说明｜用途：对首个 Fashion-MNIST 教师做小规模成本测量，区分获取状态和查询开销。
-# 数据流：读取首轮教师与固定验证输入；保存不同预算、查询量下的时间和缓存统计。
-# 阅读副本仅增加 # 注释，保留原语句、公式、参数和文档字符串。
-# 原研究目录的冻结源码未改；需要哈希核验的历史流程仍使用原目录。
 """CPU cost diagnostic on four pilot validation images, after other jobs finish."""
 from __future__ import annotations
 import csv
@@ -15,17 +11,12 @@ from research_runtime import (BASE, Fit, LocalModule, HeadRuntime, make_teacher,
 from threadpoolctl import threadpool_limits
 
 
-# 用途：用统一字段顺序写出多行 CSV 记录。
-# 参数：path、rows；具体形状/来源结合调用处及下方关键步骤阅读。
-# 返回：结果通过文件、打印或对象/运行环境状态更新体现；没有显式 return。
 def write_csv(path,rows):
     with path.open("w",encoding="utf-8",newline="") as f:
         w=csv.DictWriter(f,fieldnames=list(rows[0]));w.writeheader();w.writerows(rows)
 
 
-# 用途：对首个 Fashion-MNIST 教师做小规模成本测量，区分获取状态和查询开销。
-# 参数：无显式入参；使用本模块已配置的环境或文件。
-# 返回：结果通过文件、打印或对象/运行环境状态更新体现；没有显式 return。
+# 对首个 Fashion-MNIST 教师做小规模成本测量，区分获取状态和查询开销。
 def main():
     torch.set_num_threads(1);torch.set_grad_enabled(False);threadpool_limits(1)
     run=BASE / "runs/fashion_pilot_20260910"
@@ -39,7 +30,6 @@ def main():
              method_order="randomized every round, RNG seed 20260910",
              code_sha256={name:hashlib.sha256((BASE / "scripts" / name).read_bytes()).hexdigest()
                           for name in ("benchmark_pilot.py","research_runtime.py")})
-    # 把结构化配置或结果落盘，供后续阶段核验和报告读取。
     (out / "protocol.json").write_text(json.dumps(cfg,indent=2),encoding="utf-8")
     data=BASE / "data/fashion_mnist/prepared"
     x=np.load(data / "official_train_images.npy",mmap_mode="r")
@@ -96,5 +86,4 @@ def main():
         prepare_equivalence_max_error=max_equivalence,scope="one teacher, four validation images; descriptive timing"),indent=2),encoding="utf-8")
 
 
-# 只有直接运行本文件时才触发这个入口；作为模块导入时不会执行此分支。
 if __name__=="__main__":main()

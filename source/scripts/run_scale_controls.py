@@ -1,7 +1,3 @@
-# 中文阅读说明｜用途：检查 4/8/12 源坐标和两个空间位置，比较近似方法及有上界的精确回退。
-# 数据流：普通 q=12 评价只含固定子集；完整 4096 组合是后续 switch 补充阶段的单独记录。
-# 阅读副本仅增加 # 注释，保留原语句、公式、参数和文档字符串。
-# 原研究目录的冻结源码未改；需要哈希核验的历史流程仍使用原目录。
 """Locked size/position follow-up; no prior numerical artifact is overwritten."""
 import argparse
 import hashlib
@@ -16,28 +12,21 @@ from prepare_external import load_idx
 RUN = NEW_RUN
 
 
-# 用途：以 SHA-256 标识文件内容，供历史承诺和当前文件逐项比较。
-# 参数：path；具体形状/来源结合调用处及下方关键步骤阅读。
-# 返回：hashlib.file_digest(stream, 'sha256').hexdigest()。
+# 以 SHA-256 标识文件内容，供历史承诺和当前文件逐项比较。
 def file_sha(path):
     with Path(path).open("rb") as stream:
         return hashlib.file_digest(stream, "sha256").hexdigest()
 
 
-# 用途：逐个验证清单中的文件路径与摘要，防止读取范围外或已被改写的文件。
-# 参数：root、values；具体形状/来源结合调用处及下方关键步骤阅读。
-# 返回：结果通过文件、打印或对象/运行环境状态更新体现；没有显式 return。
+# 逐个验证清单中的文件路径与摘要，防止读取范围外或已被改写的文件。
 def check_hashes(root, values):
     for name, expected in values.items():
         target = (root/name).resolve()
         assert target.is_relative_to(root.resolve())
-        # 核对内容承诺；注释版的文件字节会变化，原冻结实验应使用原研究目录。
         assert file_sha(target) == expected, name
 
 
-# 用途：创建该阶段的新运行目录，固定设计、输入索引和依赖文件哈希。
-# 参数：run；具体形状/来源结合调用处及下方关键步骤阅读。
-# 返回：结果通过文件、打印或对象/运行环境状态更新体现；没有显式 return。
+# 创建该阶段的新运行目录，固定设计、输入索引和依赖文件哈希。
 def init(run):
     verify_prior(PRIOR_RUN, True)
     run.mkdir(exist_ok=False)
@@ -85,7 +74,6 @@ def init(run):
     designs = {}
     for q in SIZES:
         train, evaluation, indices = query_design(q)
-        # 保存具名数值数组，便于后来按同一索引回读和独立复算。
         np.savez_compressed(run/f"design_q{q}.npz", train=train, evaluation=evaluation, full_mask_indices=indices)
         designs[str(q)] = dict(sha256=file_sha(run/f"design_q{q}.npz"),
             train=len(train), evaluation=len(evaluation), scored=int((evaluation.sum(1)>2).sum()),
@@ -97,9 +85,6 @@ def init(run):
     event(run, "scale_protocol_fixed", protocol_sha256=file_sha(run/"protocol.json"))
 
 
-# 用途：检查已保存的协议、输入、源码或冻结记录；验证失败就停止。
-# 参数：run、frozen；具体形状/来源结合调用处及下方关键步骤阅读。
-# 返回：protocol。
 def verify(run, frozen=False):
     protocol = read_json(run/"protocol.json")
     assert file_sha(run/"protocol.json") == (run/"protocol.sha256").read_text(encoding="ascii").strip()
@@ -125,17 +110,15 @@ def verify(run, frozen=False):
     return protocol
 
 
-# 用途：读取本设置保存的组合掩码；全枚举与低阶/抽样集合由参数区分。
-# 参数：run、q；具体形状/来源结合调用处及下方关键步骤阅读。
-# 返回：(f['train'].copy(), f['evaluation'].copy())。
+# 读取本设置保存的组合掩码；全枚举与低阶/抽样集合由参数区分。
 def design(run, q):
     with np.load(run/f"design_q{q}.npz", allow_pickle=False) as f:
         return f["train"].copy(), f["evaluation"].copy()
 
 
-# 用途：用原始未融合教师尾部逐组合生成独立参考。
-# 输入：sources/residuals 为原始中间状态；nodes 为源索引；bits 为本设置查询矩阵。
-# 输出：返回按强度索引的 [图像,组合,10] 数组；参考采用 CUDA float64。
+# 用原始未融合教师尾部逐组合生成独立参考。
+# sources/residuals 为原始中间状态；nodes 为源索引；bits 为本设置查询矩阵。
+# 返回按强度索引的 [图像,组合,10] 数组；参考采用 CUDA float64。
 @torch.no_grad()
 def independent_reference(model, sources, residuals, nodes, bits):
     values = {}
@@ -156,9 +139,6 @@ def independent_reference(model, sources, residuals, nodes, bits):
     return values
 
 
-# 用途：用规模较小且有可比较答案的情形检查实现，数值不一致时立即停止。
-# 参数：run；具体形状/来源结合调用处及下方关键步骤阅读。
-# 返回：结果通过文件、打印或对象/运行环境状态更新体现；没有显式 return。
 def smoke(run):
     verify(run)
     assert not (run/"smoke.json").exists() and not (run/"implementation.json").exists()
@@ -226,9 +206,7 @@ def smoke(run):
     event(run,"scale_smoke_passed",max_error=max(errors.values()))
 
 
-# 用途：在小规模检查通过后保存实现副本和哈希，固定后续运行使用的代码。
-# 参数：run；具体形状/来源结合调用处及下方关键步骤阅读。
-# 返回：结果通过文件、打印或对象/运行环境状态更新体现；没有显式 return。
+# 在小规模检查通过后保存实现副本和哈希，固定后续运行使用的代码。
 def lock(run):
     verify(run)
     assert read_json(run/"smoke.json")["status"]=="passed"
@@ -245,9 +223,7 @@ def lock(run):
     event(run,"scale_implementation_locked",sha256=file_sha(run/"implementation.json"))
 
 
-# 用途：在一个教师/位置/源规模设置中运行固定方法，记录误差、上界判定和参考承诺。
-# 参数：run、seed、position、q、model、gpu、sources、residuals、ids、fit、nodes、out、phase；具体形状/来源结合调用处及下方关键步骤阅读。
-# 返回：results。
+# 在一个教师/位置/源规模设置中运行固定方法，记录误差、上界判定和参考承诺。
 def run_case(run, seed, position, q, model, gpu, sources, residuals, ids, fit, nodes, out, phase):
     assert not out.exists(), f"Preserve partial case before retry: {out}"
     out.mkdir(parents=True)
@@ -340,9 +316,7 @@ def run_case(run, seed, position, q, model, gpu, sources, residuals, ids, fit, n
     return results
 
 
-# 用途：对固定的开发输入拟合或检查方法，保存测试前需要的参数和结果。
-# 参数：run；具体形状/来源结合调用处及下方关键步骤阅读。
-# 返回：结果通过文件、打印或对象/运行环境状态更新体现；没有显式 return。
+# 对固定的开发输入拟合或检查方法，保存测试前需要的参数和结果。
 def develop(run):
     verify(run)
     assert (run/"implementation.json").exists() and not (run/"test_opened.json").exists()
@@ -350,7 +324,6 @@ def develop(run):
     images,train_ids,val_ids=training_data()
     train_x=torch.tensor(normalized(images[train_ids]),dtype=torch.float64)
     val_x=torch.tensor(normalized(images[val_ids]),dtype=torch.float64)
-    # 逐个教师处理同一套设置；跨教师统计与一张图像内部的组合数量要分开。
     for seed in SEEDS:
         model=load_teacher(PRIOR_RUN/f"seed_{seed}")
         gpu=load_teacher(PRIOR_RUN/f"seed_{seed}",device="cuda")
@@ -384,9 +357,7 @@ def develop(run):
     event(run,"scale_development_complete",cases=36)
 
 
-# 用途：在统一设备、线程、查询量和输入下测量各方法，区分准备与查询开销。
-# 参数：run；具体形状/来源结合调用处及下方关键步骤阅读。
-# 返回：结果通过文件、打印或对象/运行环境状态更新体现；没有显式 return。
+# 在统一设备、线程、查询量和输入下测量各方法，区分准备与查询开销。
 def timing(run):
     verify(run)
     assert (run/"development_complete.json").exists() and not (run/"test_opened.json").exists()
@@ -413,9 +384,7 @@ def timing(run):
                     common=local.states(sources[i:i+1],residuals[i:i+1])
                     cached={name:rt.cached(common) for name,rt in runtimes.items()}
                     if i==0:
-                        # 用途：递归遍历缓存中的张量，供外层按底层存储去重并统计字节数。
-                        # 参数：value；具体形状/来源结合调用处及下方关键步骤阅读。
-                        # 返回：逐次生成 value / 逐次生成 tensors(item)。
+                        # 递归遍历缓存中的张量，供外层按底层存储去重并统计字节数。
                         def tensors(value):
                             if isinstance(value,torch.Tensor):
                                 yield value
@@ -439,9 +408,6 @@ def timing(run):
                                 if workload=="cached":
                                     functions[name]=lambda name=name,rt=rt:rt.evaluate(cached[name],bt)
                                 else:
-                                    # 用途：构造当前运行时的一次实际执行，供计时循环调用。
-                                    # 参数：rt；具体形状/来源结合调用处及下方关键步骤阅读。
-                                    # 返回：rt.evaluate(rt.prepare(s, r), bt)。
                                     def fn(rt=rt):
                                         s,r=model.prefix(x[i:i+1])
                                         return rt.evaluate(rt.prepare(s,r),bt)
@@ -484,9 +450,7 @@ def timing(run):
     event(run,"scale_timing_complete",rows=len(raw))
 
 
-# 用途：把开发阶段选定的模型、方法、预算与相关文件写入测试前冻结记录。
-# 参数：run；具体形状/来源结合调用处及下方关键步骤阅读。
-# 返回：结果通过文件、打印或对象/运行环境状态更新体现；没有显式 return。
+# 把开发阶段选定的模型、方法、预算与相关文件写入测试前冻结记录。
 def freeze(run):
     verify(run)
     assert not (run/"freeze.json").exists() and not (run/"test_opened.json").exists()
@@ -502,9 +466,7 @@ def freeze(run):
     event(run,"scale_frozen",artifacts=len(files),sha256=file_sha(run/"freeze.json"))
 
 
-# 用途：核验冻结状态后处理预留测试输入，保存预测、原网络参考及评分。
-# 参数：run；具体形状/来源结合调用处及下方关键步骤阅读。
-# 返回：结果通过文件、打印或对象/运行环境状态更新体现；没有显式 return。
+# 核验冻结状态后处理预留测试输入，保存预测、原网络参考及评分。
 def test(run):
     verify(run,True)
     assert not (run/"test/completion.json").exists()
@@ -547,9 +509,6 @@ def test(run):
     event(run,"scale_test_complete",cases=len(completed))
 
 
-# 用途：回读已保存数组重新评分并汇总，核对结果与既有记录的一致性。
-# 参数：run；具体形状/来源结合调用处及下方关键步骤阅读。
-# 返回：结果通过文件、打印或对象/运行环境状态更新体现；没有显式 return。
 def analyze(run):
     verify(run,True)
     assert read_json(run/"test/completion.json")["status"]=="completed"
@@ -628,11 +587,8 @@ def analyze(run):
     event(run,"scale_analysis_complete",arrays=dict(counts),max_nrmse_difference=maximum)
 
 
-# 用途：检查 4/8/12 源坐标和两个空间位置，比较近似方法及有上界的精确回退。
-# 参数：无显式入参；使用本模块已配置的环境或文件。
-# 返回：结果通过文件、打印或对象/运行环境状态更新体现；没有显式 return。
+# 检查 4/8/12 源坐标和两个空间位置，比较近似方法及有上界的精确回退。
 def main():
-    # 解析运行阶段/路径等命令行参数；具体允许的阶段由 choices 或分派逻辑限定。
     parser=argparse.ArgumentParser()
     parser.add_argument("--stage",required=True,choices=("init","smoke","lock","develop","timing","freeze","test","analyze"))
     args=parser.parse_args()
@@ -646,6 +602,5 @@ def main():
         raise
 
 
-# 只有直接运行本文件时才触发这个入口；作为模块导入时不会执行此分支。
 if __name__=="__main__":
     main()

@@ -31,7 +31,7 @@ def table(name,rows):
 
 
 def analyze():
-    """逐项恒等式与完整控制核验后汇总；不以效果大小删失败案例。"""
+    """逐项核对恒等式并汇总所有案例和对照。"""
     assert not (RUN/'analysis.json').exists();p=verify_protocol();verify_selection();panel=load(SHAPE/'panel/data.npz')
     pairs=[];blocks=[];points=[];channels=[];residual_points=[];residual_channels=[];summaries=[];maxerr=0.
     for record in p['cohort']:
@@ -45,7 +45,7 @@ def analyze():
             pairs.append(dict(**key,C=json.dumps(record['C']),point=record['point'],F_off=float(f0),F_on=float(f1),C_effect=float(total),convolution_only=float(conv),skip_only=float(skip),branch_interaction=float(interaction),convolution_given_skip=float(f1-route[0,1]),skip_given_convolution=float(f1-route[1,0]),branch_opposition=bool(conv*skip<0 and abs(conv)>1e-8 and abs(skip)>1e-8)))
             for layer in range(2):
                 cmds=commands(s,layer,record['point']);scores=s['point_effect'][layer];change=s['delta_activation'][layer];switch=s['switched'][layer];active=abs(change)>1e-10
-                # 位置表只列五个效应/开关名单前64的并集及原j，不冒充完整空间表。
+                # 位置表取五份名单各自的前 64 项与原 j 的并集。
                 candidate=set([record['point']] if layer==0 else [])
                 for order in (0,3,4,5,6):candidate.update(int(x) for x in s['orders'][layer,order,:64] if x>=0)
                 for point in sorted(candidate):
@@ -99,7 +99,7 @@ def analyze():
             for command in report_methods:
                 group=[r for r in summaries if r['context']==ctx and r['layer']==layer and r['command']==command and r['cohort']=='primary26' and r['count']>0]
                 sample=next(r for r in blocks if r['context']==ctx and r['layer']==layer and r['command']==command)
-                # special的实际预算随案例变化，不能把首个控制案例的数量当汇总预算。
+                # special 的实际预算按案例统计。
                 actual=[r['spent_units'] for r in blocks if r['primary'] and r['context']==ctx and r['layer']==layer and r['command']==command]
                 rec=dict(context=ctx,layer=layer,command=command,kind=sample['kind'],order=sample['order'],budget=sample['budget'] if sample['kind']!='special' else None,
                     spent_min=min(actual),spent_max=max(actual),teachers=len(group),records=sum(r['count'] for r in group))

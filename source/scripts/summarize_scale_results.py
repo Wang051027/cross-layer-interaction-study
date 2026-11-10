@@ -1,7 +1,3 @@
-# 中文阅读说明｜用途：按教师、规模、位置和强度汇总规模对照的已保存结果。
-# 数据流：输入逐设置 CSV/JSON；输出报告用汇总，不把不同组合当作独立教师。
-# 阅读副本仅增加 # 注释，保留原语句、公式、参数和文档字符串。
-# 原研究目录的冻结源码未改；需要哈希核验的历史流程仍使用原目录。
 """Descriptive synthesis and shared-validation consistency audit; no selection."""
 from pathlib import Path
 from datetime import datetime, timezone
@@ -17,23 +13,15 @@ PRIOR=BASE/"runs/fashion_residual_20260913"
 SEEDS=list(range(202609071,202609077))
 
 
-# 用途：读取本函数指定的记录文件，返回解析后的对象；JSON/CSV 形式见函数体。
-# 参数：p；具体形状/来源结合调用处及下方关键步骤阅读。
-# 返回：json.loads(p.read_text(encoding='utf-8'))。
 def read(p):
     return json.loads(p.read_text(encoding="utf-8"))
 
 
-# 用途：读取保存的表格记录；不在这里重新运行实验。
-# 参数：p；具体形状/来源结合调用处及下方关键步骤阅读。
-# 返回：list(csv.DictReader(f))。
 def rows(p):
     with p.open(encoding="utf-8",newline="") as f:return list(csv.DictReader(f))
 
 
-# 用途：按教师、规模、位置和强度汇总规模对照的已保存结果。
-# 参数：无显式入参；使用本模块已配置的环境或文件。
-# 返回：结果通过文件、打印或对象/运行环境状态更新体现；没有显式 return。
+# 按教师、规模、位置和强度汇总规模对照的已保存结果。
 def main():
     assert read(RUN/"analysis/verification.json")["status"]=="passed"
     summary=rows(RUN/"analysis/summary.csv")
@@ -42,7 +30,6 @@ def main():
     timing=rows(RUN/"timing/summary.csv")
     exact=rows(RUN/"timing/fastest_exact.csv")
     bound_seeds=[]
-    # 逐个教师处理同一套设置；跨教师统计与一张图像内部的组合数量要分开。
     for seed in SEEDS:
         for position in ("center","upper_left"):
             for q in (4,8,12):
@@ -124,7 +111,6 @@ def main():
         summaries=summary,bound_seeds=bound_seeds,bound_summary=bound_summary,
         timing=timing_values,paired=contrasts,
         calibration_model_access=False,new_confirmatory_p_values=0)
-    # 把结构化配置或结果落盘，供后续阶段核验和报告读取。
     (BASE/"audit/scale_interpretation_20260914.json").write_text(json.dumps(out,ensure_ascii=False,indent=2),encoding="utf-8")
     primary=[r for r in summary if r["alpha"]=="1.0" and ((r["fraction"]=="0.25" and r["method"] in ("greedy","gate_weight","pca_fused")) or r["method"] in ("affine_fused","bounded_affine"))]
     print(json.dumps(dict(shared_replay=out["shared_validation_replay"],primary=primary,
@@ -133,5 +119,4 @@ def main():
                 and r["workload"]=="from_image"]),ensure_ascii=True))
 
 
-# 只有直接运行本文件时才触发这个入口；作为模块导入时不会执行此分支。
 if __name__=="__main__":main()

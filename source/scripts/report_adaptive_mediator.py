@@ -29,7 +29,7 @@ METRICS=('restore_ratio','transplant_error_ratio','joint_loss')
 
 
 def read(path):
-    """读取冻结结果；不调用模型，也不重新选择中介。"""
+    """读取中介选择和修补指标。"""
     return json.loads(path.read_text(encoding='utf-8'))
 
 
@@ -125,7 +125,6 @@ def main():
          for m in ('input_gradient','input_finite')])
     numeric=max(max(read(RUN/'evaluation'/f'seed_{seed}'/f'alpha_{alpha}'/'checks.json')['errors'].values())
                 for seed in range(202609071,202609077) for alpha in (1.,.5))
-    # 正文和交付索引在下一段定义；不把任何结论写回数值实验文件。
     report=build_report(primary_table,contrast_table,control_table,capacity_table,dose_table,
                         seed_table,overlap_table,numeric,audit)
     REPORT.write_text(report,encoding='utf-8')
@@ -189,7 +188,7 @@ def build_report(primary_table,contrast_table,control_table,capacity_table,dose_
 
 从全部576–640个结构可达点中逐图按梯度选16个，平均恢复剩余71.43%、移植误差72.81%，比在64名单里做逐图实际评分还低。说明共同64名单可能排除了对部分输入有用的点；不能据本轮64名单内的比较宣布实际评分全面优于梯度方法。
 
-上一轮原固定名单在这批新图上的恢复/移植指标为86.42%/87.70%。这才是本批次内的历史方法参照，不能直接从上一轮87.73%/89.55%的不同图像均值相减来宣称改进。
+上一轮原固定名单在这批新图上的恢复/移植指标为86.42%/87.70%。本批次按同一组图像比较两种方法。上一批图像的对应均值为87.73%/89.55%。
 
 ## 较大集合参照不等于理论上界
 
@@ -231,7 +230,7 @@ Jaccard=交集数/并集数。集合重合较低只描述排序与选择的变�
 - 完美、无效、有害中介评分和零交互控制通过；新单点修补与原网络钩子、旧梯度特征实现核对通过。
 - 全部评价图的逐层恒等式、全可达池端点以及半强度重放检查通过，最大差{numeric:.3e}。
 - 独立回读核验{audit['finite_scores_verified']:,}个有限评分、{audit['selected_sets_verified']:,}个选择集合、456条教师方法汇总和29,184条逐输入记录；共{audit['scalar_comparisons']:,}项数值比较。教师比率最大差{audit['max_absolute_differences']['teacher_ratios']:.3e}，逐输入绝对量最大差{audit['max_absolute_differences']['input_primitives']:.3e}。
-- 比率分母小于等于10⁻⁹时置空；核验逐输入比率使用已独立核验的保存分子分母。没有以逐输入巨大比率冒充稳定效应。
+- 比率分母小于等于10⁻⁹时置空；核验逐输入比率使用已独立核验的保存分子分母。
 - 保存1,572,864个单坐标修补向量用于开发/逐图选择、933,888个成组修补评价向量。它们不是独立样本。实际评分需要额外修补查询，本轮不主张同计算预算下的速度优势。
 - 原跨层交付90个文件和更早交付136个文件，合计226个文件保持原哈希。
 

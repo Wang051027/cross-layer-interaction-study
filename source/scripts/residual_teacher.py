@@ -1,7 +1,3 @@
-# 中文阅读说明｜用途：定义并训练小型残差 CNN，按验证损失选择六个教师的检查点。
-# 数据流：训练阶段使用 CUDA；数据/配置由冻结协议提供，干预阶段载入后不更新权重。
-# 阅读副本仅增加 # 注释，保留原语句、公式、参数和文档字符串。
-# 原研究目录的冻结源码未改；需要哈希核验的历史流程仍使用原目录。
 """Small residual CNN and locked train/validation-only development stage."""
 from __future__ import annotations
 import argparse
@@ -18,12 +14,11 @@ from torch import nn
 RUN = BASE / "runs/fashion_residual_20260913"
 
 
-# 用途：两次卷积与 BatchNorm 的残差块；源干预位置位于第一次 ReLU 之后。
-# 结构：继承 nn.Module；成员字段和方法共同保存本阶段需要的状态。
+# 两次卷积与 BatchNorm 的残差块；源干预位置位于第一次 ReLU 之后。
 class ResidualBlock(nn.Module):
-    # 用途：定义块内两个卷积及旁路。
-    # 输入：cin/cout 是输入/输出通道数，stride 是第一次卷积的步长。
-    # 输出：通道或尺寸改变时，旁路用 1×1 卷积对齐；否则使用恒等映射。
+    # 定义块内两个卷积及旁路。
+    # cin/cout 是输入/输出通道数，stride 是第一次卷积的步长。
+    # 通道或尺寸改变时，旁路用 1×1 卷积对齐；否则使用恒等映射。
     def __init__(self, cin, cout, stride=1):
         super().__init__()
         self.conv1 = nn.Conv2d(cin, cout, 3, stride, 1, bias=False)
@@ -33,31 +28,25 @@ class ResidualBlock(nn.Module):
         self.shortcut = (nn.Identity() if cin == cout and stride == 1 else
                          nn.Sequential(nn.Conv2d(cin, cout, 1, stride, bias=False), nn.BatchNorm2d(cout)))
 
-    # 用途：执行块内第一次卷积、BatchNorm 和 ReLU。
-    # 输入：x[批次,输入通道,高,宽]；卷积步长由块的配置决定。
-    # 输出：返回该块内部的源激活；最后一个块中形状为 [批次,32,14,14]。
+    # 执行块内第一次卷积、BatchNorm 和 ReLU。
+    # x[批次,输入通道,高,宽]；卷积步长由块的配置决定。
+    # 返回该块内部的源激活；最后一个块中形状为 [批次,32,14,14]。
     def mid(self, x):
         return F.relu(self.bn1(self.conv1(x)))
 
-    # 用途：执行第二次卷积与 BatchNorm，加上原残差旁路后经过 ReLU。
-    # 输入：h 为第一次 ReLU 后的特征图；residual 为与输出形状相同的旁路张量。
-    # 输出：返回残差块输出特征图；干预实验中 residual 保持原值。
+    # 执行第二次卷积与 BatchNorm，加上原残差旁路后经过 ReLU。
+    # h 为第一次 ReLU 后的特征图；residual 为与输出形状相同的旁路张量。
+    # 返回残差块输出特征图；干预实验中 residual 保持原值。
     def finish(self, h, residual):
         return F.relu(self.bn2(self.conv2(h)) + residual)
 
-    # 用途：执行完整残差块，返回空间特征图；分类读出由外部 SmallResidualCNN 完成。
-    # 参数：x；具体形状/来源结合调用处及下方关键步骤阅读。
-    # 返回：self.finish(self.mid(x), self.shortcut(x))。
+    # 执行完整残差块，返回空间特征图；分类读出由外部 SmallResidualCNN 完成。
     def forward(self, x):
         return self.finish(self.mid(x), self.shortcut(x))
 
 
-# 用途：Fashion-MNIST 残差教师；prefix/tail 把干预点前后的计算明确拆开。
-# 结构：继承 nn.Module；成员字段和方法共同保存本阶段需要的状态。
+# Fashion-MNIST 残差教师；prefix/tail 把干预点前后的计算明确拆开。
 class SmallResidualCNN(nn.Module):
-    # 用途：建立对象所需的网络层、固定映射或配置。Fashion-MNIST 残差教师；prefix/tail 把干预点前后的计算明确拆开。
-    # 参数：无额外参数；读取或初始化对象状态。
-    # 返回：初始化对象字段，没有显式返回值。
     def __init__(self):
         super().__init__()
         self.stem = nn.Sequential(nn.Conv2d(1, 16, 3, padding=1, bias=False), nn.BatchNorm2d(16), nn.ReLU())
@@ -67,39 +56,31 @@ class SmallResidualCNN(nn.Module):
         self.block3 = ResidualBlock(32, 32)
         self.readout = nn.Linear(32, 10)
 
-    # 用途：执行图像到最后残差块内部干预点的前缀。
-    # 输入：x[批次,1,28,28] 为已归一化图像。
-    # 输出：返回 source 和 residual，二者均为 [批次,32,14,14]；后者是原旁路。
+    # 执行图像到最后残差块内部干预点的前缀。
+    # x[批次,1,28,28] 为已归一化图像。
+    # 返回 source 和 residual，二者均为 [批次,32,14,14]；后者是原旁路。
     def prefix(self, x):
         residual = self.block2(self.block1(self.stem(x)))
-        # 同时返回旁路原值，使之后的源干预不会悄悄改变残差分支。
+        # 同时返回残差旁路在干预前的值。
         return self.block3.mid(residual), residual
 
-    # 用途：从指定源激活继续执行残差块、空间均值和线性分类读出。
-    # 输入：source[批次,32,14,14]；residual 同形或沿批次广播。
-    # 输出：返回 [批次,10] logits；实验比较干预前后之差。
+    # 从指定源激活继续执行残差块、空间均值和线性分类读出。
+    # source[批次,32,14,14]；residual 同形或沿批次广播。
+    # 返回 [批次,10] logits；实验比较干预前后之差。
     def tail(self, source, residual):
         return self.readout(self.block3.finish(source, residual).mean((2, 3)))
 
-    # 用途：执行该网络的前向计算并返回分类 logits；训练时反向传播由外部训练循环控制。
-    # 参数：x；具体形状/来源结合调用处及下方关键步骤阅读。
-    # 返回：self.tail(*self.prefix(x))。
     def forward(self, x):
         return self.tail(*self.prefix(x))
 
 
-# 用途：载入已选中的残差教师，可转 float64 和指定设备；这里不训练。
-# 参数：directory、double、device；具体形状/来源结合调用处及下方关键步骤阅读。
-# 返回：(model.double() if double else model).to(device)。
+# 按种子加载残差模型，设置浮点精度和设备。
 def load_teacher(directory, double=True, device="cpu"):
     model = SmallResidualCNN().eval()
     model.load_state_dict(torch.load(directory / "teacher.pt", weights_only=True, map_location="cpu"))
     return (model.double() if double else model).to(device)
 
 
-# 用途：建立新的实验目录并保存数据、模型配置及源码的可核对协议。
-# 参数：run；具体形状/来源结合调用处及下方关键步骤阅读。
-# 返回：结果通过文件、打印或对象/运行环境状态更新体现；没有显式 return。
 def initialize(run):
     run.mkdir(parents=True, exist_ok=False)
     prior = read_json(BASE / "runs/fashion_structure_20260911/protocol.json")
@@ -150,12 +131,9 @@ def initialize(run):
     event(run,"residual_protocol_locked",sha256=sha(run / "protocol.json"))
 
 
-# 用途：核对协议、源码及依赖文件的原始哈希，确认执行条件未被更换。
-# 参数：run；具体形状/来源结合调用处及下方关键步骤阅读。
-# 返回：protocol。
+# 核对协议、源码及依赖文件的原始哈希，确认执行条件未被更换。
 def verify_protocol(run):
     protocol=read_json(run / "protocol.json")
-    # 核对内容承诺；注释版的文件字节会变化，原冻结实验应使用原研究目录。
     assert sha(run / "protocol.json")== (run / "protocol.sha256").read_text(encoding="ascii").strip()
     for name,value in protocol["sources"].items():
         assert sha(BASE/name)==value and sha(run / "source" / name)==value,name
@@ -166,9 +144,7 @@ def verify_protocol(run):
     return protocol
 
 
-# 用途：按六个种子训练 20 轮；每轮验证，按最低验证交叉熵保存检查点，不按测试表现选模型。
-# 参数：run；具体形状/来源结合调用处及下方关键步骤阅读。
-# 返回：结果通过文件、打印或对象/运行环境状态更新体现；没有显式 return。
+# 按六个种子训练 20 轮；每轮验证，按最低验证交叉熵保存检查点，不按测试表现选模型。
 def train(run):
     protocol=verify_protocol(run)
     assert not (run / "test_opened.json").exists()
@@ -181,7 +157,6 @@ def train(run):
     xv=torch.tensor(normalized(images[val_ids]),device="cuda",dtype=torch.float32)
     yv=torch.tensor(labels[val_ids],device="cuda",dtype=torch.long)
     cfg=protocol["teacher"]
-    # 逐个教师处理同一套设置；跨教师统计与一张图像内部的组合数量要分开。
     for seed in SEEDS:
         directory=run / f"seed_{seed}";directory.mkdir(exist_ok=True)
         if (directory / "teacher_summary.json").exists():
@@ -207,7 +182,6 @@ def train(run):
                 ix=order[offset:offset+cfg["batch"]]
                 optimizer.zero_grad(set_to_none=True)
                 # 分类交叉熵是教师学习/评价的任务损失，区别于后续干预响应的 NRMSE。
-                # 这里才会计算训练梯度并更新模型；后续干预阶段固定模型权重。
                 loss=F.cross_entropy(model(xt[ix]),yt[ix]);loss.backward();optimizer.step()
                 total+=loss.detach()*len(ix)
             ce,acc=teacher_validation(model,xv,yv)
@@ -217,7 +191,6 @@ def train(run):
             # 检查点选择依据验证交叉熵，不依据测试集或干预结果。
             if ce<best:
                 best,best_epoch=ce,epoch
-                # 把当前选中的模型参数保存为检查点，后续干预从该固定权重载入。
                 torch.save({k:v.detach().cpu().clone() for k,v in model.state_dict().items()},directory / "teacher.pt")
             dump(directory / "training_history.json",history)
             event(run,"residual_epoch",seed=seed,**row,best_epoch=best_epoch)
@@ -237,16 +210,12 @@ def train(run):
     event(run,"residual_training_complete",mean_accuracy=float(np.mean(accuracy)))
 
 
-# 用途：定义并训练小型残差 CNN，按验证损失选择六个教师的检查点。
-# 参数：无显式入参；使用本模块已配置的环境或文件。
-# 返回：结果通过文件、打印或对象/运行环境状态更新体现；没有显式 return。
+# 定义并训练小型残差 CNN，按验证损失选择六个教师的检查点。
 def main():
-    # 解析运行阶段/路径等命令行参数；具体允许的阶段由 choices 或分派逻辑限定。
     parser=argparse.ArgumentParser();parser.add_argument("--stage",choices=("init","train"),required=True)
     args=parser.parse_args();configure_cpu()
     if args.stage=="init":initialize(RUN)
     else:train(RUN)
 
 
-# 只有直接运行本文件时才触发这个入口；作为模块导入时不会执行此分支。
 if __name__=="__main__":main()

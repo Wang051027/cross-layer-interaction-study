@@ -1,12 +1,4 @@
-# 中文阅读说明｜用途：更新本轮报告入口，并建立交付文件的哈希清单；--check 为只读核验。
-# 数据流：输入已完成的分析、报告和核验记录；交付模式会更新 README、RUNBOOK 和状态文件。
-# 阅读副本仅增加 # 注释，保留原语句、公式、参数和文档字符串。
-# 原研究目录的冻结源码未改；需要哈希核验的历史流程仍使用原目录。
-"""Publish local navigation and hash the reviewed analysis artifacts.
-
---check only reads files. Numerical outputs and frozen analysis code are never
-modified by this delivery script; historical root metadata is preserved first.
-"""
+"""Build the joint-response results index and checksum manifest."""
 from pathlib import Path
 import argparse,ast,hashlib,json,re,shutil,struct
 from datetime import datetime,timezone
@@ -20,26 +12,15 @@ FIGURE=BASE/'reports/figures/joint_response_20260925.png'
 ADDED_SCRIPTS=['joint_response.py','test_joint_response.py','run_joint_response.py',
                'verify_joint_response.py','report_joint_response.py','finalize_joint_response.py']
 
-# 用途：读取本函数指定的记录文件，返回解析后的对象；JSON/CSV 形式见函数体。
-# 参数：path；具体形状/来源结合调用处及下方关键步骤阅读。
-# 返回：json.loads(path.read_text(encoding='utf-8'))。
 def read(path):return json.loads(path.read_text(encoding='utf-8'))
-# 用途：对文件字节计算 SHA-256，用于发现数据、源码或检查点是否改变。
-# 参数：path；具体形状/来源结合调用处及下方关键步骤阅读。
-# 返回：digest.hexdigest()。
 def sha(path):
     digest=hashlib.sha256()
     with path.open('rb') as stream:
         for block in iter(lambda:stream.read(1048576),b''):digest.update(block)
     return digest.hexdigest()
-# 用途：把结构化记录序列化为 JSON 并写到指定路径。
-# 参数：path、value；具体形状/来源结合调用处及下方关键步骤阅读。
-# 返回：结果通过文件、打印或对象/运行环境状态更新体现；没有显式 return。
 def dump(path,value):path.write_text(json.dumps(value,ensure_ascii=False,indent=2,allow_nan=False),encoding='utf-8')
 
-# 用途：检查报告引用、Python 语法和图像格式，防止交付路径或文件缺失。
-# 参数：无显式入参；使用本模块已配置的环境或文件。
-# 返回：count。
+# 检查报告引用、Python 语法和图像格式，防止交付路径或文件缺失。
 def report_checks():
     text=REPORT.read_text(encoding='utf-8')
     assert '{{' not in text and '\ufffd' not in text
@@ -56,14 +37,11 @@ def report_checks():
     assert struct.unpack('>II',head[16:24])==(2860,2200)
     return count
 
-# 用途：先验证结果，再备份旧状态、更新文档入口并生成交付哈希；仅适用于原完成目录。
-# 参数：无显式入参；使用本模块已配置的环境或文件。
-# 返回：结果通过文件、打印或对象/运行环境状态更新体现；没有显式 return。
+# 先验证结果，再备份旧状态、更新文档入口并生成交付哈希；仅适用于原完成目录。
 def finalize():
     if MANIFEST.exists():raise FileExistsError('Delivery already finalized; use --check')
     verify();links=report_checks()
     summary=read(RUN/'summary.json');audit=read(RUN/'independent_verification.json')
-    # 核对内容承诺；注释版的文件字节会变化，原冻结实验应使用原研究目录。
     assert audit['status']=='PASS' and audit['summary_sha256']==sha(RUN/'summary.json')
     assert audit['implementation_sha256']==sha(BASE/'scripts/verify_joint_response.py')
     saved=RUN/'delivery_before';saved.mkdir(exist_ok=True)
@@ -155,9 +133,7 @@ def finalize():
         source_input_files_preserved=148,new_model_evaluations=0,entries=entries))
     check()
 
-# 用途：只读回查最终清单、原输入和报告引用，文件变化时停止。
-# 参数：无显式入参；使用本模块已配置的环境或文件。
-# 返回：结果通过文件、打印或对象/运行环境状态更新体现；没有显式 return。
+# 只读回查最终清单、原输入和报告引用，文件变化时停止。
 def check():
     verify();links=report_checks();manifest=read(MANIFEST)
     for entry in manifest['entries']:
@@ -166,8 +142,6 @@ def check():
     print(json.dumps(dict(status='PASS',delivery_files=manifest['files'],local_report_links=links,
         immutable_input_files=148,manifest=str(MANIFEST)),ensure_ascii=False))
 
-# 只有直接运行本文件时才触发这个入口；作为模块导入时不会执行此分支。
 if __name__=='__main__':
-    # 解析运行阶段/路径等命令行参数；具体允许的阶段由 choices 或分派逻辑限定。
     parser=argparse.ArgumentParser();parser.add_argument('--check',action='store_true');args=parser.parse_args()
     check() if args.check else finalize()

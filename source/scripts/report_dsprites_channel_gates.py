@@ -1,8 +1,4 @@
-"""从封存数组提炼通道配对、开关坐标、各阶项和反事实干预结果。
-
-本文件只读数值实验，不改名单或再训练。跨模型仅汇总指标，不把相同
-通道编号看成相同特征；全强度排名只用于描述半强度名单的稳定性。
-"""
+"""汇总通道配对、ReLU 位置、各阶系数和干预结果，比较半强度与全强度的排名。"""
 from __future__ import annotations
 
 import csv
@@ -82,7 +78,7 @@ def analyze():
                 hold_both_ratio=rms(selected[:,3])/rms(selected[:,0]),
                 first_signed_projection=ratios[0]['signed_projection'],second_signed_projection=ratios[1]['signed_projection'],
                 first_rms_ratio=ratios[0]['rms_ratio'],second_rms_ratio=ratios[1]['rms_ratio']))
-            # 物理通道对只在确实进入该输入8通道名单时记录，缺失不是零效应。
+            # 每个输入只记录入选其八通道名单的通道对。
             physical=defaultdict(list);head1=defaultdict(int);head3=defaultdict(int)
             for i in range(72):
                 for p,(a,b) in enumerate(design['pairs']):

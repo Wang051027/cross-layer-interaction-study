@@ -1,7 +1,3 @@
-# 中文阅读说明｜用途：组织残差块实验的结果、限制和成本表。
-# 数据流：读取冻结实验汇总及单独仿射审计；输出历史报告和状态。
-# 阅读副本仅增加 # 注释，保留原语句、公式、参数和文档字符串。
-# 原研究目录的冻结源码未改；需要哈希核验的历史流程仍使用原目录。
 """Presentation-only synthesis of the frozen study and separate affine audit."""
 from pathlib import Path
 import csv
@@ -15,22 +11,14 @@ LABELS={"greedy":"残差贪心选择","weight":"权重范数","gate_weight":"门
         "activity":"激活频率","active_random_mean":"活跃随机（4 次均值）","pca_fused":"融合 PCA"}
 
 
-# 用途：读取本函数指定的记录文件，返回解析后的对象；JSON/CSV 形式见函数体。
-# 参数：path；具体形状/来源结合调用处及下方关键步骤阅读。
-# 返回：json.loads(path.read_text(encoding='utf-8'))。
 def read(path):return json.loads(path.read_text(encoding="utf-8"))
 
 
-# 用途：读取保存的表格记录；不在这里重新运行实验。
-# 参数：path；具体形状/来源结合调用处及下方关键步骤阅读。
-# 返回：list(csv.DictReader(f))。
 def rows(path):
     with path.open(encoding="utf-8",newline="") as f:return list(csv.DictReader(f))
 
 
-# 用途：组织残差块实验的结果、限制和成本表。
-# 参数：无显式入参；使用本模块已配置的环境或文件。
-# 返回：结果通过文件、打印或对象/运行环境状态更新体现；没有显式 return。
+# 组织残差块实验的结果、限制和成本表。
 def main():
     audit=read(RUN / "analysis/verification.json")
     affine_audit=read(RUN / "affine_runtime_audit/completion.json")
@@ -45,18 +33,12 @@ def main():
     half_greedy_better=sum(d < -1e-12 for d in half_pca_differences)
     classes=rows(RUN / "test/classification.csv")
     quality=read(RUN / "training_complete.json")
-    # 用途：筛选满足当前表格条件的结果行；并查集中的同名函数另有专门说明。
-    # 参数：method、fraction、alpha；具体形状/来源结合调用处及下方关键步骤阅读。
-    # 返回：next((r for r in summary if r['method'] == method and float(r['fraction']) == fraction …。
+    # 筛选满足当前表格条件的结果行；并查集中的同名函数另有专门说明。
     def find(method,fraction,alpha=1.):
         return next(r for r in summary if r["method"]==method and float(r["fraction"])==fraction and float(r["alpha"])==alpha)
-    # 用途：读取指定设置下已经汇总的平均误差，供报告表格使用。
-    # 参数：method、fraction、alpha；具体形状/来源结合调用处及下方关键步骤阅读。
-    # 返回：100 * float(find(method, fraction, alpha)['nrmse_mean'])。
+    # 读取指定设置下已经汇总的平均误差，供报告表格使用。
     def mean(method,fraction,alpha=1.):return 100*float(find(method,fraction,alpha)["nrmse_mean"])
-    # 用途：把结果记录格式化为可读的表格单元，缺失值按本报告规则展示。
-    # 参数：method、fraction、alpha；具体形状/来源结合调用处及下方关键步骤阅读。
-    # 返回：f"{100 * float(r['nrmse_mean']):.2f}% ± {100 * float(r['nrmse_sd']):.2f}%"。
+    # 把结果记录格式化为可读的表格单元，缺失值按本报告规则展示。
     def cell(method,fraction,alpha=1.):
         r=find(method,fraction,alpha)
         return f"{100*float(r['nrmse_mean']):.2f}% ± {100*float(r['nrmse_sd']):.2f}%"
@@ -78,9 +60,7 @@ def main():
     cost_specs=[("greedy_f0.25","残差选择 1/4"),("greedy_f0.5","残差选择 1/2"),
                 ("pca_fused_f0.125","融合 PCA 1/8"),("pca_fused_f0.25","融合 PCA 1/4"),
                 ("original_region_f1.0","原区域公式"),("affine_fused","合并后的原区域公式")]
-    # 用途：把不同工作场景的成本数据整理为表格，可单独包含融合仿射审计。
-    # 参数：folder、allow_fused；具体形状/来源结合调用处及下方关键步骤阅读。
-    # 返回：('\n'.join(table), values)。
+    # 把不同工作场景的成本数据整理为表格，可单独包含融合仿射审计。
     def cost_tables(folder,allow_fused):
         timing=rows(folder / "summary.csv");exact=rows(folder / "fastest_exact.csv")
         table=[];values={}
@@ -89,7 +69,6 @@ def main():
             cells=[]
             for q,w in ((37,"from_image"),(256,"from_image"),(256,"cached")):
                 ratios=[];milliseconds=[]
-                # 逐个教师处理同一套设置；跨教师统计与一张图像内部的组合数量要分开。
                 for seed in SEEDS:
                     same=lambda r:r["seed"]==str(seed) and r["queries"]==str(q) and r["workload"]==w
                     one=next(float(r["seconds"]) for r in timing if same(r) and r["method"]==method)
@@ -275,7 +254,6 @@ M(x)=U\operatorname{{diag}}(z(x)>0)W,\qquad
         residual_affine_audit_is_post_test=True,calibration_model_access=False,
         next_steps=["vary source-set size and intervention position to characterize affine/PCA/selection failure boundaries",
                     "freeze an input-dependent approximation/exact decision rule before using reserved calibration data"])
-    # 把结构化配置或结果落盘，供后续阶段核验和报告读取。
     (BASE / "RESEARCH_STATUS.json").write_text(json.dumps(state,ensure_ascii=False,indent=2),encoding="utf-8")
     readme_path=BASE / "README.md";text=readme_path.read_text(encoding="utf-8")
     text=text.replace("更新：2026-09-11。","更新：2026-09-13。")
@@ -318,5 +296,4 @@ M(x)=U\operatorname{{diag}}(z(x)>0)W,\qquad
     story.write_text(text,encoding="utf-8")
 
 
-# 只有直接运行本文件时才触发这个入口；作为模块导入时不会执行此分支。
 if __name__=="__main__":main()

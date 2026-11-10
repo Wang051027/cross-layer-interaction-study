@@ -1,7 +1,3 @@
-# 中文阅读说明｜用途：把首轮复核和成本检查中的已有数值绘成静态图。
-# 数据流：读取保存表格，输出图像；绘图过程不训练模型或改变预测。
-# 阅读副本仅增加 # 注释，保留原语句、公式、参数和文档字符串。
-# 原研究目录的冻结源码未改；需要哈希核验的历史流程仍使用原目录。
 """Standalone scientific figure of local replay accuracy and matched CPU timing."""
 from __future__ import annotations
 import os
@@ -15,17 +11,12 @@ matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 
 
-# 用途：读取本函数指定的记录文件，返回解析后的对象；JSON/CSV 形式见函数体。
-# 参数：path；具体形状/来源结合调用处及下方关键步骤阅读。
-# 返回：list(csv.DictReader(f))。
 def read(path):
     with path.open(encoding="utf-8",newline="") as f:
         return list(csv.DictReader(f))
 
 
-# 用途：把首轮复核和成本检查中的已有数值绘成静态图。
-# 参数：无显式入参；使用本模块已配置的环境或文件。
-# 返回：结果通过文件、打印或对象/运行环境状态更新体现；没有显式 return。
+# 把首轮复核和成本检查中的已有数值绘成静态图。
 def main():
     accuracy=read(BASE / "runs/upstream_replay_20260910_v2/quarter_summary.csv")
     timing=read(BASE / "runs/pca_cost_audit_20260910_v2/timing_summary.csv")
@@ -65,6 +56,5 @@ def main():
     plt.close(fig)
 
 
-# 只有直接运行本文件时才触发这个入口；作为模块导入时不会执行此分支。
 if __name__=="__main__":
     main()

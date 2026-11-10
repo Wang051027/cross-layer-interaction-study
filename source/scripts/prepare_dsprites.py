@@ -49,7 +49,7 @@ def fetch():
 
 
 def extract():
-    """限定成员名复制，不调用extractall，不加载metadata.npy中的pickle。"""
+    """按指定成员名复制官方 NPZ 中的数值数组。"""
     manifest=DATA/'arrays.json'
     if manifest.exists():
         print(json.dumps({'status':'PASS','arrays':'already prepared'}),flush=True);return
@@ -92,13 +92,7 @@ def digest_image(image):
 
 
 def prepare():
-    """固定匹配因素面板，并在分组划分之外额外排除跨集合像素重复。
-
-    主面板位置(15,15)，6大小×8角度×3形状=144图。
-    平移面板从官方中心图构造严格向右4像素的副本，供步幅2对齐控制。
-    官方位置潜变量的变化可能伴随栅格化差异，不能直接冒充严格像素平移。
-    训练只使用位置索引8..23的受控子域；不声称覆盖完整dSprites分布。
-    """
+    """按因素整组划分位置索引 8 至 23 的图像，并排除跨集合重复像素。中心面板由 6 种大小、8 个角度、3 种形状组成。平移面板将中心图像向右移动 4 个像素。"""
     out=DATA/'controlled_v1'
     assert not out.exists(),'Preserve prepared split'
     image=np.load(DATA/'imgs.npy',mmap_mode='r',allow_pickle=False)

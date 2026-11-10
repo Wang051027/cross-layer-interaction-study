@@ -1,7 +1,3 @@
-# 中文阅读说明｜用途：汇总原六教师主实验，重算配对统计，并复核保存预测的评分。
-# 数据流：输入 test/ 和 timing/ 结果；输出按教师汇总的统计，原主检验仅限固定的一项对比。
-# 阅读副本仅增加 # 注释，保留原语句、公式、参数和文档字符串。
-# 原研究目录的冻结源码未改；需要哈希核验的历史流程仍使用原目录。
 """Prespecified seed-level analysis and saved-array audit, without model fitting."""
 from __future__ import annotations
 import argparse
@@ -13,11 +9,9 @@ from external_experiment import (BASE, SEEDS, METHODS, read_json, dump, csv_read
     sha, bit_design, score, prediction_key, np)
 
 
-# 用途：对原主对比的六个教师误差做配对统计，穷举 64 种符号翻转并用 SciPy 交叉检查。
-# 参数：greedy、weight；具体形状/来源结合调用处及下方关键步骤阅读。
-# 返回：字典（字段见 return）。
+# 对原主对比的六个教师误差做配对统计，穷举 64 种符号翻转并用 SciPy 交叉检查。
 def primary_statistics(greedy, weight):
-    # 配对单位是六个教师；各教师的组合和重复输入不能当成额外独立样本。
+    # 在六个模型之间比较模型内的配对差值。
     differences=np.asarray(greedy,dtype=float)-np.asarray(weight,dtype=float)
     assert len(differences)==6 and np.isfinite(differences).all()
     mean=float(differences.mean())
@@ -40,9 +34,7 @@ def primary_statistics(greedy, weight):
         inference_scope="single original primary contrast, layer1 alpha1 k16")
 
 
-# 用途：把 CSV 的标签和数值字段恢复到整数/浮点类型，避免字符串比较。
-# 参数：path；具体形状/来源结合调用处及下方关键步骤阅读。
-# 返回：rows。
+# 把 CSV 的标签和数值字段恢复到整数/浮点类型，避免字符串比较。
 def numeric_rows(path):
     rows=csv_read(path)
     for r in rows:
@@ -53,16 +45,11 @@ def numeric_rows(path):
     return rows
 
 
-# 用途：按教师、层、方法、预算和强度找到唯一对应记录。
-# 参数：rows、seed、layer、method、k、alpha；具体形状/来源结合调用处及下方关键步骤阅读。
-# 返回：next((r for r in rows if r['seed'] == seed and r['layer'] == layer and (r['method'] == …。
+# 按教师、层、方法、预算和强度找到唯一对应记录。
 def matching(rows,seed,layer,method,k,alpha=1.):
     return next(r for r in rows if r["seed"]==seed and r["layer"]==layer and r["method"]==method and r["k"]==k and r["alpha"]==alpha)
 
 
-# 用途：回读已保存数组重新评分并汇总，核对结果与既有记录的一致性。
-# 参数：run；具体形状/来源结合调用处及下方关键步骤阅读。
-# 返回：结果通过文件、打印或对象/运行环境状态更新体现；没有显式 return。
 def analyze(run):
     from run_external import verify_protocol, verify_freeze
     verify_protocol(run)
@@ -72,7 +59,6 @@ def analyze(run):
     out=run / "analysis"
     out.mkdir(exist_ok=False)
     rows=numeric_rows(run / "test/all_results.csv")
-    # 逐个教师处理同一套设置；跨教师统计与一张图像内部的组合数量要分开。
     greedy=[matching(rows,s,1,"greedy",16)["nrmse"] for s in SEEDS]
     weight=[matching(rows,s,1,"weight",16)["nrmse"] for s in SEEDS]
     primary=primary_statistics(greedy,weight)
@@ -110,9 +96,7 @@ def analyze(run):
     csv_write(out / "selected_summary.csv",selected_summary)
     timing=[]
     for seed in SEEDS:timing.extend(numeric_rows(run / f"seed_{seed}/timing/seed_summary.csv"))
-    # 用途：按指定设置查找已经测量的延时，不在统计阶段重新计时。
-    # 参数：seed、layer、method、k、q、workload；具体形状/来源结合调用处及下方关键步骤阅读。
-    # 返回：next((r['seconds'] for r in timing if r['seed'] == seed and r['layer'] == layer and (r[…。
+    # 按指定设置查找已经测量的延时，不在统计阶段重新计时。
     def latency(seed,layer,method,k,q,workload):
         # Full-budget methods literally use the exact runtime: share its cost observation.
         if k==64:method="exact"
@@ -164,7 +148,6 @@ def analyze(run):
         for layer in (1,2):
             case=run / f"test/seed_{seed}_L{layer}"
             complete=read_json(case / "completion.json")
-            # 核对内容承诺；注释版的文件字节会变化，原冻结实验应使用原研究目录。
             assert sha(case / "predictions.npz")==complete["prediction_sha256"]
             assert sha(case / "references.npz")==complete["reference_sha256"]
             commitment=read_json(case / "prediction_commitment.json")
@@ -187,16 +170,12 @@ def analyze(run):
     print(checks)
 
 
-# 用途：汇总原六教师主实验，重算配对统计，并复核保存预测的评分。
-# 参数：无显式入参；使用本模块已配置的环境或文件。
-# 返回：结果通过文件、打印或对象/运行环境状态更新体现；没有显式 return。
+# 汇总原六教师主实验，重算配对统计，并复核保存预测的评分。
 def main():
-    # 解析运行阶段/路径等命令行参数；具体允许的阶段由 choices 或分派逻辑限定。
     parser=argparse.ArgumentParser()
     parser.add_argument("--run-dir",type=Path,default=BASE / "runs/fashion_external_20260911")
     args=parser.parse_args()
     analyze(args.run_dir)
 
 
-# 只有直接运行本文件时才触发这个入口；作为模块导入时不会执行此分支。
 if __name__=="__main__":main()

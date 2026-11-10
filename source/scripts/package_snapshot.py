@@ -1,7 +1,3 @@
-# 中文阅读说明｜用途：按历史交付规则收集项目文件，生成 ZIP、清单和包内校验程序。
-# 数据流：输入项目已有文件；输出研究快照。它是旧打包工具，不是本次阅读示例的入口。
-# 阅读副本仅增加 # 注释，保留原语句、公式、参数和文档字符串。
-# 原研究目录的冻结源码未改；需要哈希核验的历史流程仍使用原目录。
 """Package the completed research without changing existing research artifacts."""
 from pathlib import Path
 from datetime import datetime, timezone
@@ -43,31 +39,20 @@ raise SystemExit(1 if failed else 0)
 '''
 
 
-# 用途：对文件字节计算 SHA-256，用于发现数据、源码或检查点是否改变。
-# 参数：path；具体形状/来源结合调用处及下方关键步骤阅读。
-# 返回：hashlib.file_digest(stream, 'sha256').hexdigest()。
 def sha(path):
     with path.open("rb") as stream:
         return hashlib.file_digest(stream, "sha256").hexdigest()
 
 
-# 用途：立即打印结构化打包进度，不写入实验日志或改变研究结果。
-# 参数：**value；具体形状/来源结合调用处及下方关键步骤阅读。
-# 返回：结果通过文件、打印或对象/运行环境状态更新体现；没有显式 return。
 def event(**value):
     print(json.dumps(value, ensure_ascii=True), flush=True)
 
 
-# 用途：读取本函数指定的记录文件，返回解析后的对象；JSON/CSV 形式见函数体。
-# 参数：path；具体形状/来源结合调用处及下方关键步骤阅读。
-# 返回：json.loads(path.read_text(encoding='utf-8'))。
 def read(path):
     return json.loads(path.read_text(encoding="utf-8"))
 
 
-# 用途：根据交付包类型生成配套阅读说明，解释文件范围和复现限制。
-# 参数：kind；具体形状/来源结合调用处及下方关键步骤阅读。
-# 返回：f'# CAT-MT 研究资料：先读这里\n\n打包日期：{DATE}。研究结果截至 2026-09-11；此次打包没有新增实验或改变研究结论。\n\n{opening}\n…。
+# 根据交付包类型生成配套阅读说明，解释文件范围和复现限制。
 def guide(kind):
     opening = ("这是完整研究归档，包含当前研究目录的全部文件，以及教学交互图的 HTML 源码。"
                if kind == "full" else
@@ -120,9 +105,7 @@ python -B verify_package.py
 """
 
 
-# 用途：收集打包前需保全文件的摘要，打包后再次核对是否改变。
-# 参数：无显式入参；使用本模块已配置的环境或文件。
-# 返回：expected。
+# 收集打包前需保全文件的摘要，打包后再次核对是否改变。
 def preserved_hashes():
     expected = {}
     latest = read(BASE / "audit/structure_manifest_20260911.json")
@@ -140,17 +123,13 @@ def preserved_hashes():
     return expected
 
 
-# 用途：向 ZIP 写入内存中的说明或清单文本，并记录内容摘要。
-# 参数：archive、name、content；具体形状/来源结合调用处及下方关键步骤阅读。
-# 返回：字典（字段见 return）。
+# 向 ZIP 写入内存中的说明或清单文本，并记录内容摘要。
 def add_bytes(archive, name, content):
     archive.writestr(TOP + "/" + name, content, compress_type=zipfile.ZIP_DEFLATED, compresslevel=6)
     return dict(path=name, bytes=len(content), sha256=hashlib.sha256(content).hexdigest())
 
 
-# 用途：把磁盘文件加入 ZIP，并更新文件长度与校验信息。
-# 参数：archive、path、name；具体形状/来源结合调用处及下方关键步骤阅读。
-# 返回：字典（字段见 return）。
+# 把磁盘文件加入 ZIP，并更新文件长度与校验信息。
 def add_file(archive, path, name):
     assert path.is_file() and not path.is_symlink(), str(path)
     before = path.stat()
@@ -170,9 +149,7 @@ def add_file(archive, path, name):
     return dict(path=name, bytes=count, sha256=digest.hexdigest())
 
 
-# 用途：回读 ZIP 成员及清单，核对内容和校验值而不是只检查压缩包存在。
-# 参数：path、manifest、manifest_bytes、checksums；具体形状/来源结合调用处及下方关键步骤阅读。
-# 返回：len(expected) + 2。
+# 按清单逐项核对 ZIP 成员和校验值。
 def verify_zip(path, manifest, manifest_bytes, checksums):
     expected = {TOP + "/" + item["path"]: item for item in manifest["files"]}
     with zipfile.ZipFile(path) as archive:
@@ -181,7 +158,6 @@ def verify_zip(path, manifest, manifest_bytes, checksums):
         assert len(all_names) == len(set(all_names))
         assert set(all_names) == set(expected) | meta_names
         assert archive.read(TOP + "/PACKAGE_MANIFEST.json") == manifest_bytes
-        # 核对内容承诺；注释版的文件字节会变化，原冻结实验应使用原研究目录。
         assert archive.read(TOP + "/MANIFEST.sha256") == checksums
         last = time.monotonic()
         for index, (name, item) in enumerate(expected.items(), 1):
@@ -195,9 +171,7 @@ def verify_zip(path, manifest, manifest_bytes, checksums):
     return len(expected) + 2
 
 
-# 用途：根据明确文件列表构建研究快照 ZIP，并在完成前检查交付完整性。
-# 参数：kind、destination、files、expected、project_count；具体形状/来源结合调用处及下方关键步骤阅读。
-# 返回：result。
+# 根据明确文件列表构建研究快照 ZIP，并在完成前检查交付完整性。
 def build(kind, destination, files, expected, project_count):
     partial = destination.with_suffix(destination.suffix + ".partial")
     assert not destination.exists() and not partial.exists()
@@ -246,9 +220,7 @@ def build(kind, destination, files, expected, project_count):
     return result
 
 
-# 用途：按历史交付规则收集项目文件，生成 ZIP、清单和包内校验程序。
-# 参数：无显式入参；使用本模块已配置的环境或文件。
-# 返回：结果通过文件、打印或对象/运行环境状态更新体现；没有显式 return。
+# 按历史交付规则收集项目文件，生成 ZIP、清单和包内校验程序。
 def main():
     expected = preserved_hashes()
     project_files = sorted(p for p in BASE.rglob("*") if p.is_file())
@@ -269,11 +241,9 @@ def main():
     compile(VERIFY_SCRIPT, "verify_package.py", "exec")
     result = dict(utc=datetime.now(timezone.utc).isoformat(),status="passed",project=str(BASE),
         existing_research_files_modified=False,packages=[full,light])
-    # 把结构化配置或结果落盘，供后续阶段核验和报告读取。
     receipt.write_text(json.dumps(result,ensure_ascii=False,indent=2),encoding="utf-8")
     event(stage="delivery_verified",receipt=str(receipt))
 
 
-# 只有直接运行本文件时才触发这个入口；作为模块导入时不会执行此分支。
 if __name__ == "__main__":
     main()

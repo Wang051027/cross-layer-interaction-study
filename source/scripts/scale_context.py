@@ -1,13 +1,4 @@
-# 中文阅读说明｜用途：扩展源坐标数和位置，并实现可拒绝近似、回退精确计算的运行时。
-# 数据流：定义查询设计、训练统计和仿射余项上界；浮点上界检查不是形式化区间证明。
-# 阅读副本仅增加 # 注释，保留原语句、公式、参数和文档字符串。
-# 原研究目录的冻结源码未改；需要哈希核验的历史流程仍使用原目录。
-"""Variable source sizes, spatial positions, and a conservative affine fallback.
-
-Numerical extensions are separate from the frozen September 13 implementation.
-The bound is an exact-real-arithmetic argument evaluated with ordinary float64,
-not an outward-rounded formal-verification implementation.
-"""
+"""Compute an affine fallback for different source sizes and positions. Evaluate the real-arithmetic bound in float64."""
 from residual_context import *
 from audit_residual_affine_runtime import FusedAffine
 
@@ -19,9 +10,7 @@ NEW_RUN = BASE / "runs/fashion_scale_20260914"
 PRIOR_RUN = BASE / "runs/fashion_residual_20260913"
 
 
-# 用途：q≤8 枚举所有组合；q>8 保留全部低阶组合并固定抽取 256 个高阶组合。
-# 参数：q；具体形状/来源结合调用处及下方关键步骤阅读。
-# 返回：(all_bits[train], all_bits[indices], indices)。
+# q≤8 枚举所有组合；q>8 保留全部低阶组合并固定抽取 256 个高阶组合。
 def query_design(q):
     all_bits = bit_design(q)
     orders = all_bits.sum(1)
@@ -34,9 +23,7 @@ def query_design(q):
     return all_bits[train], all_bits[indices], indices
 
 
-# 用途：按指定空间位置的 3×3 窗口和训练平均激活，选出前 q 个源坐标。
-# 参数：sources、position、q；具体形状/来源结合调用处及下方关键步骤阅读。
-# 返回：order[:q]。
+# 按指定空间位置的 3×3 窗口和训练平均激活，选出前 q 个源坐标。
 def choose_source_nodes(sources, position, q):
     _, channels, height, width = sources.shape
     row, col = POSITIONS[position]
@@ -48,9 +35,7 @@ def choose_source_nodes(sources, position, q):
     return order[:q]
 
 
-# 用途：从训练上下文和低阶查询拟合平均门控、PCA 及各状态排序，并返回诊断统计。
-# 参数：local、contexts、train_bits、seed；具体形状/来源结合调用处及下方关键步骤阅读。
-# 返回：(ResidualFit(**values), dict(affected_states=local.J, train_contexts=len(contexts), tra…。
+# 从训练上下文和低阶查询拟合平均门控、PCA 及各状态排序，并返回诊断统计。
 def fit_scale(local, contexts, train_bits, seed):
     h = torch.stack([c[0] for c in contexts]).numpy()
     z = torch.stack([c[1] for c in contexts]).numpy()
@@ -79,12 +64,9 @@ def fit_scale(local, contexts, train_bits, seed):
         pca_components=len(components), singular_values=singular.tolist())
 
 
-# 用途：支持可变源坐标数的残差运行时，批量计算多图像、多组合的响应。
-# 结构：继承 ContextRuntime；成员字段和方法共同保存本阶段需要的状态。
+# 支持可变源坐标数的残差运行时，批量计算多图像、多组合的响应。
 class ScaleRuntime(ContextRuntime):
-    # 用途：分批计算多张输入的组合响应，返回带输入批次维度的预测数组。
-    # 参数：contexts、bits、alpha；具体形状/来源结合调用处及下方关键步骤阅读。
-    # 返回：torch.cat(outputs)。
+    # 分批计算多张输入的组合响应，返回带输入批次维度的预测数组。
     @torch.no_grad()
     def evaluate_many(self, contexts, bits, alpha=1.):
         outputs = []
@@ -107,12 +89,9 @@ class ScaleRuntime(ContextRuntime):
         return torch.cat(outputs)
 
 
-# 用途：先用原区域仿射响应和余项上界判断是否接受近似，否则精确回退。
-# 结构：继承 FusedAffine；成员字段和方法共同保存本阶段需要的状态。
+# 先用原区域仿射响应和余项上界判断是否接受近似，否则精确回退。
 class BoundedAffine(FusedAffine):
-    # 用途：预计算原区域响应矩阵及每个固定强度的非线性余项上界，供后续接受判断。
-    # 参数：context；具体形状/来源结合调用处及下方关键步骤阅读。
-    # 返回：(h, z, matrix, bounds)。
+    # 预计算原区域响应矩阵及每个固定强度的非线性余项上界，供后续接受判断。
     @torch.no_grad()
     def cached(self, context):
         h, z = context
@@ -131,9 +110,7 @@ class BoundedAffine(FusedAffine):
             bounds[alpha] = (beta, int((b > 0).sum()))
         return h, z, matrix, bounds
 
-    # 用途：用解析误差上界与预测范数判断是否满足固定阈值；拒绝时调用精确局部方程。
-    # 参数：context、bits、alpha；具体形状/来源结合调用处及下方关键步骤阅读。
-    # 返回：(prediction, dict(accepted=accept, error_norm_upper=float(bound), approximation_norm=fl…。
+    # 用解析误差上界与预测范数判断是否满足固定阈值；拒绝时调用精确局部方程。
     @torch.no_grad()
     def decision(self, context, bits, alpha=1.):
         h, z, matrix, bounds = context
@@ -150,26 +127,20 @@ class BoundedAffine(FusedAffine):
         return prediction, dict(accepted=accept, error_norm_upper=float(bound),
             approximation_norm=float(predicted_norm), potentially_switching_states=bounds[alpha][1])
 
-    # 用途：对给定上下文和组合掩码计算输出变化；具体方法由对象构造时的配置决定。
-    # 参数：context、bits、alpha；具体形状/来源结合调用处及下方关键步骤阅读。
-    # 返回：self.decision(context, bits, alpha)[0]。
+    # 对给定上下文和组合掩码计算输出变化；具体方法由对象构造时的配置决定。
     @torch.no_grad()
     def evaluate(self, context, bits, alpha=1.):
         return self.decision(context, bits, alpha)[0]
 
 
-# 用途：列出规模实验的近似预算及零预算、原区域、回退、精确对照。
-# 参数：local；具体形状/来源结合调用处及下方关键步骤阅读。
-# 返回：[(m, f, math.ceil(local.J * f)) for m in ('greedy', 'gate_weight', 'pca_fused') for f i…。
+# 列出规模实验的近似预算及零预算、原区域、回退、精确对照。
 def scale_specs(local):
     return [(m, f, math.ceil(local.J*f)) for m in ("greedy", "gate_weight", "pca_fused") for f in BUDGETS] + [
         ("mean_gate", 0., 0), ("affine_fused", 1., local.J),
         ("bounded_affine", 1., local.J), ("exact", 1., local.J)]
 
 
-# 用途：根据方法名实例化融合仿射、带上界回退或常规规模运行时。
-# 参数：local、fit、method、k、engine；具体形状/来源结合调用处及下方关键步骤阅读。
-# 返回：FusedAffine(local) / BoundedAffine(local) / ScaleRuntime(local, fit, method, k, engine)。
+# 根据方法名实例化融合仿射、带上界回退或常规规模运行时。
 def make_runtime(local, fit, method, k, engine="exact_crop"):
     if method == "affine_fused":
         return FusedAffine(local)
@@ -178,18 +149,14 @@ def make_runtime(local, fit, method, k, engine="exact_crop"):
     return ScaleRuntime(local, fit, method, k, engine)
 
 
-# 用途：按运行时类型选择批量或逐输入路径，统一返回 NumPy 响应数组。
-# 参数：runtime、contexts、bits、alpha；具体形状/来源结合调用处及下方关键步骤阅读。
-# 返回：runtime.evaluate_many(contexts, bits, alpha).numpy() / 堆叠后的数组/张量。
+# 按运行时类型选择批量或逐输入路径，统一返回 NumPy 响应数组。
 def evaluate_many(runtime, contexts, bits, alpha):
     if isinstance(runtime, ScaleRuntime):
         return runtime.evaluate_many(contexts, bits, alpha).numpy()
     return torch.stack([runtime.evaluate(c, bits, alpha) for c in contexts]).numpy()
 
 
-# 用途：在掩码阶数大于二的组合上评分，并保留零效应数量及单输入误差尾部。
-# 参数：prediction、reference、bits、**labels；具体形状/来源结合调用处及下方关键步骤阅读。
-# 返回：字典（字段见 return）。
+# 在掩码阶数大于二的组合上评分，并保留零效应数量及单输入误差尾部。
 def scale_metrics(prediction, reference, bits, **labels):
     held = bits.sum(1) > 2
     result = score(prediction, reference, held)

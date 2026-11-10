@@ -1,7 +1,3 @@
-# 中文阅读说明｜用途：原 v0.7 的 Fashion-MNIST 原始文件下载与校验入口。
-# 数据流：按清单获取 gzip，验证 MD5 并写获取记录；没有神经网络运算。
-# 阅读副本仅增加 # 注释，保留原语句、公式、参数和文档字符串。
-# 原研究目录的冻结源码未改；需要哈希核验的历史流程仍使用原目录。
 """Acquire official Fashion-MNIST binaries, verify published MD5 and local SHA-256.
 No experiment may proceed unless all four files pass. Does not silently substitute data.
 Usage: python code/acquire_fashion.py [--offline] [--raw-dir DIR]
@@ -19,15 +15,9 @@ FILES={
  't10k-labels-idx1-ubyte.gz':'bb300cfdad3c16e7a12a480ee83cd310'}
 BASES=['https://raw.githubusercontent.com/zalandoresearch/fashion-mnist/master/data/fashion/',
        'http://fashion-mnist.s3-website.eu-central-1.amazonaws.com/']
-# 用途：生成当前 UTC 时间字符串，供协议、日志或交付记录标记时间。
-# 参数：无显式入参；使用本模块已配置的环境或文件。
-# 返回：datetime.now(timezone.utc).isoformat()。
 def now():return datetime.now(timezone.utc).isoformat()
-# 用途：原 v0.7 的 Fashion-MNIST 原始文件下载与校验入口。
-# 参数：无显式入参；使用本模块已配置的环境或文件。
-# 返回：结果通过文件、打印或对象/运行环境状态更新体现；没有显式 return。
+# 原 v0.7 的 Fashion-MNIST 原始文件下载与校验入口。
 def main():
- # 解析运行阶段/路径等命令行参数；具体允许的阶段由 choices 或分派逻辑限定。
  ap=argparse.ArgumentParser();ap.add_argument('--offline',action='store_true');ap.add_argument('--raw-dir',type=Path,default=ROOT/'data/raw');args=ap.parse_args()
  args.raw_dir.mkdir(parents=True,exist_ok=True);records=[];allok=True
  for name,md5 in FILES.items():
@@ -55,9 +45,7 @@ def main():
   allok&=rec['ok'];records.append(rec)
  out={'utc':now(),'official_readme':'https://github.com/zalandoresearch/fashion-mnist','records':records,'gate_passed':bool(allok),'external_experiments_allowed':bool(allok)}
  (ROOT/'logs').mkdir(exist_ok=True)
- # 把结构化配置或结果落盘，供后续阶段核验和报告读取。
  (ROOT/'logs/fashion_acquisition.json').write_text(json.dumps(out,ensure_ascii=False,indent=2))
  print(json.dumps(out,ensure_ascii=False,indent=2))
  raise SystemExit(0 if allok else 2)
-# 只有直接运行本文件时才触发这个入口；作为模块导入时不会执行此分支。
 if __name__=='__main__':main()

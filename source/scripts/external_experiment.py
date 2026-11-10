@@ -1,7 +1,3 @@
-# 中文阅读说明｜用途：集中定义原六教师实验的数据处理、训练、局部预测与公平计时函数。
-# 数据流：其他调度脚本调用本文件；模型权重、选择顺序与预算必须由开发阶段确定。
-# 阅读副本仅增加 # 注释，保留原语句、公式、参数和文档字符串。
-# 原研究目录的冻结源码未改；需要哈希核验的历史流程仍使用原目录。
 """Shared, frozen implementation for the six-seed external experiment.
 
 All model/method choices use training or validation data. Numerical estimators
@@ -32,38 +28,23 @@ GRID = [0, 1, 2, 4, 8, 16, 32, 64]
 METHODS = ["greedy", "weight", "pca_fused"]
 
 
-# 用途：生成当前 UTC 时间字符串，供协议、日志或交付记录标记时间。
-# 参数：无显式入参；使用本模块已配置的环境或文件。
-# 返回：datetime.now(timezone.utc).isoformat()。
 def now():
     return datetime.now(timezone.utc).isoformat()
 
 
-# 用途：对文件字节计算 SHA-256，用于发现数据、源码或检查点是否改变。
-# 参数：path；具体形状/来源结合调用处及下方关键步骤阅读。
-# 返回：hashlib.sha256(Path(path).read_bytes()).hexdigest()。
 def sha(path):
     return hashlib.sha256(Path(path).read_bytes()).hexdigest()
 
 
-# 用途：读取 UTF-8 JSON，返回其中的协议、配置或结果对象。
-# 参数：path；具体形状/来源结合调用处及下方关键步骤阅读。
-# 返回：json.loads(Path(path).read_text(encoding='utf-8'))。
 def read_json(path):
     return json.loads(Path(path).read_text(encoding="utf-8"))
 
 
-# 用途：把结构化记录序列化为 JSON 并写到指定路径。
-# 参数：path、value；具体形状/来源结合调用处及下方关键步骤阅读。
-# 返回：结果通过文件、打印或对象/运行环境状态更新体现；没有显式 return。
 def dump(path, value):
-    # 把结构化配置或结果落盘，供后续阶段核验和报告读取。
     Path(path).write_text(json.dumps(value, indent=2, ensure_ascii=False, allow_nan=False), encoding="utf-8")
 
 
-# 用途：按记录字段写 CSV；不同实验阶段各自规定缺失数值的写法。
-# 参数：path、rows；具体形状/来源结合调用处及下方关键步骤阅读。
-# 返回：结果通过文件、打印或对象/运行环境状态更新体现；没有显式 return。
+# 按记录字段写 CSV；不同实验阶段各自规定缺失数值的写法。
 def csv_write(path, rows):
     with Path(path).open("w", encoding="utf-8", newline="") as f:
         writer = csv.DictWriter(f, fieldnames=list(rows[0]))
@@ -71,17 +52,12 @@ def csv_write(path, rows):
         writer.writerows(rows)
 
 
-# 用途：把 CSV 的每行读为字典；需要数值类型的字段由调用方转换。
-# 参数：path；具体形状/来源结合调用处及下方关键步骤阅读。
-# 返回：list(csv.DictReader(f))。
+# 把 CSV 的每行读为字典；需要数值类型的字段由调用方转换。
 def csv_read(path):
     with Path(path).open(encoding="utf-8", newline="") as f:
         return list(csv.DictReader(f))
 
 
-# 用途：追加带时间的执行事件，记录阶段进度及已完成的结果。
-# 参数：run、kind、**values；具体形状/来源结合调用处及下方关键步骤阅读。
-# 返回：结果通过文件、打印或对象/运行环境状态更新体现；没有显式 return。
 def event(run, kind, **values):
     record = {"utc":now(), "event":kind, **values}
     with (run / "events.jsonl").open("a", encoding="utf-8") as f:
@@ -89,25 +65,19 @@ def event(run, kind, **values):
     print(json.dumps(record), flush=True)
 
 
-# 用途：固定 CPU 线程和确定性设置，使不同方法在统一后端条件下运行。
-# 参数：无显式入参；使用本模块已配置的环境或文件。
-# 返回：结果通过文件、打印或对象/运行环境状态更新体现；没有显式 return。
+# 固定 CPU 线程和确定性设置，使不同方法在统一后端条件下运行。
 def configure_cpu():
     torch.set_num_threads(1)
     threadpool_limits(1)
     torch.use_deterministic_algorithms(True)
 
 
-# 用途：把图像像素转为浮点并除以 255，同时补上单通道维度。
-# 参数：images；具体形状/来源结合调用处及下方关键步骤阅读。
-# 返回：images[:, None].astype(np.float32) / np.float32(255)。
+# 把图像像素转为浮点并除以 255，同时补上单通道维度。
 def normalized(images):
     return images[:, None].astype(np.float32) / np.float32(255)
 
 
-# 用途：在 eval/no_grad 模式批量计算验证交叉熵与准确率，用于选择检查点。
-# 参数：model、x、y；具体形状/来源结合调用处及下方关键步骤阅读。
-# 返回：(float(loss.item() / len(x)), float(correct.item() / len(x)))。
+# 在 eval/no_grad 模式批量计算验证交叉熵与准确率，用于选择检查点。
 def teacher_validation(model, x, y):
     model.eval()
     loss = torch.zeros((), device=x.device)
@@ -122,14 +92,11 @@ def teacher_validation(model, x, y):
     return float(loss.item()/len(x)), float(correct.item()/len(x))
 
 
-# 用途：按配置训练当前教师，用验证集选择检查点，保存训练曲线与摘要。
-# 参数：run、seed、x、y、indices、config；具体形状/来源结合调用处及下方关键步骤阅读。
-# 返回：None。
+# 按配置训练当前教师，用验证集选择检查点，保存训练曲线与摘要。
 def train_teacher(run, seed, x, y, indices, config):
     directory = run / f"seed_{seed}"
     if (directory / "teacher_summary.json").exists():
         summary = read_json(directory / "teacher_summary.json")
-        # 核对内容承诺；注释版的文件字节会变化，原冻结实验应使用原研究目录。
         assert sha(directory / "teacher.pt") == summary["checkpoint_sha256"]
         return
     if (directory / "teacher.pt").exists():
@@ -163,7 +130,6 @@ def train_teacher(run, seed, x, y, indices, config):
                 ix = order[begin:begin+config["batch"]]
                 optimizer.zero_grad(set_to_none=True)
                 loss = F.cross_entropy(model(xt[ix]), yt[ix])
-                # 这里才会计算训练梯度并更新模型；后续干预阶段固定模型权重。
                 loss.backward()
                 optimizer.step()
                 total += loss.detach()*len(ix)
@@ -173,7 +139,6 @@ def train_teacher(run, seed, x, y, indices, config):
         history.append(row)
         if val_loss < best_loss:
             best_loss, best_epoch, stale = val_loss, epoch, 0
-            # 把当前选中的模型参数保存为检查点，后续干预从该固定权重载入。
             torch.save({k:v.detach().cpu().clone() for k,v in model.state_dict().items()}, directory / "teacher.pt")
         else:
             stale += 1
@@ -192,26 +157,20 @@ def train_teacher(run, seed, x, y, indices, config):
     torch.cuda.empty_cache()
 
 
-# 用途：载入冻结的 CNN 权重并进入评价模式，供干预与计时复用。
-# 参数：directory；具体形状/来源结合调用处及下方关键步骤阅读。
-# 返回：model。
+# 载入冻结的 CNN 权重并进入评价模式，供干预与计时复用。
 def load_model(directory):
     model = make_teacher("fashion").double().eval()
     model.load_state_dict(torch.load(directory / "teacher.pt", weights_only=True, map_location="cpu"), strict=True)
     return model
 
 
-# 用途：回读保存的背景统计、排序或 PCA 参数，恢复拟合结果对象。
-# 参数：path；具体形状/来源结合调用处及下方关键步骤阅读。
-# 返回：(Fit(**{name: saved[name] for name in Fit.__annotations__}), saved['nodes'])。
+# 回读保存的背景统计、排序或 PCA 参数，恢复拟合结果对象。
 def load_fit(path):
     saved = np.load(path, allow_pickle=False)
     return Fit(**{name:saved[name] for name in Fit.__annotations__}), saved["nodes"]
 
 
-# 用途：在固定空间窗口内按训练样本的平均激活选择源坐标，保持并列时的索引顺序。
-# 参数：sources；具体形状/来源结合调用处及下方关键步骤阅读。
-# 返回：central[np.argsort(-means[central], kind='stable')[:8]]。
+# 在固定空间窗口内按训练样本的平均激活选择源坐标，保持并列时的索引顺序。
 def choose_nodes(sources):
     _, channels, height, width = sources.shape
     ids = np.arange(channels*height*width).reshape(channels, height, width)
@@ -220,38 +179,27 @@ def choose_nodes(sources):
     return central[np.argsort(-means[central], kind="stable")[:8]]
 
 
-# 用途：列出事先固定的方法与预算组合，供一致的验证和测试比较。
-# 参数：无显式入参；使用本模块已配置的环境或文件。
-# 返回：[(method, k) for method in ('greedy', 'weight', 'random', 'pca_fused') for k in (16, 32…。
+# 列出事先固定的方法与预算组合，供一致的验证和测试比较。
 def fixed_specs():
     return [(method,k) for method in ("greedy","weight","random","pca_fused") for k in (16,32)] + [
         ("boundary_only",0),("mean_head",0),("pool_ridge",0),("exact",64)]
 
 
-# 用途：列出用于验证阶段选择预算的候选配置。
-# 参数：无显式入参；使用本模块已配置的环境或文件。
-# 返回：sorted(set(fixed_specs() + [(method, k) for method in METHODS for k in GRID]))。
+# 列出用于验证阶段选择预算的候选配置。
 def validation_specs():
     return sorted(set(fixed_specs() + [(method,k) for method in METHODS for k in GRID]))
 
 
-# 用途：把开发阶段已经做出的选择转换为固定测试配置。
-# 参数：choices；具体形状/来源结合调用处及下方关键步骤阅读。
-# 返回：sorted(set(fixed_specs() + [(method, int(choices[method])) for method in METHODS]))。
+# 把开发阶段已经做出的选择转换为固定测试配置。
 def test_specs(choices):
     return sorted(set(fixed_specs() + [(method,int(choices[method])) for method in METHODS]))
 
 
-# 用途：把方法、预算和强度组合成稳定的数组名称，避免不同设置混淆。
-# 参数：method、k、alpha；具体形状/来源结合调用处及下方关键步骤阅读。
-# 返回：f'{method}_k{k}_a{alpha}'。
+# 把方法、预算和强度组合成稳定的数组名称，避免不同设置混淆。
 def prediction_key(method, k, alpha):
     return f"{method}_k{k}_a{alpha}"
 
 
-# 用途：用同一批原始上下文评估所有候选方法，同时核对重新获取与缓存路径一致。
-# 参数：mod、fit、sources、specs、alphas；具体形状/来源结合调用处及下方关键步骤阅读。
-# 返回：(outputs, contexts, dict(fresh_cached_max_error=max_path_error, legacy_numpy_max_error=…。
 def prepare_predictions(mod, fit, sources, specs, alphas=(1., .5)):
     """Use cached unperturbed states for accuracy; verify the fresh acquisition path."""
     bits = bit_design(8)
@@ -278,9 +226,7 @@ def prepare_predictions(mod, fit, sources, specs, alphas=(1., .5)):
     return outputs, contexts, dict(fresh_cached_max_error=max_path_error,legacy_numpy_max_error=max_numpy_error)
 
 
-# 用途：在固定留出组合上给保存预测评分，并记录输入和设置标签。
-# 参数：predictions、references、specs、seed、layer、ids；具体形状/来源结合调用处及下方关键步骤阅读。
-# 返回：(rows, per_input)。
+# 在固定留出组合上给保存预测评分，并记录输入和设置标签。
 def score_predictions(predictions, references, specs, seed, layer, ids):
     held = bit_design(8).sum(1)>2
     rows, per_input = [], []
@@ -303,9 +249,7 @@ def score_predictions(predictions, references, specs, seed, layer, ids):
     return rows,per_input
 
 
-# 用途：对一个教师完成训练/验证上下文拟合、预算选择及开发记录保存。
-# 参数：run、seed、x、context_ids；具体形状/来源结合调用处及下方关键步骤阅读。
-# 返回：None。
+# 对一个教师完成训练/验证上下文拟合、预算选择及开发记录保存。
 def develop_seed(run, seed, x, context_ids):
     directory = run / f"seed_{seed}"
     if (directory / "development_complete.json").exists():
@@ -340,7 +284,6 @@ def develop_seed(run, seed, x, context_ids):
         else:
             fit = refit
         fit_path = directory / f"fit_L{layer}.npz"
-        # 保存具名数值数组，便于后来按同一索引回读和独立复算。
         np.savez_compressed(fit_path,**fit.__dict__,nodes=nodes,layer=layer)
         predictions,contexts,path_check = prepare_predictions(mod,fit,val_sources,specs)
         pred_path = directory / f"validation_predictions_L{layer}.npz"
@@ -376,18 +319,14 @@ def develop_seed(run, seed, x, context_ids):
         choices=all_choices,official_test_model_access=False))
 
 
-# 用途：创建当前方法与预算的计时执行器，完整预算使用精确路径。
-# 参数：mod、fit、method、k；具体形状/来源结合调用处及下方关键步骤阅读。
-# 返回：HeadRuntime(mod, fit, 'exact', 64) / HeadRuntime(mod, fit, method, k)。
+# 创建当前方法与预算的计时执行器，完整预算使用精确路径。
 def timing_runtime(mod, fit, method, k):
     if k==64 and method in METHODS + ["random"]:
         return HeadRuntime(mod,fit,"exact",64)
     return HeadRuntime(mod,fit,method,k)
 
 
-# 用途：对一个教师的固定验证输入做配对计时，比较查询量和状态获取场景。
-# 参数：run、seed、x、context_ids；具体形状/来源结合调用处及下方关键步骤阅读。
-# 返回：None。
+# 对一个教师的固定验证输入做配对计时，比较查询量和状态获取场景。
 def benchmark_seed(run, seed, x, context_ids):
     directory = run / f"seed_{seed}"
     out = directory / "timing"

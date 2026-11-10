@@ -1,8 +1,4 @@
-"""独立核验全部56纯三阶、条件三阶、符号抵消与真实门控反事实。
-
-不用新核心模块的数值函数。子集用成员集合生成，差分采用独立容斥
-矩阵；原block3.forward以where改开关，伴随与autograd共同核对坐标。
-"""
+"""核对 56 个三元组的纯三阶和条件三阶系数、符号抵消及真实开关干预。"""
 from __future__ import annotations
 
 import dsprites_teacher as teacher
@@ -21,7 +17,7 @@ NAMES=('selected32','random0_32','random1_32','selected128','random0_128','rando
 
 
 def load(path):
-    """纯数值读取，不修改历史文件。"""
+    """读取数值数组。"""
     with np.load(path,allow_pickle=False) as z:return {k:z[k].copy() for k in z.files}
 
 
@@ -216,7 +212,7 @@ def audit():
                                         real=forward_override(model,xx,xx[:1],stage=stage,ids=one).cpu().numpy()
                                         compare('single_site_actual',example[op,ctx,stage,j],real)
                                         if stage==1:compare('single_last_removal',effect[0]@weights[i]-np.einsum('m,mk,k->',signs,real,weights[i]),score[unit_id] if unit_id>=0 else 0.)
-            # 单独从审计重建的阶次公式核对汇总，不把三阶以上都叫三阶。
+            # 从容斥系数分别重建三阶项和更高阶余项。
             joint=np.einsum('nobmk,nk->nobm',raw['joint_logits'],weights)[:,:,1,0]
             orders=np.einsum('nobmk,nk->nobm',raw['order_totals'],weights)[...,0]
             for op in range(2):

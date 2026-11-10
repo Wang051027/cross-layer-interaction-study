@@ -1,7 +1,3 @@
-# 中文阅读说明｜用途：在同一 CPU 后端和边界计算下，比较不同背景处理方法的运行成本。
-# 数据流：输入冻结局部模块；输出准备、查询、缓存等场景的计时与成本统计。
-# 阅读副本仅增加 # 注释，保留原语句、公式、参数和文档字符串。
-# 原研究目录的冻结源码未改；需要哈希核验的历史流程仍使用原目录。
 """Descriptive matched-backend diagnostic, separate from historical timings."""
 from __future__ import annotations
 import csv
@@ -17,9 +13,6 @@ from research_runtime import (BASE, UPSTREAM, Fit, LocalModule, bit_design, low_
 from threadpoolctl import threadpool_limits
 
 
-# 用途：用统一字段顺序写出多行 CSV 记录。
-# 参数：path、rows；具体形状/来源结合调用处及下方关键步骤阅读。
-# 返回：结果通过文件、打印或对象/运行环境状态更新体现；没有显式 return。
 def write_csv(path, rows):
     with path.open("w", encoding="utf-8", newline="") as f:
         writer = csv.DictWriter(f, fieldnames=list(rows[0]))
@@ -27,9 +20,7 @@ def write_csv(path, rows):
         writer.writerows(rows)
 
 
-# 用途：在同一 CPU 后端和边界计算下，比较不同背景处理方法的运行成本。
-# 参数：无显式入参；使用本模块已配置的环境或文件。
-# 返回：结果通过文件、打印或对象/运行环境状态更新体现；没有显式 return。
+# 在同一 CPU 后端和边界计算下，比较不同背景处理方法的运行成本。
 def main():
     torch.set_num_threads(1)
     torch.set_grad_enabled(False)
@@ -53,7 +44,6 @@ def main():
                                for name in ("benchmark_heads.py", "research_runtime.py")},
                   exact_cached_implementation="reuse full cached z directly, without redundant gather/copy",
                   environment=dict(python=platform.python_version(), torch=torch.__version__, numpy=np.__version__))
-    # 把结构化配置或结果落盘，供后续阶段核验和报告读取。
     (output / "protocol.json").write_text(json.dumps(config, indent=2), encoding="utf-8")
     rng = np.random.default_rng(20260910)
     raw, costs = [], []
@@ -135,6 +125,5 @@ def main():
         elapsed_seconds=time.perf_counter()-started, statistical_claim="descriptive on this machine, not a speed guarantee"),indent=2),encoding="utf-8")
 
 
-# 只有直接运行本文件时才触发这个入口；作为模块导入时不会执行此分支。
 if __name__ == "__main__":
     main()

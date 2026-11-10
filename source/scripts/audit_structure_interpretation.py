@@ -1,7 +1,3 @@
-# 中文阅读说明｜用途：回看结构对照的已有结果，区分头部不活跃、局部线性与精确响应的影响。
-# 数据流：读取历史统计和拟合记录；写解释性检查结果，不重新选择原主实验配置。
-# 阅读副本仅增加 # 注释，保留原语句、公式、参数和文档字符串。
-# 原研究目录的冻结源码未改；需要哈希核验的历史流程仍使用原目录。
 """Post-result explanation checks; no fitting, selection, or result replacement."""
 from structure_runtime import *
 from external_experiment import DATA, csv_read
@@ -9,9 +5,7 @@ from external_experiment import DATA, csv_read
 RUN = BASE / "runs/fashion_structure_20260911"
 
 
-# 用途：回看结构对照的已有结果，区分头部不活跃、局部线性与精确响应的影响。
-# 参数：无显式入参；使用本模块已配置的环境或文件。
-# 返回：结果通过文件、打印或对象/运行环境状态更新体现；没有显式 return。
+# 回看结构对照的已有结果，区分头部不活跃、局部线性与精确响应的影响。
 def main():
     configure_cpu()
     # Independently check the high-error fixed-branch control against autograd.
@@ -45,7 +39,6 @@ def main():
     # Show actual effect and error scales, rather than treating >100% as impossible.
     held = bit_design(8).sum(1) > 2
     scales = []
-    # 逐个教师处理同一套设置；跨教师统计与一张图像内部的组合数量要分开。
     for seed in SEEDS:
         case = RUN / f"test/gap_{seed}_L2"
         with np.load(case / "predictions.npz", allow_pickle=False) as pp, np.load(case / "references.npz", allow_pickle=False) as rr:
@@ -77,7 +70,6 @@ def main():
                          gap_L2_mean_nrmse=float(np.mean([r["nrmse"] for r in scales])))))
 
 
-# 只有直接运行本文件时才触发这个入口；作为模块导入时不会执行此分支。
 if __name__ == "__main__":
     import json
     main()

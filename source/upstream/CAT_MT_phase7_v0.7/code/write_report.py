@@ -1,7 +1,3 @@
-# 中文阅读说明｜用途：原 v0.7 的 Word 研究报告生成器。
-# 数据流：读取已有研究汇总，使用 python-docx 排版表格和图像；不参与算法拟合。
-# 阅读副本仅增加 # 注释，保留原语句、公式、参数和文档字符串。
-# 原研究目录的冻结源码未改；需要哈希核验的历史流程仍使用原目录。
 from pathlib import Path
 import json,hashlib
 import pandas as pd
@@ -11,9 +7,7 @@ from docx.oxml import OxmlElement
 from docx.oxml.ns import qn
 R=Path(__file__).resolve().parents[1]
 
-# 用途：创建 Word 文档并配置字体、页边距和标题等基础样式。
-# 参数：title；具体形状/来源结合调用处及下方关键步骤阅读。
-# 返回：d。
+# 创建 Word 文档并配置字体、页边距和标题等基础样式。
 def base(title):
  d=Document();s=d.sections[0];s.page_width=Inches(8.27);s.page_height=Inches(11.69)
  s.top_margin=Inches(.62);s.bottom_margin=Inches(.62);s.left_margin=Inches(.72);s.right_margin=Inches(.72)
@@ -26,15 +20,11 @@ def base(title):
  field=OxmlElement('w:fldSimple');field.set(qn('w:instr'),'PAGE');f._p.append(field)
  d.core_properties.title=title;d.core_properties.author='';return d
 
-# 用途：向 Word 文档加入段落，可选择加粗。
-# 参数：d、text、bold；具体形状/来源结合调用处及下方关键步骤阅读。
-# 返回：pp。
+# 向 Word 文档加入段落，可选择加粗。
 def p(d,text,bold=False):
  pp=d.add_paragraph();rr=pp.add_run(text);rr.bold=bold;return pp
 
-# 用途：把表头和数据行组织为报告表格；Word/Markdown 的输出形式由本文件决定。
-# 参数：d、headers、rows、widths；具体形状/来源结合调用处及下方关键步骤阅读。
-# 返回：t。
+# 把表头和数据行组织为报告表格；Word/Markdown 的输出形式由本文件决定。
 def table(d,headers,rows,widths=None):
  t=d.add_table(rows=1,cols=len(headers));t.style='Light Shading Accent 1';t.autofit=False
  if widths:
@@ -53,19 +43,13 @@ def table(d,headers,rows,widths=None):
     for rr in pp.runs:rr.font.size=Pt(9.2)
  return t
 
-# 用途：插入分页并建立下一节标题。
-# 参数：d、title；具体形状/来源结合调用处及下方关键步骤阅读。
-# 返回：结果通过文件、打印或对象/运行环境状态更新体现；没有显式 return。
+# 插入分页并建立下一节标题。
 def page(d,title):d.add_page_break();d.add_heading(title,0)
-# 用途：向 Word 文档插入指定图像，并按参数设置宽度及说明。
-# 参数：d、path、width、alt；具体形状/来源结合调用处及下方关键步骤阅读。
-# 返回：结果通过文件、打印或对象/运行环境状态更新体现；没有显式 return。
+# 向 Word 文档插入指定图像，并按参数设置宽度及说明。
 def pic(d,path,width=5.9,alt=''):
  pp=d.add_paragraph();pp.alignment=1;run=pp.add_run();sh=run.add_picture(str(path),width=Inches(width));sh._inline.docPr.set('descr',alt)
 
-# 用途：原 v0.7 的 Word 研究报告生成器。
-# 参数：无显式入参；使用本模块已配置的环境或文件。
-# 返回：结果通过文件、打印或对象/运行环境状态更新体现；没有显式 return。
+# 原 v0.7 的 Word 研究报告生成器。
 def main():
  v=json.loads((R/'results/verification.json').read_text());ac=json.loads((R/'logs/fashion_acquisition.json').read_text())
  sums=pd.read_csv(R/'tables/background_summary.csv');quarter=pd.read_csv(R/'tables/quarter_budget_summary.csv');vs=pd.read_csv(R/'tables/validation_selection_summary.csv');bt=pd.read_csv(R/'tables/backend_timing_summary.csv')
@@ -75,7 +59,7 @@ def main():
  d.add_heading('1. 执行范围与阻塞',1)
  p(d,'原 v0.6 归档保持不变，本轮校验其218项文件清单，复制必要模型、数据和代码至新目录。沿用12个历史冻结教师模型，分别分析第一、第二卷积层后的干预。没有新增教师，也没有把旧测试集重新命名为外部验证。')
  table(d,['环节','状态与证据'],[
- ('旧版本冻结与核验','完成；218项源文件无哈希不符'),('Fashion-MNIST 获取','失败；四个文件各尝试两个官方地址，均未取得有效二进制'),('背景必要性消融','完成；24个模型—层运行、两种干预强度'),('一个受约束模块','完成；只学习保留的下游状态集合与平均门控，不另训任意黑箱'),('独立外部测试','未执行；必须先通过官方校验和与IDX解析门槛'),('外部协议与数据脚本','已准备并锁定设计；不冒充已完成外部实验')],[1.8,5.0])
+ ('旧版本冻结与核验','完成；218项源文件无哈希不符'),('Fashion-MNIST 获取','失败；四个文件各尝试两个官方地址，均未取得有效二进制'),('背景必要性消融','完成；24个模型—层运行、两种干预强度'),('一个受约束模块','完成；只学习保留的下游状态集合与平均门控，固定其余模型参数'),('独立外部测试','未执行；必须先通过官方校验和与IDX解析门槛'),('外部协议与数据脚本','已锁定取样和评价协议')],[1.8,5.0])
  d.add_heading('2. 实验规模与评价含义',1)
  p(d,'每个模型—层使用192个训练情境、64个验证情境和128个历史测试情境；每次选择8个固定源激活。训练只使用37个空集／单个／两两组合；测试参考执行256个组合，误差仅统计未用于低阶构建的219个高阶组合。')
  p(d,f"实际执行测试尾网络组合输出 {v['test_full_tail_output_evaluations']:,} 个，验证输出 {v['validation_full_tail_output_evaluations']:,} 个；保存 {v['result_rows']:,} 行配置结果。这些查询共享输入和模型，不是独立模型复现。统计以每个数据集的6个教师为单位。")
@@ -98,7 +82,7 @@ def main():
  p(d,'训练阶段估计每个头部单元的平均开门频率 g，选择少量单元S保留当前z值。未保留单元并非删除或置零，而是用固定的平均门控线性响应替代：')
  p(d,'ΔF近似 = U_S[ReLU(z_S + W_Sd) − ReLU(z_S)] + M_未选 d',True)
  p(d,'M_未选 = U_未选 diag(g_未选) W_未选，可以预先合并。保留集合仅由训练干预中的输出残差选择；贪心评分计入不同单元的输出抵消。测试真实干预不参与选择。')
- p(d,'这更接近“受干预目标约束的局部结构化近似”，不是证明被选单元具有语义，也不是证明未选单元无因果作用。贪心重构、结构化剪枝和贡献分解都有既有工作，本轮不声称这些工具首次提出。[2–3]')
+ p(d,'筛选按局部干预响应的重建误差排序。贪心重构、结构化剪枝和贡献分解的方法见已有研究。[2–3]')
  p(d,'部署实现确实不计算被删去的原始头部预激活；将所有未选z值替换成10000后，已提交预测保持完全不变。但源层之前计算、邻层背景和池化计算仍保留。')
 
  page(d,'25%头部预算：效果与代价')
@@ -170,5 +154,4 @@ def main():
  p(x,'执行入口：先运行 code/acquire_fashion.py --offline，再运行 code/prepare_external.py。这些只完成数据准入；教师训练和外部干预需在数据通过后另起日志执行。')
  p(x,'冻结机器可读协议：protocol/external_protocol.json；模块源代码SHA-256和数据种子一并记录。局部哈希锁定不是外部预注册。')
  x.save(R/'reports/external_protocol_onepage_zh.docx')
-# 只有直接运行本文件时才触发这个入口；作为模块导入时不会执行此分支。
 if __name__=='__main__':main()

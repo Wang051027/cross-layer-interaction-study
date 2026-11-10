@@ -1,4 +1,4 @@
-"""跨层机制的已知答案控制与原网络钩子核验，不训练或读取测试/校准集。"""
+"""用已知差分和模型前向钩子核对跨层干预。"""
 import json
 import numpy as np
 import torch

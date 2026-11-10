@@ -1,5 +1,5 @@
 {
-  "scope": "Read-only excerpts from the October discovery runs cited in the project README. Counts of records that reuse images or interventions are not independent sample sizes. source_file paths are relative to the historical archive; source_sha256 identifies the full original result before selection.",
+  "scope": "Read-only excerpts from the October discovery runs cited in the project README. Records can share images and interventions. source_file paths are relative to the historical archive; source_sha256 identifies the full original result before selection.",
   "stages": [
     {
       "source_file": "runs/dsprites_gradient_20261009/analysis.json",

@@ -1,8 +1,4 @@
-"""dSprites 实验的描述性后处理：教师层面比较、因素分层、图像与结果图。
-
-只读取已冻结的选择和已完成的评价，不重新选源/中介，不训练模型。
-大小/角度表是探索性分层，不把格点或24个差分当作独立统计样本。
-"""
+"""按模型、形状、大小和角度汇总 dSprites 评价响应，绘制因素分层结果。"""
 import os,json,csv
 from pathlib import Path
 import numpy as np
@@ -66,7 +62,7 @@ def main():
         methods=core(mode)+[f'{mode}_input_full_gradient','margin_global_single','margin_class_single','margin_input_single','all_shortlist','all_reachable']
         for method in methods:
             budget=None if method.startswith('all_') else 16
-            # 整个可达池的大小随教师变化，不能用第一个教师的池大小代表全部。
+            # 按模型分别统计可达池大小。
             budget_label='whole structural pool (varies by model)' if method=='all_reachable' else 64 if method=='all_shortlist' else 16
             groups.append(dict(target=mode,method=method,budget=budget_label,
                 **{key:stats(values(mode,method,key,budget)) for key in ('restore_ratio','transplant_error_ratio','joint_loss')}))
@@ -127,7 +123,7 @@ def main():
         source_sha256=sha(Path(__file__)),all_factor_cells_kept=True)
     dump(RUN/'descriptive_analysis.json',result)
     csv_write(RUN/'method_summary.csv',rows);csv_write(RUN/'factor_strata.csv',factor_rows)
-    # 六教师配对点呈现模型间差异，误差线不是置信区间。
+    # 配对点给出六个模型各自的得分。
     fig,axes=plt.subplots(2,3,figsize=(15,8),layout='constrained')
     labels_plot=['Global\ngradient','Class\ngradient','Input\ngradient','Global\nfinite','Class\nfinite','Input\nfinite']
     colors=['#6F8090','#4C86AE','#236F93','#B9A18B','#C98753','#A65322']

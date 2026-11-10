@@ -70,5 +70,5 @@
       "patch_hook_transplant": 1.3877787807814457e-17
     }
   },
-  "context": "Synthetic correctness control, not a trained model or research result"
+  "context": "Fixed-seed binary input and random network"
 }

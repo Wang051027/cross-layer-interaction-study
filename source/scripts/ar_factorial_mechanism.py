@@ -16,7 +16,7 @@ CONTEXTS = ('frozen_C', 'all32')
 
 
 def factorial(values):
-    """四格的精确三项恒等式；不把交互项任意分给A或R。"""
+    """分解四格响应，分别返回基准项、残差项和交互项。"""
     y00, y01, y10, y11 = np.moveaxis(np.asarray(values), -1, 0)
     return np.stack((y10-y00, y01-y00, y11-y10-y01+y00), axis=-1)
 
@@ -76,7 +76,7 @@ def compute(model, a, r, weight, selection):
     common_baseline_held = fixed_first(model, a, zbase, common_gate, groups)[0]
     baseline_logits = model.readout(model.block3(a).mean((2, 3)))
 
-    # 等幅度下游探针：在自然第一激活上对同一坐标加1，不改变图像输入。
+    # 在第一层的自然激活上给同一坐标加 1，作为等幅度探针。
     probe_u = t['uh'].clone(); probe_u.flatten(1)[:, point] += 1.
     probe = model.readout(model.block3.finish(probe_u, x).mean((2, 3)))
     point_remainder = (t['uh']-t['ga']*t['zh']).flatten(1)[:, point]

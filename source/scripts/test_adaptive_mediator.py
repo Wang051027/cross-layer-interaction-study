@@ -29,7 +29,7 @@ def known_answers():
     features = np.stack([np.arange(100.), np.arange(100.)[::-1], np.ones(100)])
     short = make_shortlist(features, np.arange(100))
     assert set(range(32)).issubset(short) and set(range(68, 100)).issubset(short)
-    # 单坐标的充分性不是组的充分性：乘积函数两个坐标单独移植均为零，一起才非零。
+    # 乘积函数中两个坐标单独移植均为零，联合移植得到非零响应。
     assert 1*0 == 0 and 0*1 == 0 and 1*1 == 1
     return dict(status='PASS', controls=['perfect / ineffective / harmful finite intervention',
         'zero interaction score', 'common shortlist includes both leading rankings',

@@ -1,7 +1,3 @@
-# 中文阅读说明｜用途：检查原六教师实验交付是否与其协议、检查点和文件清单一致。
-# 数据流：验证源码语法、结果与引用路径；输出审计清单，不重新训练模型。
-# 阅读副本仅增加 # 注释，保留原语句、公式、参数和文档字符串。
-# 原研究目录的冻结源码未改；需要哈希核验的历史流程仍使用原目录。
 """Read-only experiment checks, then a separate September 11 delivery snapshot."""
 from pathlib import Path
 from datetime import datetime, timezone
@@ -18,46 +14,31 @@ UPSTREAM = BASE / "upstream/CAT_MT_phase7_v0.7"
 SEEDS = list(range(202609071, 202609077))
 
 
-# 用途：对文件字节计算 SHA-256，用于发现数据、源码或检查点是否改变。
-# 参数：path；具体形状/来源结合调用处及下方关键步骤阅读。
-# 返回：hashlib.file_digest(stream, 'sha256').hexdigest()。
 def sha(path):
     with Path(path).open("rb") as stream:
         return hashlib.file_digest(stream, "sha256").hexdigest()
 
 
-# 用途：读取本函数指定的记录文件，返回解析后的对象；JSON/CSV 形式见函数体。
-# 参数：path；具体形状/来源结合调用处及下方关键步骤阅读。
-# 返回：json.loads(Path(path).read_text(encoding='utf-8'))。
 def read(path):
     return json.loads(Path(path).read_text(encoding="utf-8"))
 
 
-# 用途：把结构化记录序列化为 JSON 并写到指定路径。
-# 参数：path、value；具体形状/来源结合调用处及下方关键步骤阅读。
-# 返回：结果通过文件、打印或对象/运行环境状态更新体现；没有显式 return。
 def dump(path, value):
-    # 把结构化配置或结果落盘，供后续阶段核验和报告读取。
     Path(path).write_text(json.dumps(value, ensure_ascii=False, indent=2), encoding="utf-8")
 
 
-# 用途：将清单中的相对路径解析为绝对路径，并拒绝越过指定根目录的路径。
-# 参数：root、name；具体形状/来源结合调用处及下方关键步骤阅读。
-# 返回：path。
+# 将清单中的相对路径解析为绝对路径，并拒绝越过指定根目录的路径。
 def checked_path(root, name):
     path = (root / name).resolve()
     assert path.is_relative_to(root.resolve()), (root, name)
     return path
 
 
-# 用途：检查原六教师实验交付是否与其协议、检查点和文件清单一致。
-# 参数：无显式入参；使用本模块已配置的环境或文件。
-# 返回：结果通过文件、打印或对象/运行环境状态更新体现；没有显式 return。
+# 检查原六教师实验交付是否与其协议、检查点和文件清单一致。
 def main():
     upstream_count = 0
     for line in (UPSTREAM / "MANIFEST.sha256").read_text(encoding="utf-8").splitlines():
         expected, name = line.split(None, 1)
-        # 核对内容承诺；注释版的文件字节会变化，原冻结实验应使用原研究目录。
         assert sha(checked_path(UPSTREAM, name)) == expected, name
         upstream_count += 1
     assert upstream_count == 271
@@ -85,7 +66,6 @@ def main():
     assert completion["full_tail_intervened_outputs"] == 1572864
     teacher_checks = []
     timing_rows = 0
-    # 逐个教师处理同一套设置；跨教师统计与一张图像内部的组合数量要分开。
     for seed in SEEDS:
         directory = RUN / f"seed_{seed}"
         summary = read(directory / "teacher_summary.json")
@@ -164,6 +144,5 @@ def main():
         delivery_files=manifest["files"], delivery_bytes=manifest["bytes"])))
 
 
-# 只有直接运行本文件时才触发这个入口；作为模块导入时不会执行此分支。
 if __name__ == "__main__":
     main()

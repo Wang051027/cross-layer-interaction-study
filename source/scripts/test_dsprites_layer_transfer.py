@@ -1,8 +1,4 @@
-"""层间传递前置检查：只读取旧开发集第一形状配对。
-
-原模块forward与where门控独立核对生产实现；手算例子区分上游产生、
-下游产生和相互抵消。审计可复用参考forward，不调用新数值核心。
-"""
+"""在开发集首个形状配对上核对门控前向结果，用手算例子验证上下游交互和抵消。"""
 from __future__ import annotations
 
 import dsprites_teacher as teacher

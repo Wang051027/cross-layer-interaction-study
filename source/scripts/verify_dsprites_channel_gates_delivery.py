@@ -9,7 +9,7 @@ BASE=teacher.BASE;RUN=BASE/'runs/dsprites_channel_gates_20261011'
 
 
 def verify(deep=False):
-    """先验证清单自身，再验证大小和SHA256，不修改事件或任何数据。"""
+    """依次校验清单哈希、文件大小及各文件的 SHA-256。"""
     manifest=RUN/'delivery_manifest.json';assert teacher.sha(manifest)==(RUN/'delivery_manifest.sha256').read_text().strip()
     records=teacher.read(manifest)['files'];assert isinstance(records,list)
     for item in records:

@@ -1,4 +1,4 @@
-"""四状态效应逐行提取：保留失败、随机及分解对照，不把交互项分配成唯一份额。"""
+"""计算组内通道和组外背景在四个状态下的输出差及交互项。"""
 from __future__ import annotations
 import csv
 import json
@@ -15,7 +15,7 @@ VARIANTS=('selected','random0','random1')
 
 
 def rms(values):
-    """空子集是缺失，不是零；有观测才计算RMS。"""
+    """以有观测值的子集计算 RMS，空子集记为缺失值。"""
     return float(np.sqrt(np.mean(np.square(values)))) if len(values) else None
 
 
@@ -104,7 +104,7 @@ def analyze():
                                 dlog=raw['drop_logits'][case,m,di,context,pos];df=float(dlog@weights[case]);dz=float(raw['drop_z'][case,m,di,context,pos])
                                 members.append(dict(seed=seed,case=case,mask=mask,endpoint=endpoint,family=family,primary_success=primary,context=STATES[state],channel=int(ch),full_point_z=float(z[state]),reverted_point_z=dz,
                                     change_needed_for_target_side=bool(direction*z[state]>EPS and direction*dz<-EPS),full_F=float(task[case,m,slot,state,0]),reverted_F=df,F_effect_of_member_change=float(task[case,m,slot,state,0]-df),logit0=float(dlog[0]),logit1=float(dlog[1]),logit2=float(dlog[2])))
-        # 同一教师内先计算，随后跨有成功观测的教师等权；绝不把空教师当零。
+        # 先在各模型内计算，再对有观测的模型等权平均。
         for slot,endpoint in enumerate(ENDPOINTS):
             base=[r for r in seedrows if r['slot']==slot]
             groups=dict(all864=lambda r:True,focus539=lambda r:r['focus539'],aligned_success539=lambda r:r['focus539'] and r['prior_aligned'],aligned_failed539=lambda r:r['focus539'] and not r['prior_aligned'])

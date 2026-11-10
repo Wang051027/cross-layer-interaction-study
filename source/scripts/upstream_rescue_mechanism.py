@@ -1,9 +1,4 @@
-"""追踪block2如何移动构造基准A，并冻结仅依据基准修复量的上游名单。
-
-A不是自然激活：它由空状态和各单组状态的block2输出重建。
-所有上游控制都施加到同一套源状态，再同时重建A与R；本文件
-不读取最终分类读出，也不以是否救回原通道组作为排名分数。
-"""
+"""用空组和单组响应重建基准 A，再按对基准的修复量排序上游干预，并同时重算 A 与 R。"""
 from __future__ import annotations
 import numpy as np
 import torch
@@ -138,7 +133,7 @@ def choose(ids, scores, pool, budget, rng, width):
 
 @torch.no_grad()
 def discover(model, half, full, mask, frozen, seed):
-    """只用基准b的定向修复量排名；不读取C的残差或任务logit。"""
+    """按上游干预对基准 b 的定向修复量排序。"""
     point = int(frozen['lists'][0, 0]); direction = int(frozen['half_direction'])
     w = target_weight(model, point); a0, _ = reconstruct(half['h'], mask); a1, _ = reconstruct(full['h'], mask)
     source_score = np.zeros(16); eligible = np.array([bool(mask & (1 << (c//4))) for c in range(16)])
@@ -216,5 +211,5 @@ def intervene(model, half, full, mask, selection):
     assert float(abs(a[0]-a1).max()) < 1e-10 and float(abs(r[0]-r1).max()) < 1e-10
     for n in (5, 10):
         assert float(abs(a[n]-a0).max()) < 1e-10 and float(abs(r[n]-r0).max()) < 1e-10
-    # 两层参考gate固定后的∆b恰好为线性项；不宣称跨源状态的R为零。
+    # 同时固定两层参照开关时，∆b 等于线性项。
     return a, r

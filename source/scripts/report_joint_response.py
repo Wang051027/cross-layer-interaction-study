@@ -1,7 +1,3 @@
-# 中文阅读说明｜用途：把已完成的联合干预分析生成中文报告及四面板图。
-# 数据流：读取 summary 和独立核验 JSON；输出报告/图像，全文模板保留原来的实验口径。
-# 阅读副本仅增加 # 注释，保留原语句、公式、参数和文档字符串。
-# 原研究目录的冻结源码未改；需要哈希核验的历史流程仍使用原目录。
 """Render the completed, independently verified descriptive analysis."""
 import os
 from pathlib import Path
@@ -17,22 +13,12 @@ from matplotlib import pyplot as plt, font_manager
 REPORT=BASE/'reports/联合干预响应_首轮结果_2026-09-25.md'
 FIGURE=BASE/'reports/figures/joint_response_20260925.png'
 
-# 用途：读取本函数指定的记录文件，返回解析后的对象；JSON/CSV 形式见函数体。
-# 参数：path；具体形状/来源结合调用处及下方关键步骤阅读。
-# 返回：json.loads(path.read_text(encoding='utf-8'))。
 def read(path):return json.loads(path.read_text(encoding='utf-8'))
-# 用途：把报表字段转成浮点数；空值保留为 NaN，避免当作真实零。
-# 参数：r、key；具体形状/来源结合调用处及下方关键步骤阅读。
-# 返回：np.nan if r[key] in ('', None) else float(r[key])。
+# 把报表字段转成浮点数；空值保留为 NaN，避免当作真实零。
 def number(r,key):return np.nan if r[key] in ('',None) else float(r[key])
-# 用途：计算或格式化报告所需统计量，具体尺度和百分比转换在函数体中完成。
-# 参数：g、key、precision；具体形状/来源结合调用处及下方关键步骤阅读。
-# 返回：f"{100 * g[key + '_mean']:.{precision}f}% ± {100 * g[key + '_sd']:.{precision}f}%"。
 def stats(g,key,precision=2):return f"{100*g[key+'_mean']:.{precision}f}% ± {100*g[key+'_sd']:.{precision}f}%"
 
-# 用途：把已完成的联合干预分析生成中文报告及四面板图。
-# 参数：无显式入参；使用本模块已配置的环境或文件。
-# 返回：结果通过文件、打印或对象/运行环境状态更新体现；没有显式 return。
+# 把已完成的联合干预分析生成中文报告及四面板图。
 def main():
     summary=read(RUN/'summary.json');verification=read(RUN/'independent_verification.json')
     assert verification['status']=='PASS'
@@ -137,9 +123,7 @@ def main():
     text=text.replace('{{IDENTITY_MAX}}',f"{summary['maximum_nonlinear_identity_difference']:.3e}")
     text=text.replace('{{AUDIT_MAX}}',f"{verification['maximum_difference']:.3e}")
     assert '{{' not in text
-    # 用途：把报告中的本地相对链接解析为实际完整路径，网络链接保持原样。
-    # 参数：match；具体形状/来源结合调用处及下方关键步骤阅读。
-    # 返回：match.group(0) / prefix + (REPORT.parent / target).resolve().as_posix() + ')'。
+    # 把报告中的本地相对链接解析为实际完整路径，网络链接保持原样。
     def absolute_link(match):
         prefix,target=match.group(1),match.group(2)
         if target.startswith(('https://','http://','D:/')): return match.group(0)
@@ -289,5 +273,4 @@ $$\\Delta F=U[\\operatorname{ReLU}(z+W\\delta h)-\\operatorname{ReLU}(z)].$$
 每种方法的原始拟合系数与每阶能量保存在新运行目录的 cases 子目录。本轮未改写旧参考数组、教师模型或旧研究结果，也未重新生成研究包 ZIP。
 '''
 
-# 只有直接运行本文件时才触发这个入口；作为模块导入时不会执行此分支。
 if __name__=='__main__':main()

@@ -1,7 +1,3 @@
-# 中文阅读说明｜用途：复算用户提供的 v0.7 模型与组合响应，检查导入后是否保持原结果。
-# 数据流：输入原包模型、数据和拟合参数；输出数组一致性与指标复核记录。
-# 阅读副本仅增加 # 注释，保留原语句、公式、参数和文档字符串。
-# 原研究目录的冻结源码未改；需要哈希核验的历史流程仍使用原目录。
 """Re-score/replay v0.7 without modifying its imported archive contents."""
 from __future__ import annotations
 import csv
@@ -18,9 +14,6 @@ from research_runtime import (BASE, UPSTREAM, Fit, LocalModule, bit_design, low_
 from threadpoolctl import threadpool_limits
 
 
-# 用途：用统一字段顺序写出多行 CSV 记录。
-# 参数：path、rows；具体形状/来源结合调用处及下方关键步骤阅读。
-# 返回：结果通过文件、打印或对象/运行环境状态更新体现；没有显式 return。
 def write_csv(path, rows):
     with path.open("w", encoding="utf-8", newline="") as f:
         writer = csv.DictWriter(f, fieldnames=list(rows[0]))
@@ -28,9 +21,7 @@ def write_csv(path, rows):
         writer.writerows(rows)
 
 
-# 用途：复算用户提供的 v0.7 模型与组合响应，检查导入后是否保持原结果。
-# 参数：无显式入参；使用本模块已配置的环境或文件。
-# 返回：结果通过文件、打印或对象/运行环境状态更新体现；没有显式 return。
+# 复算用户提供的 v0.7 模型与组合响应，检查导入后是否保持原结果。
 def main():
     torch.set_num_threads(1)
     torch.use_deterministic_algorithms(True)
@@ -120,7 +111,6 @@ def main():
                              refit_different_order_gain_max=different_gain_max,
                              refit_gate_and_projector_max_error=fit_error, **err)
                 audit.append(check)
-                # 把结构化配置或结果落盘，供后续阶段核验和报告读取。
                 (output / "progress.json").write_text(json.dumps(audit, indent=2), encoding="utf-8")
                 write_csv(output / "quarter_results.csv", rows)
                 print(json.dumps(check), flush=True)
@@ -157,6 +147,5 @@ def main():
     print(json.dumps({key:value for key,value in result.items() if key!="checks"}, indent=2), flush=True)
 
 
-# 只有直接运行本文件时才触发这个入口；作为模块导入时不会执行此分支。
 if __name__ == "__main__":
     main()

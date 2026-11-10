@@ -1,7 +1,3 @@
-# 中文阅读说明｜用途：核验状态筛选实验及 q=12 补充全枚举的文件、数值和统计完整性。
-# 数据流：输入完成的 switch 结果；输出交付哈希清单。
-# 阅读副本仅增加 # 注释，保留原语句、公式、参数和文档字符串。
-# 原研究目录的冻结源码未改；需要哈希核验的历史流程仍使用原目录。
 """Preservation, provenance, and delivery audit for the exact-switch study."""
 from pathlib import Path
 from datetime import datetime, timezone
@@ -18,43 +14,29 @@ BASE = Path(__file__).resolve().parents[1]
 RUN = BASE/"runs/fashion_switch_20260914"
 
 
-# 用途：对文件字节计算 SHA-256，用于发现数据、源码或检查点是否改变。
-# 参数：path；具体形状/来源结合调用处及下方关键步骤阅读。
-# 返回：hashlib.file_digest(stream, 'sha256').hexdigest()。
 def sha(path):
     with path.open("rb") as stream:
         return hashlib.file_digest(stream,"sha256").hexdigest()
 
 
-# 用途：读取本函数指定的记录文件，返回解析后的对象；JSON/CSV 形式见函数体。
-# 参数：path；具体形状/来源结合调用处及下方关键步骤阅读。
-# 返回：json.loads(path.read_text(encoding='utf-8-sig'))。
 def read(path):
     return json.loads(path.read_text(encoding="utf-8-sig"))
 
 
-# 用途：核对输入/源码等清单指向的文件与预期哈希一致。
-# 参数：root、values；具体形状/来源结合调用处及下方关键步骤阅读。
-# 返回：结果通过文件、打印或对象/运行环境状态更新体现；没有显式 return。
+# 核对输入/源码等清单指向的文件与预期哈希一致。
 def check(root, values):
     for name, expected in values.items():
         path = (root/name).resolve()
         assert path.is_relative_to(root.resolve())
-        # 核对内容承诺；注释版的文件字节会变化，原冻结实验应使用原研究目录。
         assert sha(path) == expected, name
 
 
-# 用途：读取保存的表格记录；不在这里重新运行实验。
-# 参数：path；具体形状/来源结合调用处及下方关键步骤阅读。
-# 返回：list(csv.DictReader(stream))。
 def rows(path):
     with path.open(encoding="utf-8",newline="") as stream:
         return list(csv.DictReader(stream))
 
 
-# 用途：核验状态筛选实验及 q=12 补充全枚举的文件、数值和统计完整性。
-# 参数：无显式入参；使用本模块已配置的环境或文件。
-# 返回：结果通过文件、打印或对象/运行环境状态更新体现；没有显式 return。
+# 核验状态筛选实验及 q=12 补充全枚举的文件、数值和统计完整性。
 def main():
     archive = BASE/"incoming/CAT_MT_background_selection_v0.7.zip"
     assert sha(archive) == "8fe0094d2260e84e98905e53f2fdec211fa0644b1e0ecfa194ab2633ad6f0aae"
@@ -187,7 +169,6 @@ def main():
         calibration_model_access=False,new_confirmatory_p_values=0,archives_not_recreated=True,
         local_links_checked=links,python_sources_parsed=len(sources),
         figure_review="Final PNG visually inspected; PDF exported from the same Matplotlib figure")
-    # 把结构化配置或结果落盘，供后续阶段核验和报告读取。
     audit_path.write_text(json.dumps(result,ensure_ascii=False,indent=2),encoding="utf-8")
     paths = {p for p in RUN.rglob("*") if p.is_file()}
     paths.update(sources+docs+figures+[BASE/"RESEARCH_STATUS.json",audit_path,BASE/"audit/switch_interpretation_20260917.json"])
@@ -199,6 +180,5 @@ def main():
         snapshot_files=len(entries),bytes=snapshot["bytes"],links=links)))
 
 
-# 只有直接运行本文件时才触发这个入口；作为模块导入时不会执行此分支。
 if __name__ == "__main__":
     main()

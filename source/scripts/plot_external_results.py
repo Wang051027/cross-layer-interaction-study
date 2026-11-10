@@ -1,7 +1,3 @@
-# 中文阅读说明｜用途：绘制原六教师实验的误差和成本对比。
-# 数据流：读取原实验汇总和计时文件；输出报告使用的图像。
-# 阅读副本仅增加 # 注释，保留原语句、公式、参数和文档字符串。
-# 原研究目录的冻结源码未改；需要哈希核验的历史流程仍使用原目录。
 """Standalone figure; primary accuracy and descriptive matched-budget cost."""
 from __future__ import annotations
 import os
@@ -15,16 +11,11 @@ import numpy as np
 import csv
 
 
-# 用途：读取本函数指定的记录文件，返回解析后的对象；JSON/CSV 形式见函数体。
-# 参数：path；具体形状/来源结合调用处及下方关键步骤阅读。
-# 返回：list(csv.DictReader(f))。
 def read(path):
     with path.open(encoding="utf-8",newline="") as f:return list(csv.DictReader(f))
 
 
-# 用途：绘制原六教师实验的误差和成本对比。
-# 参数：无显式入参；使用本模块已配置的环境或文件。
-# 返回：结果通过文件、打印或对象/运行环境状态更新体现；没有显式 return。
+# 绘制原六教师实验的误差和成本对比。
 def main():
     run=BASE / "runs/fashion_external_20260911"
     rows=read(run / "test/all_results.csv")
@@ -74,5 +65,4 @@ def main():
     plt.close(fig)
 
 
-# 只有直接运行本文件时才触发这个入口；作为模块导入时不会执行此分支。
 if __name__=="__main__":main()

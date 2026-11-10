@@ -1,9 +1,4 @@
-"""独立审计有限搜索与真实恢复：原卷积/原forward、所有真子集及共同点控制。
-
-不调用新核心的局部缓存、重建、几何、搜索、名单或完整干预函数。
-生产用11×11线性缓存，本审计用13×13原conv/BN直接重算；输出再用
-原block2/3.forward核验。任何失败都不写PASS完成记录。
-"""
+"""用 13×13 区域上的原卷积和 BatchNorm 复核候选解，在 block2、block3 上检验所有真子集的输出。"""
 from __future__ import annotations
 import json
 import numpy as np
@@ -74,7 +69,7 @@ def native_trace(block, x, point=None, reference=None):
 
 @torch.no_grad()
 def independent_local(model, xx, traces, y, x, family, ids, amounts):
-    """13×13原conv1、带padding原conv2再裁剪；不使用生产的仿射差缓存。"""
+    """在 13×13 区域运行 conv1，经带填充的 conv2 后裁剪输出。"""
     b = model.block2; half, full = traces; n = len(amounts)
     lam = torch.as_tensor(amounts, dtype=xx[0].dtype, device=xx[0].device)[:, None, None, None, None]
     u1, u0 = crop(full['u'], y, x, 2), crop(half['u'], y, x, 2)
@@ -145,7 +140,7 @@ def direct_metrics(model, seven, a1, C, mask, point, direction, enumerate_subset
 
 
 def objective(margins, strategy):
-    """独立使用三参照最低余量，不调用新核心objectives。"""
+    """取三个参照中最小的阈值余量。"""
     q = np.asarray(margins).min(-1)
     return q[..., 0] if strategy == 0 else q[..., 1:].min(-1) if strategy == 1 else q.min(-1)
 

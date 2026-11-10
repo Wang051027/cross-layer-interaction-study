@@ -190,7 +190,7 @@ def audit():
                         for kind,index in (('selected1',5),('positive1',6),('negative1',7)):
                             coordinate=int(selection['gates'][case,stage,index,0])
                             if coordinate>=0:positions.append((stage,kind,coordinate))
-                    # 加入预定干预的第二层响应最大点，只作解释，不用于再干预。
+                    # 另记录预定干预在第二层产生的最大响应位置。
                     for mask in (3,15):
                         candidates=[x for x in response_coords if x['alpha']==alpha and x['operation']==0 and x['mask']==mask and x['rank']==0]
                         for x in candidates:positions.append((1,f'selected128_response_mask{mask}',x['channel']*1024+x['y']*32+x['x']))

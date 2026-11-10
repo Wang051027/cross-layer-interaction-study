@@ -11,7 +11,7 @@ BASE=teacher.BASE;RUN=BASE/'runs/dsprites_triple_gates_20261011'
 
 
 def verify(deep=False):
-    """文件大小和SHA256逐一核对，不调用写事件日志的实验阶段。"""
+    """逐项校验文件大小和 SHA-256。"""
     manifest=RUN/'delivery_manifest.json';assert teacher.sha(manifest)==manifest.with_suffix('.sha256').read_text().strip()
     records=teacher.read(manifest)['files'];assert isinstance(records,list)
     assert len({r['path'] for r in records})==len(records)

@@ -88,7 +88,6 @@ def initialize(device):
         expected = read(folder/'teacher_summary.json')['checkpoint_sha256']
         assert sha(folder/'teacher.pt') == expected
         inputs[(folder/'teacher.pt').relative_to(BASE).as_posix()] = expected
-    # 已完成研究清单中的原件全部保全；新文件不会写入这些历史位置。
     preserved = read(BASE/'audit/joint_response_manifest_20260925.json')['entries']
     for entry in preserved: assert sha(BASE/entry['path']) == entry['sha256'], entry['path']
     for relative, expected in inputs.items(): assert sha(BASE/relative) == expected, relative

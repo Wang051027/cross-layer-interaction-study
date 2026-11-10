@@ -1,9 +1,4 @@
-"""独立核验配对、容斥各阶、ReLU坐标选择和真实门控干预。
-
-不调用新机制模块的数值函数：子集和稠密差分矩阵独立构造，原block3
-forward覆盖用where实现，坐标传播以旧伴随公式和autograd交叉核验。
-所有阶段和旧836文件条目只读，审计记录只写新目录。
-"""
+"""用稠密容斥矩阵核对通道配对系数。用 block3 前向运算和自动微分核对指定 ReLU 位置的干预。"""
 from __future__ import annotations
 
 import itertools
@@ -80,7 +75,7 @@ def coordinate_maps(model,t,weight,matrix):
 
 @torch.no_grad()
 def independent_partial(model,x,base,stage,id_lists):
-    """把六名单作为批次送入原block3.forward，不调用主修补或主分解函数。"""
+    """将六份通道名单组成批次，运行 block3.forward。"""
     b=model.block3;inputs=x.repeat(len(id_lists),1,1,1)
     z0=b.bn1(b.conv1(base));g10=z0>0;g20=(b.bn2(b.conv2(F.relu(z0)))+base)>0
     support=torch.zeros((len(id_lists),32768),dtype=torch.bool,device=x.device)

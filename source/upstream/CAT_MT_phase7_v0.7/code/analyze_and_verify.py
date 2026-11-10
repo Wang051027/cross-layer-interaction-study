@@ -1,7 +1,3 @@
-# 中文阅读说明｜用途：原 v0.7 的保存数组回读评分与局部运行时一致性检查。
-# 数据流：读取原包模型、上下文、预测和参考；输出误差与一致性检查结果。
-# 阅读副本仅增加 # 注释，保留原语句、公式、参数和文档字符串。
-# 原研究目录的冻结源码未改；需要哈希核验的历史流程仍使用原目录。
 from __future__ import annotations
 import os
 for k in ['OMP_NUM_THREADS','OPENBLAS_NUM_THREADS','MKL_NUM_THREADS','NUMEXPR_NUM_THREADS']:os.environ[k]='1'
@@ -15,13 +11,8 @@ from local_modules import LocalModule,source_activation,bit_design
 from context_module import Fit,predict,RuntimeModule
 from run_development import metrics
 
-# 用途：对文件字节计算 SHA-256，用于发现数据、源码或检查点是否改变。
-# 参数：p；具体形状/来源结合调用处及下方关键步骤阅读。
-# 返回：hashlib.sha256(Path(p).read_bytes()).hexdigest()。
 def sha(p):return hashlib.sha256(Path(p).read_bytes()).hexdigest()
-# 用途：原 v0.7 的保存数组回读评分与局部运行时一致性检查。
-# 参数：无显式入参；使用本模块已配置的环境或文件。
-# 返回：结果通过文件、打印或对象/运行环境状态更新体现；没有显式 return。
+# 原 v0.7 的保存数组回读评分与局部运行时一致性检查。
 def main():
  torch.set_num_threads(1);threadpool_limits(1)
  completed=list((R/'logs').glob('complete_*.json'));assert len(completed)==24,f'{len(completed)} /24 runs'
@@ -67,9 +58,7 @@ def main():
   au['cross_exact_overlap']={a+'__'+b:len(sets[a]&sets[b]) for a,b in [('train','validation'),('train','test'),('validation','test')]};audit[ds]=au
  completion=[json.loads(p.read_text()) for p in completed]
  report={'completed_model_layer_runs':24,'teachers':12,'new_teachers':0,'external_dataset_runs':0,'test_full_tail_output_evaluations':24*128*256*2,'validation_full_tail_output_evaluations':24*64*256,'training_compiled_construction_values':24*192*37,'result_rows':len(rows),'primary_raw_predictions_rescored':len(score_error),'score_max_difference':max(score_error),'serialized_model_replay_max_difference':max(pred_error),'independent_full_tail_replay_max_difference':max(full_error),'unretained_z3_poison_test_max_difference':max(omitted_invariance),'primary_predictions_precede_references':bool(all(commit_ok)),'maximum_full_exact_error':max(x['reference_exact_max_error'] for x in completion),'maximum_runtime_vs_array_predictor_error':max(x['runtime_predictor_max_difference'] for x in completion),'total_experiment_seconds':sum(x['runtime_seconds'] for x in completion),'environment':{'torch':torch.__version__,'numpy':np.__version__,'cpu_threads':1,'dtype':'float64'},'scope':'development reanalysis; not external or independent validation'}
- # 把结构化配置或结果落盘，供后续阶段核验和报告读取。
  (R/'results/verification.json').write_text(json.dumps(report,indent=2));(R/'data/development_quality_audit.json').write_text(json.dumps(audit,indent=2))
  assert report['score_max_difference']<1e-12 and max(pred_error)<1e-12 and max(full_error)<1e-12 and max(omitted_invariance)==0 and all(commit_ok)
  print(json.dumps(report,indent=2));print(pd.read_csv(R/'tables/validation_selection_summary.csv').to_string(index=False));print(pd.read_csv(R/'tables/quarter_budget_summary.csv').to_string(index=False))
-# 只有直接运行本文件时才触发这个入口；作为模块导入时不会执行此分支。
 if __name__=='__main__':main()

@@ -1,6 +1,6 @@
 {
   "status": "PASS",
-  "context": "Three cached rows from one model; demonstration only",
+  "context": "Three cached dSprites responses from one model",
   "panel_indices": [
     0,
     1,

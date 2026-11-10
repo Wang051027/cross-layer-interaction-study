@@ -5,4 +5,4 @@
 # Frozen records retain the original bytes, including line endings used by SHA-256.
 reproduction/held_condition/runs/** -text
 reproduction/held_condition/reference/** -text
-reproduction/held_condition/original_source/** -text
+reproduction/held_condition/protocol_sources.zip binary

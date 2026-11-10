@@ -101,7 +101,7 @@ def initialize():
     for name in CODE:
         dst=RUN/'source/scripts'/name;dst.parent.mkdir(parents=True,exist_ok=True);shutil.copy2(BASE/'scripts'/name,dst)
     p=dict(version='downstream-routes-v1',utc=teacher.now(),client_date='2026-10-25',cohort=records,
-        scope='same36images/6frozen samearchitecture teachers;37 inherited case-method records incl26 primary/4decomposition/6failedsource/1priorreferencefailure;no training or inputexpansion',
+        scope='36 images and six frozen models of the same architecture. 37 case-method records: 26 primary, 4 decomposition, 6 failed source interventions and 1 prior reference failure',
         contexts=['old outside:C00to10','new outside:C01to11'],reference='matchedC-off realnonnegativeactivations within eachoutsidecontext;not oldA1 or crosscontext00clamp',
         localization='exact singlepoint outputloss on restoringC-off value;firstReLU local3x3 secondReLU recompute;lastReLU outputlinear;wholechannel first nativefinish;abs outputloss ranks',
         selection_caveat='output-guided samepanel exploratory localization;notheldout confirmation,no minimalunique circuitclaim',

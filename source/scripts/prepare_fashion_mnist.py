@@ -1,12 +1,4 @@
-# 中文阅读说明｜用途：下载并核验官方 Fashion-MNIST 文件，检查格式、校验值和重复图像。
-# 数据流：仅使用标准库处理下载与审计；输出 raw/ 数据和质量记录，不执行模型。
-# 阅读副本仅增加 # 注释，保留原语句、公式、参数和文档字符串。
-# 原研究目录的冻结源码未改；需要哈希核验的历史流程仍使用原目录。
-"""Download official Fashion-MNIST bytes and audit them without running models.
-
-Standard-library only. Existing data with a different checksum is not overwritten.
-No training, split selection, intervention, or test-performance evaluation occurs.
-"""
+"""Download Fashion-MNIST and verify IDX headers, dimensions, and checksums."""
 
 from __future__ import annotations
 
@@ -32,33 +24,24 @@ EXPECTED = {
 }
 
 
-# 用途：通过 HTTP 请求读取原始数据字节；这里只获取文件，不解析图像。
-# 参数：url；具体形状/来源结合调用处及下方关键步骤阅读。
-# 返回：response.read()。
+# 通过 HTTP 请求读取原始数据字节；这里只获取文件，不解析图像。
 def fetch(url: str) -> bytes:
     req = urllib.request.Request(url, headers={"User-Agent": "CAT-MT-data-audit/1.0"})
     with urllib.request.urlopen(req, timeout=45) as response:
         return response.read()
 
 
-# 用途：按指定算法计算一段字节的摘要，用于下载数据校验。
-# 参数：data、algorithm；具体形状/来源结合调用处及下方关键步骤阅读。
-# 返回：hashlib.new(algorithm, data).hexdigest()。
+# 按指定算法计算一段字节的摘要，用于下载数据校验。
 def digest(data: bytes, algorithm: str = "sha256") -> str:
     return hashlib.new(algorithm, data).hexdigest()
 
 
-# 用途：把数据审计结果写成便于回读的 JSON 文件。
-# 参数：path、value；具体形状/来源结合调用处及下方关键步骤阅读。
-# 返回：结果通过文件、打印或对象/运行环境状态更新体现；没有显式 return。
+# 把数据审计结果写成便于回读的 JSON 文件。
 def save_json(path: Path, value: object) -> None:
-    # 把结构化配置或结果落盘，供后续阶段核验和报告读取。
     path.write_text(json.dumps(value, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
 
 
-# 用途：下载并核验官方 Fashion-MNIST 文件，检查格式、校验值和重复图像。
-# 参数：无显式入参；使用本模块已配置的环境或文件。
-# 返回：结果通过文件、打印或对象/运行环境状态更新体现；没有显式 return。
+# 下载并核验官方 Fashion-MNIST 文件，检查格式、校验值和重复图像。
 def main() -> None:
     RAW.mkdir(parents=True, exist_ok=True)
     AUDIT.mkdir(parents=True, exist_ok=True)
@@ -153,6 +136,5 @@ def main() -> None:
                       "exact_pixel_duplicates": duplicates, "model_training_runs": 0}, indent=2), flush=True)
 
 
-# 只有直接运行本文件时才触发这个入口；作为模块导入时不会执行此分支。
 if __name__ == "__main__":
     main()

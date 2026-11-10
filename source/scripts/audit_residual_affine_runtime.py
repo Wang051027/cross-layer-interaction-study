@@ -1,12 +1,4 @@
-# 中文阅读说明｜用途：把残差块原始 ReLU 区域内的线性响应融合成小矩阵，再单独测量成本。
-# 数据流：使用冻结残差模型和既有输入；输出融合计算的一致性、缓存和计时结果。
-# 阅读副本仅增加 # 注释，保留原语句、公式、参数和文档字符串。
-# 原研究目录的冻结源码未改；需要哈希核验的历史流程仍使用原目录。
-"""Post-test, explicitly separate audit of an algebraically fused affine control.
-
-No model, selector, test prediction or pre-test timing is modified. The original
-region formula is collapsed to its input-dependent 10-by-8 linear response map.
-"""
+"""Benchmark the fused 10-by-8 affine response map for each input region."""
 from pathlib import Path
 from collections import defaultdict
 import shutil
@@ -18,41 +10,29 @@ from prepare_external import load_idx
 OUT = RUN / "affine_runtime_audit"
 
 
-# 用途：固定原始 ReLU 符号后，将 U、门控和 W 合并为源坐标到输出的线性映射。
-# 结构：成员字段和方法共同保存本阶段需要的状态。
+# 固定原始 ReLU 符号后，将 U、门控和 W 合并为源坐标到输出的线性映射。
 class FusedAffine:
-    # 用途：建立对象所需的网络层、固定映射或配置。固定原始 ReLU 符号后，将 U、门控和 W 合并为源坐标到输出的线性映射。
-    # 参数：local；具体形状/来源结合调用处及下方关键步骤阅读。
-    # 返回：初始化对象字段，没有显式返回值。
     def __init__(self,local):self.local=local
 
-    # 用途：在当前输入的 ReLU 原始符号固定时，把 U·diag(z>0)·W 合并为响应矩阵。
-    # 参数：context；具体形状/来源结合调用处及下方关键步骤阅读。
-    # 返回：(h, (self.local.U * (z > 0)[None] @ self.local.W).contiguous())。
+    # 在当前输入的 ReLU 原始符号固定时，把 U·diag(z>0)·W 合并为响应矩阵。
     @torch.no_grad()
     def cached(self,context):
         h,z=context
         return h,((self.local.U*(z>0)[None])@self.local.W).contiguous()
 
-    # 用途：取得原始 h/z 后构造融合矩阵；这一工作属于准备成本。
-    # 参数：source、residual；具体形状/来源结合调用处及下方关键步骤阅读。
-    # 返回：self.cached(self.local.states(source, residual, 'exact_crop'))。
+    # 取得原始 h/z 后构造融合矩阵；这一工作属于准备成本。
     @torch.no_grad()
     def prepare(self,source,residual):
         return self.cached(self.local.states(source,residual,"exact_crop"))
 
-    # 用途：将源激活衰减乘以融合矩阵；跨越 ReLU 边界时只是近似。
-    # 参数：context、bits、alpha；具体形状/来源结合调用处及下方关键步骤阅读。
-    # 返回：-alpha * bits * h[None] @ matrix.T。
+    # 将源激活衰减乘以融合矩阵；跨越 ReLU 边界时只是近似。
     @torch.no_grad()
     def evaluate(self,context,bits,alpha=1.):
         h,matrix=context
         return (-alpha*bits*h[None])@matrix.T
 
 
-# 用途：把残差块原始 ReLU 区域内的线性响应融合成小矩阵，再单独测量成本。
-# 参数：无显式入参；使用本模块已配置的环境或文件。
-# 返回：结果通过文件、打印或对象/运行环境状态更新体现；没有显式 return。
+# 把残差块原始 ReLU 区域内的线性响应融合成小矩阵，再单独测量成本。
 def main():
     configure_cpu();verify(RUN,True)
     assert read_json(RUN / "analysis/verification.json")["status"]=="passed"
@@ -75,7 +55,6 @@ def main():
     tx=torch.tensor(normalized(official[ids]),dtype=torch.float64)
     bits=torch.tensor(bit_design(8),dtype=torch.float64);held=bit_design(8).sum(1)>2
     raw=[];diagnostics=[];checks=[];maximum=0.;fresh_difference=0.
-    # 逐个教师处理同一套设置；跨教师统计与一张图像内部的组合数量要分开。
     for seed in SEEDS:
         model=load_teacher(RUN / f"seed_{seed}");fit,nodes=load_fit(RUN / f"seed_{seed}/fit.npz")
         ts,tr=prefix(model,tx);local=ResidualLocal(model,tuple(ts.shape[1:]),nodes);affine=FusedAffine(local)
@@ -112,9 +91,6 @@ def main():
                     for name,rt in runtimes.items():
                         if workload=="cached":functions[name]=lambda name=name,rt=rt:rt.evaluate(cached[name],bt)
                         else:
-                            # 用途：构造当前运行时的一次实际执行，供计时循环调用。
-                            # 参数：rt；具体形状/来源结合调用处及下方关键步骤阅读。
-                            # 返回：rt.evaluate(rt.prepare(s, r), bt)。
                             def fn(rt=rt):
                                 s,r=model.prefix(vx[i:i+1]);return rt.evaluate(rt.prepare(s,r),bt)
                             functions[name]=fn
@@ -147,7 +123,6 @@ def main():
                 pool=[r for r in summary if r["seed"]==seed and r["queries"]==q and r["workload"]==workload and r["method"] in EXACT_ENGINES]
                 fastest.append(min(pool,key=lambda r:r["seconds"]))
     csv_write(OUT / "fastest_exact.csv",fastest)
-    # 核对内容承诺；注释版的文件字节会变化，原冻结实验应使用原研究目录。
     assert sha(own)==plan["source_sha256"]==sha(OUT / "source_snapshot.py")
     assert sha(RUN / "freeze.json")==plan["freeze_sha256"]
     verify(RUN,True)
@@ -159,5 +134,4 @@ def main():
     event(RUN,"affine_runtime_audit_complete",max_difference=maximum,rows=len(raw))
 
 
-# 只有直接运行本文件时才触发这个入口；作为模块导入时不会执行此分支。
 if __name__=="__main__":main()

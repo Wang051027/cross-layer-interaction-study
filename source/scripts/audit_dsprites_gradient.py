@@ -1,8 +1,4 @@
-"""独立回读梯度接续实验，不调用新的梯度或汇总实现。
-
-用稠密对比矩阵重算交互、单点收益和最终指标；手推四层反向卷积重算
-中介及源Jacobian；所有原始数组、冻结时序和前两轮交付均只读验证。
-"""
+"""用稠密对比矩阵重算交互和单点收益。用四层卷积的伴随运算重建中间层和源层的雅可比矩阵。"""
 from __future__ import annotations
 
 import itertools
@@ -74,11 +70,7 @@ def affine_adjoint(conv,bn,gradient,input_shape):
 
 @torch.no_grad()
 def independent_states_and_gradients(model,source):
-    """手动正向加伴随反向；不使用autograd，也不调用主计算模块。
-
-    每个类别的反向在主支路和残差支路间显式求和。ReLU在0处采用0
-    导数，与冻结实验定义一致；方向导数在跨越折点时另有适用边界。
-    """
+    """逐层前向后，用卷积伴随分别沿主支路与残差支路反传各类别的梯度。ReLU 在零点取导数 0。"""
     b2,b3=model.block2,model.block3
     z1=b2.bn1(b2.conv1(source));h1=F.relu(z1)
     z2=b2.bn2(b2.conv2(h1))+b2.shortcut(source);middle=F.relu(z2)
@@ -105,7 +97,7 @@ def load(path):
 
 
 def verify_preservation(protocol):
-    """整批核对旧证据，不能只检查旧清单本身的哈希。"""
+    """核对每份清单及其所列文件的哈希。"""
     counts={}
     for name,record in protocol['preservation'].items():
         assert teacher.sha(BASE/name)==record['sha256']
@@ -193,9 +185,7 @@ def audit():
             expected=[pool[order[:16]] for order in orders]+[pool[shortlist],pool]
             for j,coords in enumerate(expected):
                 compare('selection_coordinates',selection['selections'][i,j][selection['selections'][i,j]>=0],coords)
-            # 浮点四项消差可能让理论零分数出现约1e-18的差别。冻结规则必须
-            # 精确遵循保存的原分数；独立计算另外验证不存在超出其实际舍入
-            # 误差的排序损失，不能靠任意扩大绝对容差放过名单错误。
+            # 四项消差可在理论零分数附近产生约 1e-18 的误差。名单按保存的分数排序，另行核对截断处的差值。
             for j,independent,recorded in [(2,predicted_scores[i,0,0],selection['predicted_scores'][i,0,0]),
                     (3,predicted_scores[i,1,0],selection['predicted_scores'][i,1,0]),
                     (4,actual_scores[i,0],selection['finite_scores'][i,0])]:
@@ -233,7 +223,7 @@ def audit():
                     row=lookup[seed,alpha,target,method]
                     compare('summary_ratios',np.array([row['restore_ratio'],row['transplant_error_ratio']]),
                             np.sqrt([r[:,j].mean()/n.mean(),t[:,j].mean()/n.mean()]))
-            # 全中介池修补须精确恢复原输出或移植自然输出，不能只看比例。
+            # 全中介池修补分别与原输出和自然移植输出逐值比较。
             compare('all_pool_restore',raw['patched'][:,-1,0],np.broadcast_to(raw['natural'][:,:1],raw['natural'].shape))
             compare('all_pool_transplant',raw['patched'][:,-1,1],raw['natural'])
             compare('frozen_gate_zero',np.einsum('km,nmc->nkc',matrix,raw['frozen_gate_logits']),np.zeros((36,24,3)))

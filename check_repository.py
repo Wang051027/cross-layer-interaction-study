@@ -1,4 +1,3 @@
-"""只用标准库检查本次发布的文件哈希与 Python 语法，不运行历史实验。"""
 from pathlib import Path
 import ast
 import hashlib
@@ -8,7 +7,7 @@ ROOT = Path(__file__).resolve().parent
 
 
 def main():
-    """清单自身不自引用；Git 提交另外记录清单文件的版本。"""
+    """按清单验证文件哈希并解析 Python 源码。"""
     manifest = json.loads((ROOT/'MANIFEST.json').read_text(encoding='utf-8'))
     python_files = 0
     for entry in manifest['files']:

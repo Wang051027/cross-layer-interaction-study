@@ -1,10 +1,4 @@
-"""多通道联合阈值的跨案例检验；只操作既有中间激活，不训练网络。
-
-第一ReLU的预激活是32个二元整通道残差的仿射函数。因此，将朝
-目标开关方向的32项排序，可以给出任何不超过k−1通道子集的界，
-再用真实forward检查第k项。这个局部结论不假定整个网络线性。
-输出作用另用真实开关干预测量，不能用阈值穿越幅度代替。
-"""
+"""对第一处 ReLU 的 32 个通道贡献按目标方向排序，计算触发阈值所需的最小通道数，再重算输出。"""
 from __future__ import annotations
 
 import numpy as np
@@ -12,7 +6,7 @@ import torch
 from torch.nn import functional as F
 from residual_route_mechanism import trace
 
-EPS = 1e-8  # 预激活的数值隔离带；边界附近不声称最小通道数。
+EPS = 1e-8  # 预激活落入这个容差带时跳过最小通道数判定。
 MASKS = (3, 15)
 HOLD_NAMES = ('selected1', 'random0_1', 'random1_1', 'selected32',
               'random0_32', 'random1_32', 'all_half_joint', 'all_first')
@@ -65,7 +59,7 @@ def incoming(model, residual, coordinates):
 
 @torch.no_grad()
 def census(model, t):
-    """穷查本端点所有第一ReLU；完整强度只作描述，不重新选干预名单。"""
+    """枚举当前端点第一处 ReLU 的位置，汇总全强度下的联合触发情况。"""
     za = t['za'].flatten().cpu().numpy(); zh = t['zh'].flatten().cpu().numpy()
     flip = (za > 0) != (zh > 0)
     robust = flip & (abs(za) > EPS) & (abs(zh) > EPS)

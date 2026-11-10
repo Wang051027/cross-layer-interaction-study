@@ -1,9 +1,4 @@
-"""定位block2通道组合在block3两次ReLU中产生的非加和效应。
-
-前四通道枚举全部16子集，八通道枚举空集、单点、28对及全体。
-两者并集43状态。门控代数分解保留符号，门控干预另运行真实卷积。
-本模块只计算，不读文件、不训练、不更新上一轮名单。
-"""
+"""在 block2 通道上枚举 43 个状态，分解 block3 两处 ReLU 的带符号贡献，并运行门控干预。"""
 from __future__ import annotations
 
 import itertools
@@ -39,7 +34,7 @@ def differences(x,stencils):
 
 
 def mobius4(x):
-    """四通道子集的容斥系数；这是代数展开，不是新归因定理。"""
+    """按容斥公式计算四个通道的各子集系数。"""
     result=np.asarray(x).copy()
     for bit in range(4):
         for mask in range(16):

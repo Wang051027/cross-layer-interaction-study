@@ -1,7 +1,3 @@
-# 中文阅读说明｜用途：绘制激活选择和 GAP 结构对照，帮助解释背景需求来自哪里。
-# 数据流：输入结构对照汇总；输出图表，不改变实验方法或阈值。
-# 阅读副本仅增加 # 注释，保留原语句、公式、参数和文档字符串。
-# 原研究目录的冻结源码未改；需要哈希核验的历史流程仍使用原目录。
 """Plot the completed follow-up and the quality limitation of the GAP control."""
 from pathlib import Path
 import os
@@ -14,16 +10,11 @@ matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 
 
-# 用途：读取本函数指定的记录文件，返回解析后的对象；JSON/CSV 形式见函数体。
-# 参数：path；具体形状/来源结合调用处及下方关键步骤阅读。
-# 返回：list(csv.DictReader(f))。
 def read(path):
     with path.open(encoding="utf-8",newline="") as f:return list(csv.DictReader(f))
 
 
-# 用途：绘制激活选择和 GAP 结构对照，帮助解释背景需求来自哪里。
-# 参数：无显式入参；使用本模块已配置的环境或文件。
-# 返回：结果通过文件、打印或对象/运行环境状态更新体现；没有显式 return。
+# 绘制激活选择和 GAP 结构对照，帮助解释背景需求来自哪里。
 def main():
     run=BASE / "runs/fashion_structure_20260911"
     data=read(run / "analysis/seed_nrmse.csv")
@@ -86,5 +77,4 @@ def main():
     plt.close(fig)
 
 
-# 只有直接运行本文件时才触发这个入口；作为模块导入时不会执行此分支。
 if __name__=="__main__":main()

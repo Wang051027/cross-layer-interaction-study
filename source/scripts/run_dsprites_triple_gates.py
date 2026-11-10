@@ -1,8 +1,4 @@
-"""三阶通道与门控接续：协议、半强度定位、统一封存、两强度评价、汇总。
-
-旧五轮交付943条文件只读。用已见36图定位当前机制，不宣称新泛化。
-三元组及正反向开关子集都来自半强度，评价期间不换名单。
-"""
+"""用半强度响应选取三元组及正、反向开关位置，在两个强度上测量同一名单。"""
 from __future__ import annotations
 
 import argparse
@@ -29,7 +25,7 @@ def load(path):
 
 
 def event(kind,**details):
-    """日志只属于本轮，不调用会写旧目录的teacher.event。"""
+    """将事件追加至本次三阶实验的日志。"""
     value=dict(utc=teacher.now(),event=kind,**details)
     with (RUN/'events.jsonl').open('a',encoding='utf-8') as f:f.write(json.dumps(value,ensure_ascii=False)+'\n')
     print(json.dumps(value,ensure_ascii=False),flush=True)
@@ -103,7 +99,7 @@ def init(device):
 
 @torch.no_grad()
 def calculate(model,base,reference,channels,weight,d,rng,frozen=None,example=False):
-    """所有全局指标和局部干预共用同一中介状态；评价不调用选择函数。"""
+    """从同一中间场计算全局指标和冻结名单上的局部干预。"""
     x=previous.patch_states(base,reference,channels,d['bits']);global_trace=previous.trace_modes(model,x)
     summary=triple.global_summary(global_trace,d)
     selected=np.argsort(-np.abs(summary['triple_logits'][:,0]@weight),kind='stable')[:3] if frozen is None else frozen['selected_triples']
@@ -162,7 +158,7 @@ def verify_seal():
 
 
 def run(device,evaluate=False):
-    """半强度定位不运行部分干预；全强度和半强度评价都复用冻结名单。"""
+    """使用半强度结果定位，再在两种强度上评价冻结名单。"""
     verify_seal() if evaluate else verify_protocol()
     if not evaluate:assert not (RUN/'selection_freeze.json').exists()
     stage='evaluation' if evaluate else 'discovery';(RUN/stage).mkdir(exist_ok=True)

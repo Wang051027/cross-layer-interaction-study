@@ -42,6 +42,7 @@ Thumbs.db
 # Cached examples and the inputs of the published held-condition replay.
 *.npz
 !example/input.npz
+!reproduction/held_condition/protocol_sources.zip
 !example/dsprites/responses.npz
 !reproduction/held_condition/runs/dsprites_20260929/seed_*/teacher.pt
 !reproduction/held_condition/runs/dsprites_shape_donor_20261010/panel/data.npz

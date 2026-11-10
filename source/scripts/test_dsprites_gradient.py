@@ -1,8 +1,4 @@
-"""梯度实验的数值前置检查，使用旧验证图，不读取新的评价像素。
-
-独立手推block3反向卷积、逐样本求导和小扰动差商共同验证批次Jacobian。
-检查真正的数值与轴定义，不测试实现文本或模拟研究结论。
-"""
+"""在验证图上比较 block3 反向卷积、逐样本自动微分与小扰动差商，核对雅可比矩阵的批次轴。"""
 from __future__ import annotations
 
 import json
@@ -17,11 +13,7 @@ import gradient_mechanism as gradient
 
 @torch.no_grad()
 def manual_middle_gradient(model, middle, category):
-    """按链式法则独立计算完整中介梯度，完全不调用autograd。
-
-    block3两个卷积均stride1，旁路为恒等；反向顺序为读出、池化、
-    输出门控、主分支两次转置卷积与旁路相加。BN为评价模式仿射。
-    """
+    """沿读出、池化和输出门控反传，合并两次转置卷积与恒等旁路的梯度。BatchNorm 使用评价模式下的仿射参数。"""
     block=model.block3
     z1=block.bn1(block.conv1(middle));h1=F.relu(z1)
     z2=block.bn2(block.conv2(h1))+middle

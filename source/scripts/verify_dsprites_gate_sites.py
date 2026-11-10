@@ -1,7 +1,4 @@
-"""预定例子的逐坐标反事实补充：先封存规则，再逐点固定开关。
-
-这是已看过主结果后的探索补充，不替代原主比较。输入固定第一教师、
-第一配对；坐标固定半强度第一配对的每层前8项，不挑全强度有效位置。
+"""对第一个模型和首个配对做逐坐标干预。按半强度排名选取每层前八个位置，再固定对应开关并测量输出。
 """
 from __future__ import annotations
 
@@ -25,7 +22,7 @@ def load(path):
 
 
 def init():
-    """主结果已看过的事实写入协议，不伪装成独立泛化验证。"""
+    """记录接续实验的输入面板和已有定位结果。"""
     assert not FOLDER.exists();FOLDER.mkdir()
     files=[RUN/'protocol.json',RUN/'gate_freeze.json',RUN/'design.npz',
         RUN/f'discovery/seed_{SEED}/data.npz',RUN/f'evaluation/seed_{SEED}/alpha_1.0/data.npz',

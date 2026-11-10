@@ -1,8 +1,4 @@
-"""新通道和门控计算的前置检查，只访问旧开发图，不访问新定位结果。
-
-手算容斥多项式、原block3.forward门控覆盖、autograd伴随和精确单元
-贡献全部对照。输出JSON供协议记录，不写历史实验文件。
-"""
+"""在开发图像上核对通道配对和 ReLU 开关干预。"""
 from __future__ import annotations
 
 import json

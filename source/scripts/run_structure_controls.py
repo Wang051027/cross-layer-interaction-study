@@ -1,12 +1,4 @@
-# 中文阅读说明｜用途：用活动选择基线和 GAP 网络检查早期结果是否只来自结构冗余。
-# 数据流：复用原 CNN，另训练 GAP 教师；开发、冻结和测试分阶段保存。
-# 阅读副本仅增加 # 注释，保留原语句、公式、参数和文档字符串。
-# 原研究目录的冻结源码未改；需要哈希核验的历史流程仍使用原目录。
-"""Frozen follow-up: activity controls and GAP/linear architecture controls.
-
-All results are explicitly a development-informed follow-up, not a replacement
-for the already completed primary six-seed test. Calibration data stay unused.
-"""
+"""Compare head activity and GAP/linear readouts in the Fashion-MNIST structural controls."""
 from __future__ import annotations
 import argparse
 from collections import defaultdict
@@ -30,9 +22,7 @@ SOURCES = ["scripts/structure_runtime.py", "scripts/run_structure_controls.py",
            "upstream/CAT_MT_phase7_v0.7/code/acquire_fashion.py"]
 
 
-# 用途：读取保存的图像与训练/验证上下文索引，保持已有划分。
-# 参数：无显式入参；使用本模块已配置的环境或文件。
-# 返回：(np.load(DATA / 'official_train_images.npy', mmap_mode='r', allow_pickle=False), np.loa…。
+# 读取保存的图像与训练/验证上下文索引，保持已有划分。
 def training_data():
     return (np.load(DATA / "official_train_images.npy", mmap_mode="r", allow_pickle=False),
             np.load(DATA / "official_train_labels.npy", mmap_mode="r", allow_pickle=False),
@@ -40,9 +30,6 @@ def training_data():
             np.load(DATA / "context_indices.npz", allow_pickle=False))
 
 
-# 用途：建立新的实验目录并保存数据、模型配置及源码的可核对协议。
-# 参数：run；具体形状/来源结合调用处及下方关键步骤阅读。
-# 返回：结果通过文件、打印或对象/运行环境状态更新体现；没有显式 return。
 def initialize(run):
     verify_prior_protocol(PRIOR)
     verify_prior_freeze(PRIOR)
@@ -94,12 +81,8 @@ def initialize(run):
     event(run,"structure_protocol_locked",sha256=sha(run / "protocol.json"))
 
 
-# 用途：检查已保存的协议、输入、源码或冻结记录；验证失败就停止。
-# 参数：run、frozen；具体形状/来源结合调用处及下方关键步骤阅读。
-# 返回：protocol。
 def verify(run, frozen=False):
     protocol=read_json(run / "protocol.json")
-    # 核对内容承诺；注释版的文件字节会变化，原冻结实验应使用原研究目录。
     assert sha(run / "protocol.json")==(run / "protocol.sha256").read_text(encoding="ascii").strip()
     for name,value in protocol["sources"].items():
         assert sha(BASE/name)==value and sha(run / "source" / name)==value, name
@@ -117,9 +100,7 @@ def verify(run, frozen=False):
     return protocol
 
 
-# 用途：只用训练和验证划分训练 GAP 结构对照教师，并保存选中的检查点。
-# 参数：run、seed、images、labels、indices；具体形状/来源结合调用处及下方关键步骤阅读。
-# 返回：None。
+# 只用训练和验证划分训练 GAP 结构对照教师，并保存选中的检查点。
 def train_gap(run, seed, images, labels, indices):
     directory=run / f"gap_seed_{seed}"
     if (directory / "teacher_summary.json").exists():
@@ -147,7 +128,6 @@ def train_gap(run, seed, images, labels, indices):
             ix=order[offset:offset+128]
             optimizer.zero_grad(set_to_none=True)
             # 分类交叉熵是教师学习/评价的任务损失，区别于后续干预响应的 NRMSE。
-            # 这里才会计算训练梯度并更新模型；后续干预阶段固定模型权重。
             loss=F.cross_entropy(model(xt[ix]),yt[ix]);loss.backward();optimizer.step()
             total+=loss.detach()*len(ix)
         ce,acc=teacher_validation(model,xv,yv)
@@ -155,7 +135,6 @@ def train_gap(run, seed, images, labels, indices):
         history.append(row)
         if ce<best:
             best,best_epoch,stale=ce,epoch,0
-            # 把当前选中的模型参数保存为检查点，后续干预从该固定权重载入。
             torch.save({k:v.detach().cpu().clone() for k,v in model.state_dict().items()},directory / "teacher.pt")
         else:stale+=1
         dump(directory / "training_history.json",history)
@@ -170,16 +149,13 @@ def train_gap(run, seed, images, labels, indices):
     torch.cuda.empty_cache()
 
 
-# 用途：仅利用该阶段规定的训练/验证输入完成模型或方法开发并保存选择。
-# 参数：run；具体形状/来源结合调用处及下方关键步骤阅读。
-# 返回：结果通过文件、打印或对象/运行环境状态更新体现；没有显式 return。
+# 仅利用该阶段规定的训练/验证输入完成模型或方法开发并保存选择。
 def development(run):
     assert not (run / "test_opened.json").exists()
     images,labels,indices,contexts=training_data()
     train_x=torch.tensor(normalized(images[contexts["train"]]),dtype=torch.float64)
     val_x=torch.tensor(normalized(images[contexts["validation"][:4]]),dtype=torch.float64)
     bits=torch.tensor(bit_design(8),dtype=torch.float64)
-    # 逐个教师处理同一套设置；跨教师统计与一张图像内部的组合数量要分开。
     for seed in SEEDS:
         cnn_dir=run / f"cnn_seed_{seed}";cnn_dir.mkdir(exist_ok=True)
         if not (cnn_dir / "completion.json").exists():
@@ -190,7 +166,6 @@ def development(run):
                 with torch.no_grad():sources=source_activation(model,val_x,layer)
                 mod=LocalModule(model,tuple(sources.shape[1:]),nodes,layer)
                 orders=activity_orders(mod,fit,seed,layer)
-                # 保存具名数值数组，便于后来按同一索引回读和独立复算。
                 np.savez_compressed(cnn_dir / f"orders_L{layer}.npz",**orders)
                 error=0.
                 for method in ALL_METHODS:
@@ -229,24 +204,18 @@ def development(run):
         event(run,"structure_development_seed_complete",seed=seed)
 
 
-# 用途：回读固定活动选择排序，保证计时与测试使用同一配置。
-# 参数：run、seed、layer；具体形状/来源结合调用处及下方关键步骤阅读。
-# 返回：字典（字段见 return）。
+# 回读固定活动选择排序，保证计时与测试使用同一配置。
 def read_orders(run,seed,layer):
     with np.load(run / f"cnn_seed_{seed}/orders_L{layer}.npz",allow_pickle=False) as saved:
         return {name:saved[name].copy() for name in saved.files}
 
 
-# 用途：生成 CNN 活动筛选对照中预先规定的方法与预算列表。
-# 参数：无显式入参；使用本模块已配置的环境或文件。
-# 返回：[(m, k) for m in ALL_METHODS for k in BUDGETS] + [('exact', 64)]。
+# 生成 CNN 活动筛选对照中预先规定的方法与预算列表。
 def cnn_specs():
     return [(m,k) for m in ALL_METHODS for k in BUDGETS]+[("exact",64)]
 
 
-# 用途：在统一设备、线程、查询量和输入下测量各方法，区分准备与查询开销。
-# 参数：run；具体形状/来源结合调用处及下方关键步骤阅读。
-# 返回：None。
+# 在统一设备、线程、查询量和输入下测量各方法，区分准备与查询开销。
 def timing(run):
     assert not (run / "test_opened.json").exists()
     if (run / "timing/completion.json").exists():return
@@ -303,9 +272,7 @@ def timing(run):
     dump(out / "completion.json",dict(utc=now(),rows=len(raw),training_concurrent=False))
 
 
-# 用途：把开发阶段选定的模型、方法、预算与相关文件写入测试前冻结记录。
-# 参数：run；具体形状/来源结合调用处及下方关键步骤阅读。
-# 返回：结果通过文件、打印或对象/运行环境状态更新体现；没有显式 return。
+# 把开发阶段选定的模型、方法、预算与相关文件写入测试前冻结记录。
 def freeze(run):
     assert not (run / "test_opened.json").exists() and not (run / "freeze.json").exists()
     assert (run / "timing/completion.json").exists()
@@ -321,9 +288,7 @@ def freeze(run):
     event(run,"structure_frozen_before_test",sha256=sha(run / "freeze.json"),artifacts=len(paths))
 
 
-# 用途：按教师、层和架构生成全部对照方法的预测及原始参考。
-# 参数：run、seed、layer、architecture、x；具体形状/来源结合调用处及下方关键步骤阅读。
-# 返回：(pred, reference, specs, state)。
+# 按教师、层和架构生成全部对照方法的预测及原始参考。
 def case_predictions(run,seed,layer,architecture,x):
     bits=torch.tensor(bit_design(8),dtype=torch.float64);pred={}
     if architecture=="cnn":
@@ -358,9 +323,7 @@ def case_predictions(run,seed,layer,architecture,x):
     return pred,reference,specs,state
 
 
-# 用途：核验冻结状态后处理预留测试输入，保存预测、原网络参考及评分。
-# 参数：run；具体形状/来源结合调用处及下方关键步骤阅读。
-# 返回：结果通过文件、打印或对象/运行环境状态更新体现；没有显式 return。
+# 核验冻结状态后处理预留测试输入，保存预测、原网络参考及评分。
 def test(run):
     verify(run,True)
     out=run / "test";out.mkdir(exist_ok=True)
@@ -417,9 +380,6 @@ def test(run):
     event(run,"structure_test_completed",cases=len(checks))
 
 
-# 用途：回读已保存数组重新评分并汇总，核对结果与既有记录的一致性。
-# 参数：run；具体形状/来源结合调用处及下方关键步骤阅读。
-# 返回：结果通过文件、打印或对象/运行环境状态更新体现；没有显式 return。
 def analyze(run):
     verify(run,True)
     assert read_json(run / "test/completion.json")["status"]=="completed"
@@ -486,9 +446,6 @@ def analyze(run):
     event(run,"structure_analysis_complete",arrays_rescored=rescored,max_difference=max_difference)
 
 
-# 用途：用规模较小且有可比较答案的情形检查实现，数值不一致时立即停止。
-# 参数：无显式入参；使用本模块已配置的环境或文件。
-# 返回：结果通过文件、打印或对象/运行环境状态更新体现；没有显式 return。
 def smoke():
     images,_,_,contexts=training_data()
     x=torch.tensor(normalized(images[contexts["validation"][:2]]),dtype=torch.float64)
@@ -510,11 +467,8 @@ def smoke():
     print(dict(smoke="passed",max_exact_error=max(errors),linear_tail_additive=True))
 
 
-# 用途：用活动选择基线和 GAP 网络检查早期结果是否只来自结构冗余。
-# 参数：无显式入参；使用本模块已配置的环境或文件。
-# 返回：None。
+# 用活动选择基线和 GAP 网络检查早期结果是否只来自结构冗余。
 def main():
-    # 解析运行阶段/路径等命令行参数；具体允许的阶段由 choices 或分派逻辑限定。
     parser=argparse.ArgumentParser()
     parser.add_argument("--stage",required=True,choices=("smoke","init","development","timing","freeze","test","analyze"))
     parser.add_argument("--run-dir",type=Path,default=DEFAULT)
@@ -527,5 +481,4 @@ def main():
     globals()[args.stage](run)
 
 
-# 只有直接运行本文件时才触发这个入口；作为模块导入时不会执行此分支。
 if __name__=="__main__":main()

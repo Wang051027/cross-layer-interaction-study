@@ -1,7 +1,3 @@
-# 中文阅读说明｜用途：用已知一阶、二阶、纯三阶函数及 ReLU 例子检查核心数值实现。
-# 数据流：固定随机种子生成控制数据；错误超过容差即停止，不使用真实模型训练。
-# 阅读副本仅增加 # 注释，保留原语句、公式、参数和文档字符串。
-# 原研究目录的冻结源码未改；需要哈希核验的历史流程仍使用原目录。
 """Meaningful numerical controls for the finite-game analysis."""
 import json
 import numpy as np
@@ -9,9 +5,6 @@ from scipy.linalg import hadamard
 from joint_response import cube, origin_models, fwht, walsh_analysis, contrast, independent_state_response
 
 
-# 用途：用规模较小且有可比较答案的情形检查实现，数值不一致时立即停止。
-# 参数：无显式入参；使用本模块已配置的环境或文件。
-# 返回：字典（字段见 return）。
 def smoke():
     checks = {}
     rng = np.random.default_rng(20260925)
@@ -61,6 +54,5 @@ def smoke():
         'stable ReLU additive','crossing ReLU nonlinear remainder','fixed target contrast'])
 
 
-# 只有直接运行本文件时才触发这个入口；作为模块导入时不会执行此分支。
 if __name__ == '__main__':
     print(json.dumps(smoke(),ensure_ascii=False))

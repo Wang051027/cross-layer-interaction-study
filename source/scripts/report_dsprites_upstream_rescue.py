@@ -133,7 +133,7 @@ def report():
                         parts=parts.tolist(), b=raw['base_z'][case, m].tolist(), zC=raw['group_z'][case, m].tolist(), incoming=raw['incoming'][case, m].tolist(),
                         threshold=raw['threshold'][case, m].tolist(), values={k: v[case, m].tolist() for k, v in values.items()})
         all_parts.append(part_array)
-        # 教师内先统计，再等权汇总；focus归属由上一轮决定，不能被本轮结果改写。
+        # 沿用冻结的 focus 分组，先在模型内统计，再等权汇总。
         for group, indices in (('3', np.tile([True, False], (72, 1))), ('15', np.tile([False, True], (72, 1))), ('pooled', np.ones((72, 2), bool))):
             denominator = rms(values['d'][:, :, 0, 0, 1][indices])
             for cohort, subset in (('all', indices), ('focus539', indices & focus)):
@@ -176,7 +176,7 @@ def report():
                                 point_cancellation=cancellation, positive_raw_F_changes=int((delta > 1e-8).sum()), negative_raw_F_changes=int((delta < -1e-8).sum())))
                     # 描述性追加汇总：只在原C真实恢复的状态比较同一个j开关控制。
                     # 这些状态AI仍在原侧，所以控制参考与原全强度A1相同，
-                    # DeltaE可作为共同开关控制下的输出效应差分，不能称唯一份额。
+                    # DeltaE 是在共同开关控制下计算的输出效应差分。
                     for regime, reg in enumerate(REGIMES):
                         restored = indices & focus & raw['threshold'][:, :, method, regime, 1]
                         restored_n = int(restored.sum())
@@ -388,7 +388,7 @@ A是构造的加和基准，不是网络自然的一层激活。空状态不随�
 
 “一致”指同一物理名单、同一回退规则；参考值和gate分别取各源状态对应的半强度，不是七状态共用一个固定gate。这个状态依赖的诊断算子不能被说成一条输入无关、天然固定的回路。
 
-恢复跨阈值还要求AI留在原基准侧；预定的严格联合恢复另要求32个单通道各自都不能触发。另外从同一冻结数据追加“C内各单通道不足”的描述性口径，避免把组外某单通道足够误说成C内也不需联合。两者都不要求原C的每个成员必不可少。固定C从不重选，也不声称它仍是当前最小必要集合。
+恢复跨阈值还要求AI留在原基准侧；预定的严格联合恢复另要求32个单通道各自都不能触发。另外从同一冻结数据追加“C内各单通道不足”的描述性口径，避免把组外某单通道足够误说成C内也不需联合。两种统计均使用原名单 C，逐成员必要性在后续的删一检验中评估。
 
 | 定向干预 | 固定R跨阈值 | 联动跨阈值 | 同预算随机0；随机1（联动） | 联动C内需联合 | 联动全32严格联合 |
 |---|---:|---:|---:|---:|---:|

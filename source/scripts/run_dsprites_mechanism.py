@@ -88,7 +88,7 @@ def traced_image(model,image,nodes,bits,alpha,device):
 
 
 def develop(device):
-    """开发面板估计公共候选、全局和按类别排序；不读取评价图的模型输出。"""
+    """在开发面板上计算公共候选集、全局排名和各类别排名。"""
     verify_mechanism();assert not (RUN/'fixed_freeze.json').exists()
     images,label_tensor=data('development');labels=label_tensor.numpy()
     validation,val_labels=data('validation')
@@ -243,7 +243,7 @@ def summarize():
                 base_arrays=dict(natural=natural,patched=patched,specs=specs)
             for mode in m.TARGETS:
                 n,r,t=m.metric_arrays(natural,patched,labels,stencil,mode)
-                # 用紧凑数值数组保留全部逐输入量；无需上百万行重复列名的CSV。
+                # 每个输入的指标按同一索引写入数组。
                 metric_path=folder/f'metrics_{mode}.npz'
                 np.savez_compressed(metric_path,natural_mse=n,restore_mse=r,transplant_error_mse=t,labels=labels,factors=factors)
                 for label in (-1,0,1,2):

@@ -1,7 +1,3 @@
-# 中文阅读说明｜用途：原 v0.7 在既有教师上开发局部上下文方法、保存预测和成本结果。
-# 数据流：输入原包模型及划分；输出开发阶段的拟合、参考数组和指标。
-# 阅读副本仅增加 # 注释，保留原语句、公式、参数和文档字符串。
-# 原研究目录的冻结源码未改；需要哈希核验的历史流程仍使用原目录。
 from __future__ import annotations
 import os
 for k in ['OMP_NUM_THREADS','OPENBLAS_NUM_THREADS','MKL_NUM_THREADS','NUMEXPR_NUM_THREADS']:os.environ[k]='1'
@@ -15,46 +11,26 @@ from confirmatory_core import DigitsCNN,SyntheticCNN
 from local_modules import LocalModule,source_activation,bit_design,low_order
 from context_module import fit_module,predict,RuntimeModule
 
-# 用途：生成当前 UTC 时间字符串，供协议、日志或交付记录标记时间。
-# 参数：无显式入参；使用本模块已配置的环境或文件。
-# 返回：datetime.now(timezone.utc).isoformat()。
 def now():return datetime.now(timezone.utc).isoformat()
-# 用途：对文件字节计算 SHA-256，用于发现数据、源码或检查点是否改变。
-# 参数：p；具体形状/来源结合调用处及下方关键步骤阅读。
-# 返回：hashlib.sha256(Path(p).read_bytes()).hexdigest()。
 def sha(p):return hashlib.sha256(Path(p).read_bytes()).hexdigest()
-# 用途：把结构化记录序列化为 JSON 并写到指定路径。
-# 参数：p、v；具体形状/来源结合调用处及下方关键步骤阅读。
-# 返回：结果通过文件、打印或对象/运行环境状态更新体现；没有显式 return。
 def dump(p,v):Path(p).write_text(json.dumps(v,ensure_ascii=False,indent=2,allow_nan=False))
-# 用途：追加带时间的执行事件，记录阶段进度及已完成的结果。
-# 参数：kind、**kw；具体形状/来源结合调用处及下方关键步骤阅读。
-# 返回：结果通过文件、打印或对象/运行环境状态更新体现；没有显式 return。
 def event(kind,**kw):
  with (ROOT/'logs/events.jsonl').open('a') as f:f.write(json.dumps({'utc':now(),'event':kind,**kw})+'\n')
-# 用途：计算当前设置的预测误差并附上教师、方法、预算等标签；分母规则见函数体。
-# 参数：p、y、held；具体形状/来源结合调用处及下方关键步骤阅读。
-# 返回：字典（字段见 return）。
+# 按模型、方法和预算记录预测误差。
 def metrics(p,y,held):
  e=p[:,held]-y[:,held];v=y[:,held];den=float((v*v).sum());ss=float((e*e).sum())
  return {'sse':ss,'effect_sse':den,'nrmse':float(np.sqrt(ss/max(den,1e-30))),'mae':float(abs(e).mean()),'maxerr':float(abs(e).max()),'n_inputs':len(p),'n_coalitions':int(held.sum())}
-# 用途：预热后重复执行可调用对象，返回平均或中位延时用于成本比较。
-# 参数：fn、n；具体形状/来源结合调用处及下方关键步骤阅读。
-# 返回：float(np.median(ts))。
+# 预热后重复执行可调用对象，返回平均或中位延时用于成本比较。
 def timer(fn,n=7):
  for _ in range(2):fn()
  ts=[]
  for _ in range(n):
   t=time.perf_counter();fn();ts.append(time.perf_counter()-t)
  return float(np.median(ts))
-# 用途：对给定图像取得中间源激活，并生成局部模块需要的上下文列表。
-# 参数：mod、x；具体形状/来源结合调用处及下方关键步骤阅读。
-# 返回：[mod.prepare(source_activation(mod.model, torch.as_tensor(v[None], dtype=torch.float64)…。
+# 对给定图像取得中间源激活，并生成局部模块需要的上下文列表。
 def contexts(mod,x):
  with torch.no_grad():return [mod.prepare(source_activation(mod.model,torch.as_tensor(v[None],dtype=torch.float64),mod.layer)) for v in x]
-# 用途：对原包一个数据集、种子和层拟合上下文方法，保存全组合参考、预测、评分和计时。
-# 参数：ds、seed、layer；具体形状/来源结合调用处及下方关键步骤阅读。
-# 返回：结果通过文件、打印或对象/运行环境状态更新体现；没有显式 return。
+# 对原包一个数据集、种子和层拟合上下文方法，保存全组合参考、预测、评分和计时。
 def run(ds,seed,layer):
  started=time.perf_counter();tag=f'{ds}_{seed}_L{layer}'
  m=(DigitsCNN() if ds=='digits' else SyntheticCNN()).double().eval();m.load_state_dict(torch.load(ROOT/'models'/f'{ds}_teacher_seed_{seed}.pt',weights_only=True))
@@ -64,7 +40,6 @@ def run(ds,seed,layer):
  tr=contexts(mod,ar['x_train']);va=contexts(mod,ar['x_validation'])
  t=time.perf_counter();fit=fit_module(mod,tr,bits[low],seed+layer*101);fitsec=time.perf_counter()-t
  J=len(fit.gate);budgets=sorted(set([0,1,2,4,8,16,32,J,J//4,J//2]));budgets=[x for x in budgets if x<=J]
- # 保存具名数值数组，便于后来按同一索引回读和独立复算。
  fp=ROOT/'models'/f'background_fit_{tag}.npz';np.savez_compressed(fp,**fit.__dict__,nodes=mod.nodes,layer=layer)
  event('background_selector_fitted',tag=tag,fit_sha256=sha(fp),fit_seconds=fitsec,train_contexts=len(tr),construction_coalitions=len(low))
  vtrue=np.stack([mod.full_evaluate(c,bits).numpy() for c in va]);val=[]
@@ -104,11 +79,8 @@ def run(ds,seed,layer):
  pd.DataFrame(per).to_csv(ROOT/'results'/f'per_input_{tag}.csv.gz',index=False,compression='gzip');pd.DataFrame(timings).to_csv(ROOT/'tables'/f'timing_{tag}.csv',index=False)
  completion={'tag':tag,'runtime_predictor_max_difference':max(verify),'reference_exact_max_error':max(r['maxerr'] for r in rows if r['method']=='exact'),'runtime_seconds':time.perf_counter()-started,'row_count':len(rows),'selected_k':chosen,'full_head':J}
  dump(ROOT/'logs'/f'complete_{tag}.json',completion);event('development_finished',**completion);print(json.dumps(completion),flush=True)
-# 用途：原 v0.7 在既有教师上开发局部上下文方法、保存预测和成本结果。
-# 参数：无显式入参；使用本模块已配置的环境或文件。
-# 返回：结果通过文件、打印或对象/运行环境状态更新体现；没有显式 return。
+# 原 v0.7 在既有教师上开发局部上下文方法、保存预测和成本结果。
 def main():
- # 解析运行阶段/路径等命令行参数；具体允许的阶段由 choices 或分派逻辑限定。
  ap=argparse.ArgumentParser();ap.add_argument('--dataset',choices=['digits','synthetic','all'],default='all');ap.add_argument('--seed',type=int);ap.add_argument('--layer',type=int);a=ap.parse_args()
  torch.set_num_threads(1);torch.use_deterministic_algorithms(True);threadpool_limits(1)
  cfg=json.loads((ROOT/'protocol/development_lock.json').read_text())
@@ -117,5 +89,4 @@ def main():
  for ds in (['synthetic','digits'] if a.dataset=='all' else [a.dataset]):
   for seed in ([a.seed] if a.seed else range(26090511,26090517)):
    for layer in ([a.layer] if a.layer else [1,2]):run(ds,seed,layer)
-# 只有直接运行本文件时才触发这个入口；作为模块导入时不会执行此分支。
 if __name__=='__main__':main()

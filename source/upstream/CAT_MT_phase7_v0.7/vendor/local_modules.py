@@ -1,7 +1,3 @@
-# 中文阅读说明｜用途：原 v0.7 根据冻结权重编译受干预影响的局部计算范围，并分析保守交互分组。
-# 数据流：保留受影响池化窗口的竞争项与非线性头部；分组可能过度合并，不证明语义机制。
-# 阅读副本仅增加 # 注释，保留原语句、公式、参数和文档字符串。
-# 原研究目录的冻结源码未改；需要哈希核验的历史流程仍使用原目录。
 """Phase VI. Exact context-conditioned local compilation and conservative interaction groups.
 The compiler reuses weights, not learned semantic mechanisms. All numerical proofs are
 real-arithmetic identities tested in float64; interval bounds are not directed-rounded.
@@ -13,33 +9,25 @@ import torch
 import torch.nn.functional as F
 
 
-# 用途：按整数的二进制位枚举全部 2**q 种干预掩码；低位对应低编号源坐标。
-# 参数：q；具体形状/来源结合调用处及下方关键步骤阅读。
-# 返回：(np.arange(1 << q)[:, None] >> np.arange(q) & 1).astype(np.float64)。
+# 按整数的二进制位枚举全部 2**q 种干预掩码；低位对应低编号源坐标。
 def bit_design(q:int):
     return ((np.arange(1<<q)[:,None]>>np.arange(q))&1).astype(np.float64)
 
 
-# 用途：列出空、单坐标和双坐标组合的整数索引，并同时返回坐标对。
-# 参数：q；具体形状/来源结合调用处及下方关键步骤阅读。
-# 返回：(np.array([0] + masks + [1 << i | 1 << j for i, j in pairs]), pairs)。
+# 列出空、单坐标和双坐标组合的整数索引，并同时返回坐标对。
 def low_order(q:int):
     masks=[1<<i for i in range(q)]
     pairs=[(i,j) for i in range(q) for j in range(i+1,q)]
     return np.array([0]+masks+[(1<<i)|(1<<j) for i,j in pairs]),pairs
 
 
-# 用途：把掩码的一阶位值与所有两两乘积拼成二阶多项式设计矩阵。
-# 参数：bits；具体形状/来源结合调用处及下方关键步骤阅读。
-# 返回：np.column_stack([bits] + [(bits[:, i] * bits[:, j])[:, None] for i in range(q) for j in…。
+# 把掩码的一阶位值与所有两两乘积拼成二阶多项式设计矩阵。
 def pair_features(bits):
     q=bits.shape[1]
     return np.column_stack([bits]+[(bits[:,i]*bits[:,j])[:,None] for i in range(q) for j in range(i+1,q)])
 
 
-# 用途：从按低阶索引排列的响应计算一阶和二阶有限差分系数。
-# 参数：values、q；具体形状/来源结合调用处及下方关键步骤阅读。
-# 返回：np.concatenate([single, pp], axis=0)。
+# 从按低阶索引排列的响应计算一阶和二阶有限差分系数。
 def pair_coeff(values,q):
     # values ordered as low_order(q)[0]; supports full logit vectors
     single=values[1:1+q]-values[0]
@@ -48,9 +36,7 @@ def pair_coeff(values,q):
     return np.concatenate([single,pp],axis=0)
 
 
-# 用途：从指定中间层继续执行原网络，返回边界、头部状态及最终 logits。
-# 参数：m、source、layer；具体形状/来源结合调用处及下方关键步骤阅读。
-# 返回：字典（字段见 return）。
+# 从指定中间层继续执行原网络，返回边界、头部状态及最终 logits。
 def trace_from_source(m,source,layer):
     if layer==1:
         z2=m.conv2(source); a2=F.relu(z2)
@@ -63,24 +49,17 @@ def trace_from_source(m,source,layer):
     return dict(z2=z2,a2=a2,pool=pool,z3=z3,logits=logits)
 
 
-# 用途：执行冻结模型的前缀，取得第一或第二层的源激活。
-# 参数：m、x、layer；具体形状/来源结合调用处及下方关键步骤阅读。
-# 返回：h if layer == 1 else F.relu(m.conv2(h))。
+# 执行冻结模型的前缀，取得第一或第二层的源激活。
 def source_activation(m,x,layer):
     h=F.relu(m.conv1(x))
     return h if layer==1 else F.relu(m.conv2(h))
 
 
-# 用途：对冻结 CNN 构建受影响卷积/池化与完整非线性头部的局部计算模块。
-# 结构：成员字段和方法共同保存本阶段需要的状态。
 class LocalModule:
     """Compile the exact affected cone at fixed source coordinates for one frozen model.
     Contexts differ across inputs. No intervened target values are used for compilation.
     Includes all competitors in affected MaxPool windows and the complete nonlinear head.
     """
-    # 用途：建立对象所需的网络层、固定映射或配置。对冻结 CNN 构建受影响卷积/池化与完整非线性头部的局部计算模块。
-    # 参数：m、shape、nodes、layer；具体形状/来源结合调用处及下方关键步骤阅读。
-    # 返回：初始化对象字段，没有显式返回值。
     def __init__(self,m,shape,nodes,layer=1):
         t=time.perf_counter()
         self.model=m; self.shape=tuple(shape); self.nodes=np.array(nodes,dtype=np.int64)
@@ -110,9 +89,7 @@ class LocalModule:
         self.compile_seconds=time.perf_counter()-t
         self.numeric_bytes=int(sum(v.numel()*v.element_size() for v in (self.A,self.W,self.U))+self.nodes.nbytes+self.window_ids.nbytes+self.pool_ids.nbytes)
 
-    # 用途：执行原尾部一次，缓存源值、完整竞争窗口、头部预激活和原输出。
-    # 参数：source；具体形状/来源结合调用处及下方关键步骤阅读。
-    # 返回：字典（字段见 return）。
+    # 执行原尾部一次，缓存源值、完整竞争窗口、头部预激活和原输出。
     @torch.no_grad()
     def prepare(self,source):
         t=trace_from_source(self.model,source,self.layer)
@@ -123,9 +100,7 @@ class LocalModule:
                 'pool':t['pool'].flatten()[self.pool_ids], 'z3':t['z3'][0],
                 'logits':t['logits'][0]}
 
-    # 用途：只更新受影响窗口及其下游头部，利用未改变部分相消计算精确输出差。
-    # 参数：ctx、bits、alpha；具体形状/来源结合调用处及下方关键步骤阅读。
-    # 返回：(F.relu(z3new) - F.relu(ctx['z3'])[None, :]) @ self.U.T。
+    # 只更新受影响窗口及其下游头部，利用未改变部分相消计算精确输出差。
     @torch.no_grad()
     def evaluate(self,ctx,bits,alpha=1.0):
         if not isinstance(bits,torch.Tensor):bits=torch.as_tensor(bits,dtype=torch.float64)
@@ -133,13 +108,11 @@ class LocalModule:
         pre=ctx['window'][None,:,:]+(delta@self.A).reshape(len(bits),len(self.pool_ids),4)
         act=F.relu(pre) if self.layer==1 else pre
         dp=act.amax(2)-ctx['pool'][None,:]
-        # 池化变化先传播到完整头部，再重算 ReLU；不能只对单元梯度求和。
+        # 将池化变化传入分类头，再计算 ReLU。
         z3new=ctx['z3'][None,:]+dp@self.W.T
         return (F.relu(z3new)-F.relu(ctx['z3'])[None,:])@self.U.T
 
-    # 用途：逐组合修改原源特征图并执行完整尾部，作为局部编译的参考。
-    # 参数：ctx、bits、alpha；具体形状/来源结合调用处及下方关键步骤阅读。
-    # 返回：trace_from_source(self.model, h, self.layer)['logits'] - ctx['logits']。
+    # 逐组合修改原源特征图并执行完整尾部，作为局部编译的参考。
     @torch.no_grad()
     def full_evaluate(self,ctx,bits,alpha=1.0):
         if not isinstance(bits,torch.Tensor):bits=torch.as_tensor(bits,dtype=torch.float64)
@@ -147,9 +120,7 @@ class LocalModule:
         h.flatten(1)[:,self.nodes]*=(1-alpha*bits)
         return trace_from_source(self.model,h,self.layer)['logits']-ctx['logits']
 
-    # 用途：固定原 ReLU 符号和池化赢家，计算每个源坐标的原区域响应斜率。
-    # 参数：ctx；具体形状/来源结合调用处及下方关键步骤阅读。
-    # 返回：dp @ self.W.T * (ctx['z3'] > 0)[None, :] @ self.U.T。
+    # 固定原 ReLU 符号和池化赢家，计算每个源坐标的原区域响应斜率。
     @torch.no_grad()
     def reference_slopes(self,ctx):
         dz=(-ctx['h'][:,None]*self.A).reshape(self.q,len(self.pool_ids),4)
@@ -159,9 +130,7 @@ class LocalModule:
         dp=dz.gather(2,ix[None,:,None].expand(self.q,-1,1)).squeeze(-1)
         return ((dp@self.W.T)*(ctx['z3']>0)[None,:])@self.U.T
 
-    # 用途：构造源局部、边界竞争和下游状态/敏感性三组描述量。
-    # 参数：ctx；具体形状/来源结合调用处及下方关键步骤阅读。
-    # 返回：(local, boundary, downstream, slopes)。
+    # 构造源局部、边界竞争和下游状态/敏感性三组描述量。
     @torch.no_grad()
     def descriptors(self,ctx):
         # Three blocks: local source values; boundary context; downstream routing/sensitivity.
@@ -175,9 +144,6 @@ class LocalModule:
         downstream=np.concatenate([ctx['z3'].numpy(),ctx['logits'].numpy(),slopes.ravel()])
         return local,boundary,downstream,slopes
 
-    # 用途：在干预范围内保守合并共享不稳定非线性的源坐标；可能过度合并。
-    # 参数：ctx、alpha；具体形状/来源结合调用处及下方关键步骤阅读。
-    # 返回：字典（字段见 return）。
     def blocks(self,ctx,alpha):
         """Conservative interaction supergraph over the entire attenuation box.
         An uncertified nonlinear branch joins all its source dependencies. Fixed affine
@@ -190,23 +156,17 @@ class LocalModule:
         slack=1e-11*(1+np.maximum(abs(lo),abs(hi)))
         # 并查集记录保守交互分组；共享未确定非线性的源坐标会被合并。
         parent=list(range(q))
-        # 用途：查找并查集根节点并压缩路径，用于维护源坐标分组。
-        # 参数：x；具体形状/来源结合调用处及下方关键步骤阅读。
-        # 返回：x。
+        # 查找并查集根节点并压缩路径，用于维护源坐标分组。
         def find(x):
             while parent[x]!=x:parent[x]=parent[parent[x]];x=parent[x]
             return x
-        # 用途：将依赖位掩码中涉及的源坐标合并到同一组。
-        # 参数：mask；具体形状/来源结合调用处及下方关键步骤阅读。
-        # 返回：结果通过文件、打印或对象/运行环境状态更新体现；没有显式 return。
+        # 将依赖位掩码中涉及的源坐标合并到同一组。
         def join(mask):
             inds=[i for i in range(q) if int(mask)&(1<<i)]
             if len(inds)>1:
                 a=find(inds[0])
                 for i in inds[1:]:parent[find(i)]=a
-        # 用途：回收当前并查集分组，返回每组的源坐标索引列表。
-        # 参数：无显式入参；使用本模块已配置的环境或文件。
-        # 返回：list(gs.values())。
+        # 回收当前并查集分组，返回每组的源坐标索引列表。
         def sizes():
             gs={}
             for i in range(q):gs.setdefault(find(i),[]).append(i)
@@ -250,9 +210,7 @@ class LocalModule:
                 'certified_query_fraction':estimated/(1<<q),'analysis_seconds':time.perf_counter()-start}
 
 
-# 用途：按保守分组取出组内响应并相加，重建所有组合的输出变化。
-# 参数：values、groups；具体形状/来源结合调用处及下方关键步骤阅读。
-# 返回：out。
+# 按保守分组取出组内响应并相加，重建所有组合的输出变化。
 def block_reconstruction(values,groups):
     out=np.broadcast_to(values[0],values.shape).copy()
     for g in groups:

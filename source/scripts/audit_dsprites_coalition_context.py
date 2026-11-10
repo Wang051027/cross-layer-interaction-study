@@ -1,8 +1,4 @@
-"""独立审计：不调用四状态数值核心，从原模型forward与实际激活重建。
-
-全部冻结端点、四状态、两种非负点控制和逐成员恢复均核验；
-分层余项用原BN/卷积的仿射差分验证，不复用生产的卷积缩放实现。
-"""
+"""从模型前向激活重建四个状态。用卷积和 BatchNorm 的仿射差分核对逐成员恢复及分层余项。"""
 from __future__ import annotations
 import json
 import numpy as np

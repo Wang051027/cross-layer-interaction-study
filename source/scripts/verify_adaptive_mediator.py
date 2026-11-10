@@ -1,8 +1,4 @@
-"""第二轮的独立数组核验器：不调用执行模块的差分、目标或指标函数。
-
-用24×16差分矩阵和10维目标向量重新计算；名单由已核验评分独立重建。
-该脚本是分析阶段工具，不冒称评价前冻结的数值执行代码。
-"""
+"""用 24×16 差分矩阵和 10 维目标向量重算中介评分与通道名单。"""
 from pathlib import Path
 import csv
 import hashlib
@@ -22,7 +18,7 @@ def read(path):
 
 
 def digest(path):
-    """核验原字节，不修改原始响应或冻结记录。"""
+    """计算原始文件的 SHA-256。"""
     return hashlib.sha256(path.read_bytes()).hexdigest()
 
 
@@ -162,7 +158,7 @@ def main():
                         r=per_input[(seed,alpha,int(input_id),spec['method'],spec['budget'])]
                         values=[float(r[k]) for k in ('interaction_rms','restored_rms','transplant_error_rms')]
                         compare('input_primitives',values,[dn[i],rr[i,j],tt[i,j]])
-                        # 比率核验用已经独立核验的保存分子分母，不把小分母舍入放大误当原始量错误。
+                        # 用核验过的分子和分母重算比率，单独检查接近零的分母。
                         if values[0]>1e-9:
                             compare('saved_input_division',[float(r['restore_ratio']),float(r['transplant_error_ratio'])],
                                     [values[1]/values[0],values[2]/values[0]])

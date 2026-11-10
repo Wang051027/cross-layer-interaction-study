@@ -1,8 +1,4 @@
-"""读取封存三阶实验，提炼具体三元组、开关模式及正负贡献抵消。
-
-只读数值数据，不换名单、不重新训练。报告中的全强度排名用于描述
-稳定性；三阶总和、条件三阶、四阶以上合并值始终分别记录。
-"""
+"""汇总八通道内的纯三阶、条件三阶和四阶以上余项，比较两种强度的开关与符号。"""
 from __future__ import annotations
 
 import csv
@@ -209,7 +205,7 @@ def analyze():
         cp=np.einsum('norcsk,nk->norcs',full['context_stageparts'],weights)
         partial=np.einsum('norcsvtk,nk->norcsvt',full['partial_logits'],weights)
         held=np.einsum('norcsvt,t->norcsv',partial,SIGNS)
-        # 所有32768坐标的正负和重建三阶值，不把前128坐标当作全部贡献。
+        # 对全部 32,768 个坐标的带符号贡献求和以重建三阶值。
         signed=full['unit_signed_sums'];pos=signed[...,0].sum(-1);neg=signed[...,1].sum(-1)
         assert np.max(abs(pos+neg-fc[...,0]))<1e-9
         example_single={alpha:load(RUN/f'evaluation/seed_{seed}/alpha_{alpha}/example.npz')['single_logits'] for alpha in (1.,.5)} if seed==teacher.SEEDS[0] else {}

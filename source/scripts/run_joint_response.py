@@ -1,7 +1,3 @@
-# 中文阅读说明｜用途：复用已保存完整响应，分析低阶查询的外推能力与真正高阶残差。
-# 数据流：遍历六教师、两位置、三规模、两强度；q=12 用四张既有验证输入，与主分析样本不同。
-# 阅读副本仅增加 # 注释，保留原语句、公式、参数和文档字符串。
-# 原研究目录的冻结源码未改；需要哈希核验的历史流程仍使用原目录。
 """Protocol-locked descriptive reanalysis of saved coalition responses."""
 from __future__ import annotations
 import os
@@ -31,53 +27,32 @@ CODE=['scripts/joint_response.py','scripts/test_joint_response.py','scripts/run_
 TOL=1e-9
 
 
-# 用途：生成当前 UTC 时间字符串，供协议、日志或交付记录标记时间。
-# 参数：无显式入参；使用本模块已配置的环境或文件。
-# 返回：datetime.now(timezone.utc).isoformat()。
 def now(): return datetime.now(timezone.utc).isoformat()
-# 用途：对文件字节计算 SHA-256，用于发现数据、源码或检查点是否改变。
-# 参数：path；具体形状/来源结合调用处及下方关键步骤阅读。
-# 返回：h.hexdigest()。
 def sha(path):
     h=hashlib.sha256()
     with Path(path).open('rb') as stream:
         for block in iter(lambda:stream.read(1024*1024),b''): h.update(block)
     return h.hexdigest()
-# 用途：读取本函数指定的记录文件，返回解析后的对象；JSON/CSV 形式见函数体。
-# 参数：path；具体形状/来源结合调用处及下方关键步骤阅读。
-# 返回：json.loads(Path(path).read_text(encoding='utf-8'))。
 def read(path): return json.loads(Path(path).read_text(encoding='utf-8'))
-# 用途：递归把 NumPy 数值转为可序列化对象，并将不可定义的非有限数记为 null。
-# 参数：value；具体形状/来源结合调用处及下方关键步骤阅读。
-# 返回：字典（字段见 return） / [clean(v) for v in value] / int(value)；另有分支返回，见函数体。
+# 递归把 NumPy 数值转为可序列化对象，并将不可定义的非有限数记为 null。
 def clean(value):
     if isinstance(value,dict): return {str(k):clean(v) for k,v in value.items()}
     if isinstance(value,(list,tuple)): return [clean(v) for v in value]
     if isinstance(value,(np.integer,)): return int(value)
     if isinstance(value,(np.floating,float)): return float(value) if np.isfinite(value) else None
     return value
-# 用途：把结构化记录序列化为 JSON 并写到指定路径。
-# 参数：path、value；具体形状/来源结合调用处及下方关键步骤阅读。
-# 返回：结果通过文件、打印或对象/运行环境状态更新体现；没有显式 return。
 def dump(path,value): Path(path).write_text(json.dumps(clean(value),ensure_ascii=False,indent=2,allow_nan=False),encoding='utf-8')
-# 用途：按记录字段写 CSV；不同实验阶段各自规定缺失数值的写法。
-# 参数：path、rows；具体形状/来源结合调用处及下方关键步骤阅读。
-# 返回：None。
+# 按记录字段写 CSV；不同实验阶段各自规定缺失数值的写法。
 def csv_write(path,rows):
     if not rows: return
     with Path(path).open('w',encoding='utf-8-sig',newline='') as stream:
         writer=csv.DictWriter(stream,fieldnames=list(rows[0]));writer.writeheader()
         writer.writerows(clean(rows))
-# 用途：根据教师、位置和规模定位历史响应目录，q=12 指向补充全枚举记录。
-# 参数：seed、position、q；具体形状/来源结合调用处及下方关键步骤阅读。
-# 返回：OLD / ('supplementary' if q == 12 else 'test') / f'seed_{seed}' / f'{position}_q{q}'。
+# 根据教师、位置和规模定位历史响应目录，q=12 指向补充全枚举记录。
 def source_case(seed,position,q):
     return OLD/('supplementary' if q==12 else 'test')/f'seed_{seed}'/f'{position}_q{q}'
 
 
-# 用途：建立新的实验目录并保存数据、模型配置及源码的可核对协议。
-# 参数：无显式入参；使用本模块已配置的环境或文件。
-# 返回：结果通过文件、打印或对象/运行环境状态更新体现；没有显式 return。
 def initialize():
     control=smoke()
     if RUN.exists(): raise FileExistsError('Preserve the existing run; do not overwrite it.')
@@ -85,10 +60,8 @@ def initialize():
     old_manifest=read(BASE/'audit/switch_manifest_20260917.json')
     known={r['path']:r['sha256'] for r in old_manifest['entries']}
     old_protocol=read(OLD/'protocol.json')
-    # 核对内容承诺；注释版的文件字节会变化，原冻结实验应使用原研究目录。
     assert sha(OLD/'protocol.json')==(OLD/'protocol.sha256').read_text().strip()
     files={}; cases=[]
-    # 逐个教师处理同一套设置；跨教师统计与一张图像内部的组合数量要分开。
     for seed in SEEDS:
         for pos in POSITIONS:
             for q in SIZES:
@@ -108,7 +81,7 @@ def initialize():
         if rel in known: assert digest==known[rel]
         if rel in old_protocol['data_hashes']: assert digest==old_protocol['data_hashes'][rel]
         files[rel]=digest
-    # 先固定输入与代码，再产生新指标；历史数据已用过，所以不是独立预注册。
+    # 记录此次回顾分析使用的输入和代码版本。
     RUN.mkdir()
     (RUN/'source').mkdir()
     for rel in CODE+[PROTOCOL_MD]:
@@ -139,9 +112,6 @@ def initialize():
     print(json.dumps(dict(status='locked',cases=len(cases),input_files=len(files),protocol_sha256=sha(RUN/'protocol.json'))),flush=True)
 
 
-# 用途：检查已保存的协议、输入、源码或冻结记录；验证失败就停止。
-# 参数：无显式入参；使用本模块已配置的环境或文件。
-# 返回：p。
 def verify():
     p=read(RUN/'protocol.json')
     assert sha(RUN/'protocol.json')==(RUN/'protocol.sha256').read_text().strip()
@@ -151,9 +121,7 @@ def verify():
     return p
 
 
-# 用途：按保存的输入索引取真实标签；q=12 来自既有验证池，其余来自官方测试标签。
-# 参数：ids、q；具体形状/来源结合调用处及下方关键步骤阅读。
-# 返回：values[ids].astype(int)。
+# 按保存的输入索引取真实标签；q=12 来自既有验证池，其余来自官方测试标签。
 def labels_for(ids,q):
     if q==12:
         values=np.load(BASE/'data/fashion_mnist/prepared/official_train_labels.npy',allow_pickle=False)
@@ -164,9 +132,7 @@ def labels_for(ids,q):
     return values[ids].astype(int)
 
 
-# 用途：处理一个教师、位置与规模：载入历史响应、拟合低阶预测、作全表诊断并保存逐输入结果。
-# 参数：seed、pos、q；具体形状/来源结合调用处及下方关键步骤阅读。
-# 返回：(read(out / 'per_input.json'), done) / (clean(rows), done)。
+# 处理一个教师、位置与规模：载入历史响应、拟合低阶预测、作全表诊断并保存逐输入结果。
 def analyze_case(seed,pos,q):
     folder=source_case(seed,pos,q)
     out=RUN/'cases'/f'seed_{seed}'/f'{pos}_q{q}'
@@ -237,7 +203,6 @@ def analyze_case(seed,pos,q):
         checks.append(dict(alpha=alpha,reference_max=float(reference_error.max()),
             nonlinear_identity_max=float(nonlinear_error.max()),inverse_max=inverse_error,parseval_max=parseval_error))
     out.mkdir(parents=True)
-    # 保存具名数值数组，便于后来按同一索引回读和独立复算。
     np.savez_compressed(out/'coefficients.npz',**saved)
     dump(out/'per_input.json',rows)
     done=dict(utc=now(),seed=seed,position=pos,q=q,inputs=len(ids),strengths=2,rows=len(rows),
@@ -247,34 +212,24 @@ def analyze_case(seed,pos,q):
     return clean(rows),done
 
 
-# 用途：从记录列表取出指定数值字段，把缺失值转换为 NaN 以便显式排除。
-# 参数：rows、key；具体形状/来源结合调用处及下方关键步骤阅读。
-# 返回：np.array([np.nan if r[key] is None else r[key] for r in rows], dtype=float)。
+# 从记录列表取出指定数值字段，把缺失值转换为 NaN 以便显式排除。
 def array(rows,key): return np.array([np.nan if r[key] is None else r[key] for r in rows],dtype=float)
-# 用途：先排除不可定义的值，再对有效数值计算指定统计量。
-# 参数：v、fn；具体形状/来源结合调用处及下方关键步骤阅读。
-# 返回：float(fn(v)) if len(v) else np.nan。
+# 先排除不可定义的值，再对有效数值计算指定统计量。
 def finite_stat(v,fn=np.mean):
     v=np.asarray(v,dtype=float);v=v[np.isfinite(v)]
     return float(fn(v)) if len(v) else np.nan
-# 用途：合并输入的误差平方和与效应平方和，再开方得到总体 NRMSE。
-# 参数：rows、err、scale；具体形状/来源结合调用处及下方关键步骤阅读。
-# 返回：float(np.sqrt(n / d)) if d > len(rows) * TOL * TOL else np.nan。
+# 合并输入的误差平方和与效应平方和，再开方得到总体 NRMSE。
 def pooled(rows,err,scale):
     n=np.square(array(rows,err)).sum();d=np.square(array(rows,scale)).sum()
     return float(np.sqrt(n/d)) if d>len(rows)*TOL*TOL else np.nan
-# 用途：计算有效输入间的 Spearman 等级相关；样本太少或变量恒定时返回不可用。
-# 参数：rows、a、b；具体形状/来源结合调用处及下方关键步骤阅读。
-# 返回：np.nan / float(spearmanr(av[ok], bv[ok]).statistic)。
+# 计算有效输入间的 Spearman 等级相关；样本太少或变量恒定时返回不可用。
 def rho(rows,a,b):
     av,bv=array(rows,a),array(rows,b);ok=np.isfinite(av)&np.isfinite(bv)
     if ok.sum()<10 or len(np.unique(av[ok]))<2 or len(np.unique(bv[ok]))<2:return np.nan
     return float(spearmanr(av[ok],bv[ok]).statistic)
 
 
-# 用途：按设置汇总已有误差与成本；模型种子与输入的层级在函数体中明确处理。
-# 参数：rows、completed；具体形状/来源结合调用处及下方关键步骤阅读。
-# 返回：clean(summary)。
+# 按模型和输入汇总误差与计算成本。
 def summarize(rows,completed):
     groups=defaultdict(list)
     for r in rows:groups[(r['seed'],r['position'],r['q'],r['alpha'])].append(r)
@@ -337,9 +292,7 @@ def summarize(rows,completed):
     return clean(summary)
 
 
-# 用途：先核验冻结输入与源码，再遍历全部 36 个设置，汇总并写完成记录；不调用新的模型。
-# 参数：无显式入参；使用本模块已配置的环境或文件。
-# 返回：结果通过文件、打印或对象/运行环境状态更新体现；没有显式 return。
+# 先核验冻结输入与源码，再遍历全部 36 个设置，汇总并写完成记录；不调用新的模型。
 def run():
     protocol=verify()
     if (RUN/'complete.json').exists(): raise FileExistsError('Completed analysis is immutable.')
@@ -356,9 +309,7 @@ def run():
     print(json.dumps({k:summary[k] for k in ('status','cases','input_game_strength_records','reference_output_vectors_reused','maximum_reconstruction_difference')},ensure_ascii=False),flush=True)
 
 
-# 只有直接运行本文件时才触发这个入口；作为模块导入时不会执行此分支。
 if __name__=='__main__':
-    # 解析运行阶段/路径等命令行参数；具体允许的阶段由 choices 或分派逻辑限定。
     parser=argparse.ArgumentParser();parser.add_argument('--stage',required=True,choices=['init','run','verify']);args=parser.parse_args()
     if args.stage=='init':initialize()
     elif args.stage=='run':run()

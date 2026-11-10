@@ -1,6 +1,6 @@
 {
   "status": "PASS",
-  "purpose": "Historical four-input teaching example; not new validation",
+  "purpose": "Coalition responses for four Fashion-MNIST images",
   "inputs": 4,
   "source_units": 8,
   "coalitions": 256,

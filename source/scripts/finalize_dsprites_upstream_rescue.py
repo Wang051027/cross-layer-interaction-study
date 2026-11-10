@@ -1,4 +1,4 @@
-"""封存上游基准定位与恢复实验；十份历史交付只读保全。"""
+"""汇总上游基准定位与恢复实验的文件哈希。"""
 from __future__ import annotations
 import json
 import shutil

@@ -1,7 +1,3 @@
-# 中文阅读说明｜用途：验证稳定状态合并后的精确响应，并计入状态筛选和缓存的完整成本。
-# 数据流：复用六个教师；新批次 q=4/8 完整枚举，q=12 全枚举另限四张验证输入。
-# 阅读副本仅增加 # 注释，保留原语句、公式、参数和文档字符串。
-# 原研究目录的冻结源码未改；需要哈希核验的历史流程仍使用原目录。
 """Frozen exact-switch-screening validation, timing, and new intervention batch."""
 import argparse
 import hashlib
@@ -18,16 +14,12 @@ RUN = SWITCH_RUN
 SOURCE_NAMES = ["scripts/switch_context.py", "scripts/run_switch_controls.py"]
 
 
-# 用途：生成教师种子、空间位置和源坐标数对应的子目录名。
-# 参数：seed、position、q；具体形状/来源结合调用处及下方关键步骤阅读。
-# 返回：f'seed_{seed}/{position}_q{q}'。
+# 生成教师种子、空间位置和源坐标数对应的子目录名。
 def name_of(seed, position, q):
     return f"seed_{seed}/{position}_q{q}"
 
 
-# 用途：读取本设置保存的组合掩码；全枚举与低阶/抽样集合由参数区分。
-# 参数：run、q、query_set；具体形状/来源结合调用处及下方关键步骤阅读。
-# 返回：bit_design(q) / saved['train' if query_set == 'low_order' else 'evaluation'].copy()。
+# 读取本设置保存的组合掩码；全枚举与低阶/抽样集合由参数区分。
 def design(run, q, query_set="evaluation"):
     if query_set == "exhaustive":
         return bit_design(q)
@@ -35,17 +27,13 @@ def design(run, q, query_set="evaluation"):
         return saved["train" if query_set == "low_order" else "evaluation"].copy()
 
 
-# 用途：从前阶段保存的布局中读取源坐标，保持各阶段干预对象一致。
-# 参数：run、seed、position、q；具体形状/来源结合调用处及下方关键步骤阅读。
-# 返回：saved[f'{seed}_{position}_q{q}'].copy()。
+# 从前阶段保存的布局中读取源坐标，保持各阶段干预对象一致。
 def get_nodes(run, seed, position, q):
     with np.load(run/"layouts.npz", allow_pickle=False) as saved:
         return saved[f"{seed}_{position}_q{q}"].copy()
 
 
-# 用途：创建该阶段的新运行目录，固定设计、输入索引和依赖文件哈希。
-# 参数：run；具体形状/来源结合调用处及下方关键步骤阅读。
-# 返回：结果通过文件、打印或对象/运行环境状态更新体现；没有显式 return。
+# 创建该阶段的新运行目录，固定设计、输入索引和依赖文件哈希。
 def init(run):
     verify_scale(SCALE_RUN, True)
     run.mkdir(exist_ok=False)
@@ -57,7 +45,6 @@ def init(run):
     check_hashes(BASE, old_entries)
     layouts = {}
     fits = {}
-    # 逐个教师处理同一套设置；跨教师统计与一张图像内部的组合数量要分开。
     for seed in SEEDS:
         for position in POSITIONS:
             for q in SIZES:
@@ -65,7 +52,6 @@ def init(run):
                 _, nodes = load_fit(path)
                 layouts[f"{seed}_{position}_q{q}"] = nodes
                 fits[path.relative_to(BASE).as_posix()] = file_sha(path)
-    # 保存具名数值数组，便于后来按同一索引回读和独立复算。
     np.savez_compressed(run/"layouts.npz", **layouts)
     np.save(run/"intervention_ids.npy", np.arange(896, 1024))
     protocol = dict(utc=now(), version="exact-switch-screening-v1",
@@ -108,12 +94,8 @@ def init(run):
     event(run, "switch_protocol_fixed", sha256=file_sha(run/"protocol.json"))
 
 
-# 用途：检查已保存的协议、输入、源码或冻结记录；验证失败就停止。
-# 参数：run、frozen；具体形状/来源结合调用处及下方关键步骤阅读。
-# 返回：protocol。
 def verify(run, frozen=False):
     protocol = read_json(run/"protocol.json")
-    # 核对内容承诺；注释版的文件字节会变化，原冻结实验应使用原研究目录。
     assert file_sha(run/"protocol.json") == (run/"protocol.sha256").read_text(encoding="ascii").strip()
     assert file_sha(SCALE_RUN/"freeze.json") == protocol["prior_scale_freeze_sha256"]
     assert file_sha(BASE/"audit/scale_manifest_20260914.json") == protocol["prior_scale_manifest_sha256"]
@@ -136,9 +118,6 @@ def verify(run, frozen=False):
     return protocol
 
 
-# 用途：用规模较小且有可比较答案的情形检查实现，数值不一致时立即停止。
-# 参数：run；具体形状/来源结合调用处及下方关键步骤阅读。
-# 返回：结果通过文件、打印或对象/运行环境状态更新体现；没有显式 return。
 @torch.no_grad()
 def smoke(run):
     verify(run)
@@ -209,9 +188,7 @@ def smoke(run):
     event(run,"switch_smoke_passed",errors=dict(errors))
 
 
-# 用途：在小规模检查通过后保存实现副本和哈希，固定后续运行使用的代码。
-# 参数：run；具体形状/来源结合调用处及下方关键步骤阅读。
-# 返回：结果通过文件、打印或对象/运行环境状态更新体现；没有显式 return。
+# 在小规模检查通过后保存实现副本和哈希，固定后续运行使用的代码。
 def lock(run):
     verify(run)
     assert read_json(run/"smoke.json")["status"] == "passed"
@@ -226,9 +203,7 @@ def lock(run):
     event(run,"switch_implementation_locked",sha256=file_sha(run/"implementation.json"))
 
 
-# 用途：保存稳定状态筛选预测和内部状态，再取得或复用原网络参考进行核对。
-# 参数：run、seed、position、q、model、gpu、sources、residuals、ids、phase、exhaustive；具体形状/来源结合调用处及下方关键步骤阅读。
-# 返回：done。
+# 保存稳定状态筛选预测和内部状态，再取得或复用原网络参考进行核对。
 @torch.no_grad()
 def run_case(run, seed, position, q, model, gpu, sources, residuals, ids, phase, exhaustive=False):
     out = run/("supplementary" if exhaustive else phase)/name_of(seed,position,q)
@@ -309,9 +284,7 @@ def run_case(run, seed, position, q, model, gpu, sources, residuals, ids, phase,
     return done
 
 
-# 用途：对固定的开发输入拟合或检查方法，保存测试前需要的参数和结果。
-# 参数：run；具体形状/来源结合调用处及下方关键步骤阅读。
-# 返回：结果通过文件、打印或对象/运行环境状态更新体现；没有显式 return。
+# 对固定的开发输入拟合或检查方法，保存测试前需要的参数和结果。
 def develop(run):
     verify(run)
     assert (run/"implementation.json").exists() and not (run/"test_opened.json").exists()
@@ -338,9 +311,7 @@ def develop(run):
     event(run,"switch_development_complete",cases=36,supplementary_cases=12)
 
 
-# 用途：在统一设备、线程、查询量和输入下测量各方法，区分准备与查询开销。
-# 参数：run；具体形状/来源结合调用处及下方关键步骤阅读。
-# 返回：结果通过文件、打印或对象/运行环境状态更新体现；没有显式 return。
+# 在统一设备、线程、查询量和输入下测量各方法，区分准备与查询开销。
 @torch.no_grad()
 def timing(run):
     verify(run)
@@ -379,9 +350,6 @@ def timing(run):
                                 elif workload == "from_context":
                                     functions[name] = lambda rt=rt:rt.evaluate(rt.cached(common),bt)
                                 else:
-                                    # 用途：构造当前运行时的一次实际执行，供计时循环调用。
-                                    # 参数：rt；具体形状/来源结合调用处及下方关键步骤阅读。
-                                    # 返回：rt.evaluate(rt.prepare(s, r), bt)。
                                     def fn(rt=rt):
                                         s,r = model.prefix(x[i:i+1])
                                         return rt.evaluate(rt.prepare(s,r),bt)
@@ -420,9 +388,7 @@ def timing(run):
     event(run,"switch_timing_complete",rows=len(raw))
 
 
-# 用途：把开发阶段选定的模型、方法、预算与相关文件写入测试前冻结记录。
-# 参数：run；具体形状/来源结合调用处及下方关键步骤阅读。
-# 返回：结果通过文件、打印或对象/运行环境状态更新体现；没有显式 return。
+# 把开发阶段选定的模型、方法、预算与相关文件写入测试前冻结记录。
 def freeze(run):
     verify(run)
     assert not (run/"freeze.json").exists() and not (run/"test_opened.json").exists()
@@ -436,9 +402,7 @@ def freeze(run):
     event(run,"switch_frozen",artifacts=len(files),sha256=file_sha(run/"freeze.json"))
 
 
-# 用途：核验冻结状态后处理预留测试输入，保存预测、原网络参考及评分。
-# 参数：run；具体形状/来源结合调用处及下方关键步骤阅读。
-# 返回：结果通过文件、打印或对象/运行环境状态更新体现；没有显式 return。
+# 核验冻结状态后处理预留测试输入，保存预测、原网络参考及评分。
 def test(run):
     verify(run,True)
     assert not (run/"test_opened.json").exists()
@@ -466,9 +430,6 @@ def test(run):
     event(run,"switch_test_complete",cases=len(completed))
 
 
-# 用途：回读已保存数组重新评分并汇总，核对结果与既有记录的一致性。
-# 参数：run；具体形状/来源结合调用处及下方关键步骤阅读。
-# 返回：结果通过文件、打印或对象/运行环境状态更新体现；没有显式 return。
 def analyze(run):
     verify(run,True)
     assert read_json(run/"test/completion.json")["status"] == "completed"
@@ -556,11 +517,8 @@ def analyze(run):
     event(run,"switch_analysis_complete",arrays=dict(counts),max_numpy_split_difference=max_split)
 
 
-# 用途：验证稳定状态合并后的精确响应，并计入状态筛选和缓存的完整成本。
-# 参数：无显式入参；使用本模块已配置的环境或文件。
-# 返回：结果通过文件、打印或对象/运行环境状态更新体现；没有显式 return。
+# 验证稳定状态合并后的精确响应，并计入状态筛选和缓存的完整成本。
 def main():
-    # 解析运行阶段/路径等命令行参数；具体允许的阶段由 choices 或分派逻辑限定。
     parser = argparse.ArgumentParser()
     parser.add_argument("--stage",required=True,choices=("init","smoke","lock","develop","timing","freeze","test","analyze"))
     args = parser.parse_args()
@@ -572,6 +530,5 @@ def main():
         raise
 
 
-# 只有直接运行本文件时才触发这个入口；作为模块导入时不会执行此分支。
 if __name__ == "__main__":
     main()

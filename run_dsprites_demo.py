@@ -1,4 +1,3 @@
-"""只用 NumPy 回算三条真实 dSprites 缓存响应；不训练，也不代表六模型统计。"""
 from pathlib import Path
 import json
 import numpy as np
@@ -52,7 +51,7 @@ def main():
     direct = np.einsum('qr,nrc->nqc', matrix, data['natural'])
     errors['sum_layer_contributions'] = float(np.max(np.abs(direct - data['contributions'].sum(axis=1))))
     assert max(errors.values()) < 1e-10, errors
-    result = dict(status='PASS', context='Three cached rows from one model; demonstration only',
+    result = dict(status='PASS', context='Three cached dSprites responses from one model',
                   panel_indices=data['panel_indices'].tolist(), max_abs_errors=errors,
                   ratios_lower_is_better=tables)
     print(json.dumps(result, ensure_ascii=False, indent=2, allow_nan=False))
