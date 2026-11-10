@@ -8,7 +8,7 @@
 - 原始 NPZ SHA-256：`857dc001287e8efa226e0025fac6b29e5745c621b380b0d3363e4e33f4e28fa2`。
 - 官方 [LICENSE](third_party/dsprites/LICENSE) 与 [README](third_party/dsprites/README.upstream.md) 随本仓库保留。它们适用于相应第三方材料，不是原创代码的许可证。
 
-本仓库包含在 dSprites 上运行实验得到的缓存输出、因素记录和研究图。图中的严格右移版本由研究代码派生；它不冒充官方潜变量中的新样本。完整原始图像数组由 `prepare_dsprites.py` 从上述固定提交下载，未收入 Git。
+公开复跑面板从上述固定版本中选取了 36 张 64×64 原始二值图像。面板保留官方行号、标签和因素，另附研究使用的配对编号与面积。[面板及核验记录](reproduction/held_condition/runs/dsprites_shape_donor_20261010/panel)。仓库也包含实验的缓存输出和研究图。图中的严格右移版本由研究代码派生。完整数据集可由 `prepare_dsprites.py` 从上述固定提交下载。
 
 ## Fashion-MNIST
 

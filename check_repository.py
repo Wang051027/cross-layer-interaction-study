@@ -10,18 +10,20 @@ ROOT = Path(__file__).resolve().parent
 def main():
     """清单自身不自引用；Git 提交另外记录清单文件的版本。"""
     manifest = json.loads((ROOT/'MANIFEST.json').read_text(encoding='utf-8'))
+    python_files = 0
     for entry in manifest['files']:
         path = (ROOT/entry['path']).resolve()
         if not path.is_relative_to(ROOT):
             raise ValueError('Manifest path escapes repository')
-        actual = hashlib.sha256(path.read_bytes()).hexdigest()
+        contents = path.read_bytes()
+        actual = hashlib.sha256(contents).hexdigest()
         if actual != entry['sha256']:
             raise ValueError(f'File changed: {entry["path"]}')
-    files = list((ROOT/'source').rglob('*.py')) + list(ROOT.glob('*.py'))
-    for path in files:
-        ast.parse(path.read_text(encoding='utf-8-sig'), filename=path.name)
-    result = dict(status='PASS', checked_files=len(manifest['files']), python_files=len(files),
-                  scope='Release checksums and syntax, not historical experiment reproduction')
+        if path.suffix == '.py':
+            ast.parse(contents.decode('utf-8-sig'), filename=entry['path'])
+            python_files += 1
+    result = dict(status='PASS', checked_files=len(manifest['files']), python_files=python_files,
+                  scope='Release checksums and Python syntax')
     print(json.dumps(result, ensure_ascii=False))
     return result
 

@@ -1,6 +1,6 @@
 # 留出图像条件的三组规则判别实验
 
-实验完成于 2026 年 11 月 1 日，代码发布于 11 月 3 日。
+实验完成于 2026 年 11 月 1 日，代码发布于 11 月 3 日，完整复跑输入于 11 月 10 日补齐。
 
 研究问题是同层通道组合的非加和作用能否通过一条事先固定的层间规则，预测到中间层和输出，并经通道干预验证。
 
@@ -43,4 +43,4 @@
 | [analyze_dsprites_triple_rule.py](../source/scripts/analyze_dsprites_triple_rule.py) | 逐例统计、模型内归一化与预设判据 |
 | [report_dsprites_triple_rule.py](../source/scripts/report_dsprites_triple_rule.py) | 汇总、图表、封存及只读校验 |
 
-已保存的 [设计](../results/rule_discrimination/design.json)、[协议](../results/rule_discrimination/protocol.json)、[分析](../results/rule_discrimination/analysis.json)、[独立核验](../results/rule_discrimination/independent_audit.json) 和 [模型级统计](../results/rule_discrimination/tables/teacher_scores.csv) 随源码发布。它们来自原运行，完整模型、面板、预测和实测数组另存。复算依赖和阶段说明见 [REPRODUCTION.md](REPRODUCTION.md)。
+已保存的 [设计](../results/rule_discrimination/design.json)、[协议](../results/rule_discrimination/protocol.json)、[分析](../results/rule_discrimination/analysis.json)、[独立核验](../results/rule_discrimination/independent_audit.json) 和 [模型级统计](../results/rule_discrimination/tables/teacher_scores.csv) 来自原运行。使用仓库中的 [复跑入口](../reproduce_latest.py) 和 [冻结输入](../reproduction/held_condition) 可重新生成拟合参数、全部预测及实测数组、六张表与报告。[安装与运行](REPRODUCTION.md)

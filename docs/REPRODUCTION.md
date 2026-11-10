@@ -8,9 +8,31 @@
 
 `run_checks.py` 覆盖已知加性／阈值／高阶例子、Walsh 与直接 Hadamard 运算、完美／无效／有害中介控制，以及三类 64×64 随机网络上的真实 `forward` 钩子核验。随机网络只用于实现检查，不能提供任务机制证据。
 
-## 完整历史实验需要什么
+## 从空目录复跑最新三组规则实验
 
-当前仓库是一份**研究源码与可运行示例**，不是全部原始证据档案。`source/` 对应原研究项目根目录，保留了代码间的相对关系；历史入口仍需要 `data/`、`runs/`、`audit/` 内的原始文件。
+在克隆或解压后的仓库根目录，使用 Python 3.12 虚拟环境。安装依赖后，实验本身可以离线运行：
+
+```bash
+python -m pip install -r reproduction/held_condition/requirements.txt
+python -B -X utf8 reproduce_latest.py
+```
+
+自动选择 CUDA 或 CPU。要指定设备，传 `--device cpu` 或 `--device cuda`。可以用 `--output` 提供一个尚未创建的输出目录。默认在 `local_output/` 中为每次复跑创建新目录，避免把旧缓存误作本次计算。
+
+1. 入口校验发布文件，将源码和输入复制到独立工作目录，核对原协议里的七份代码指纹和七个输入指纹。其中 `residual_teacher.py` 的阅读副本加过注释，入口会使用随包提供的原始冻结版本。
+2. 从 `design.json` 开始，重新划分条件、拟合六组参数并封存，随后生成预测和阻断名单。参考参数、既有预测和答案表均不作为拟合或预测输入。
+3. 测量全部八个子集角上的阻断和只保留，独立核验真实模型前向，计算两种强度下的统计、事后诊断、图表和报告。程序构建并校验新的交付清单。
+4. 与原记录核对划分、六组参数、四项主判定、逐案例及阻断结果和模型级统计。浮点比较的相对和绝对容差分别为 `1e-8`、`1e-9`。计数与标识精确核验。参数、预测和实测文件的 SHA-256 匹配数另行记录。
+
+`comparison.json` 在本次输出目录顶层。报告位于 `experiment/source/reports/`，逐例结果位于 `experiment/source/runs/dsprites_rule_discrimination_20261031/tables/`。预测和实测数组位于同一运行目录的 `predictions/` 和 `measurements/`。
+
+2026 年 11 月 10 日的 Windows 复跑使用 Python 3.12.14。CUDA 环境重新生成的 6 个拟合、12 个预测和 12 个实测文件全部与原件逐字节相同。全新 CPU 虚拟环境的数值比较通过，四项判定一致。两次均核对 864 条案例、4,320 条阻断与只保留记录和 516 行模型级统计。[验证记录](../checks/held_condition_replay.json)
+
+[复跑输入](../reproduction/held_condition/runs) 含六个 `teacher.pt`、36 张图的 `panel/data.npz`、原始哈希及 24 个历史参考数组文件。10 月 10 日的十二个参考文件用于比对模型原始 logit，10 月 13 日的十二个文件用于事后梯度投影和中间响应范数。9 月 29 日的交付清单使用公开摘录，保留原清单哈希及所需条目的原始哈希。模型冻结记录、两轮参考数组与清单、[本实验的冻结记录](../reproduction/held_condition/reference) 均保留原文件字节。只读取这些输入即可从冻结模型重新运行整个判别实验。
+
+## 9 月训练及更早历史实验的额外依赖
+
+最新实验的复跑包只使用固定的 36 张图像。`source/` 对应原研究项目根目录，保留了代码间的相对关系；历史入口仍需要 `data/`、`runs/`、`audit/` 内的原始文件。
 
 完整 dSprites 增量运行所需条件：
 
@@ -20,26 +42,6 @@
 - 与原协议匹配的**冻结原件**。注释副本和公开路径替换会改变字节哈希，不能把本仓库的阅读源码覆盖到原冻结目录后继续声称原哈希不变。
 
 这些历史依赖未包含在仓库中；缺少它们时，完整训练／评价入口会明确失败。不要删除完整性检查来伪装复现成功。若开发独立的新实验，应另建协议与运行目录，并明确它是新运行。
-
-## 最新三组规则实验（2026 年 11 月 1 日）
-
-最新数值实现见 [LATEST_EXPERIMENT.md](LATEST_EXPERIMENT.md)。公开源码保持原运行的相对目录关系。完整执行还需要 `source/runs/dsprites_20260929/` 中六个模型及交付清单、`source/runs/dsprites_shape_donor_20261010/` 中固定面板及交付清单，以及协议列出的冻结源码。报告中的事后诊断另依赖 `source/runs/dsprites_layer_transfer_20261013/` 的已保存中间场。
-
-`results/rule_discrimination/` 提供原设计、协议和统计副本，供阅读核对。公开源码含注释和路径调整，其哈希与原运行可能不同。原协议检查应使用完整冻结原件；新运行应在独立目录重新锁定源码、输入和预测。
-
-具备上述依赖时，在 `source/runs/` 下创建新运行目录并放入 `design.json`。下面每个入口均传同一 `--run-dir` 绝对路径，依次执行：
-
-```text
-run_dsprites_triple_rule.py --stage predict
-run_dsprites_triple_rule.py --stage measure
-audit_dsprites_triple_rule.py
-analyze_dsprites_triple_rule.py
-report_dsprites_triple_rule.py --stage report
-report_dsprites_triple_rule.py --stage seal
-report_dsprites_triple_rule.py --stage verify
-```
-
-入口位于 `source/scripts/`，使用 `python -B -X utf8` 调用。`predict` 包含协议建立、开发拟合和预测冻结。完整历史数组没有收入本仓库，以上是依赖齐备时的阶段顺序。
 
 ## 早期 dSprites 执行顺序（2026 年 9 月 29 日）
 

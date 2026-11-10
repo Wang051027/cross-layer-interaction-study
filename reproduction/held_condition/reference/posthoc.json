@@ -1,0 +1,34 @@
+{
+  "utc": "2026-10-31T16:01:59.185928+00:00",
+  "used_for_selection": false,
+  "inputs": {
+    "runs/dsprites_layer_transfer_20261013/evaluation/seed_202609291/alpha_1.0/data.npz": "c2080bded1f0e9ccdf15e2ea6ba8311fc3b89d87ef586e887258ab8ed50ee0fd",
+    "runs/dsprites_layer_transfer_20261013/evaluation/seed_202609291/alpha_0.5/data.npz": "51cb4959ab28945962d03204c5cf90e8bef83db8a01d3a805cccc4a3c23b0ca8",
+    "runs/dsprites_layer_transfer_20261013/evaluation/seed_202609292/alpha_1.0/data.npz": "22f796c3e45859744608a024656e16e05fe1642f239e723619092ab9a4e6c122",
+    "runs/dsprites_layer_transfer_20261013/evaluation/seed_202609292/alpha_0.5/data.npz": "bc253e2d77da87a87862fb230c1fda29545efda7ef75a13d52d3c8dcc8f7b9a3",
+    "runs/dsprites_layer_transfer_20261013/evaluation/seed_202609293/alpha_1.0/data.npz": "64dc3b641a9d847c77357e2060599bfe8c61159e552772e069d0c9e78d4beb24",
+    "runs/dsprites_layer_transfer_20261013/evaluation/seed_202609293/alpha_0.5/data.npz": "59c88272278611c4f4f2ce6a8c681e4a0169c5c384a6fe42cb14b3361e7a34a5",
+    "runs/dsprites_layer_transfer_20261013/evaluation/seed_202609294/alpha_1.0/data.npz": "df7f58338d39ac49bf96d810da433aa803aaccf94dae4fd0f6004e8c8fb4d344",
+    "runs/dsprites_layer_transfer_20261013/evaluation/seed_202609294/alpha_0.5/data.npz": "b3d7388080b3c6817bcdbd27902eed6d0a355356a92452776ba68f1a9bee5fee",
+    "runs/dsprites_layer_transfer_20261013/evaluation/seed_202609295/alpha_1.0/data.npz": "e1471096259e4de46a6b81c50d03d35d76fabbeb393a028deb80719ee51c414a",
+    "runs/dsprites_layer_transfer_20261013/evaluation/seed_202609295/alpha_0.5/data.npz": "a87583ebcccae77d787d76b23e2434c6265537259ea6f7742d0bde08024330a0",
+    "runs/dsprites_layer_transfer_20261013/evaluation/seed_202609296/alpha_1.0/data.npz": "5a2564497e59bb444a7b238bf138d974f6eca2dbee921c9af2b6baa77fcf2562",
+    "runs/dsprites_layer_transfer_20261013/evaluation/seed_202609296/alpha_0.5/data.npz": "b695cdd6a7e90862ce42fa5ed57e5554ca14fe3bb80cb4e72490bfa582563343"
+  },
+  "stats": {
+    "1.0": {
+      "measured_H4_J0_error_ratio": 0.9609076764186204,
+      "measured_H32_J0_error_ratio": 0.8509383889773444,
+      "selected_H3_energy_fraction": 0.2711021190591641,
+      "block_keep_gap_rms": 1.4067097145002228,
+      "opposite_sign": 124
+    },
+    "0.5": {
+      "measured_H4_J0_error_ratio": 0.9542914114458921,
+      "measured_H32_J0_error_ratio": 0.7807837182101074,
+      "selected_H3_energy_fraction": 0.2963284526961866,
+      "block_keep_gap_rms": 0.5769711298226748,
+      "opposite_sign": 125
+    }
+  }
+}

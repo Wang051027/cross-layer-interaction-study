@@ -1,0 +1,6 @@
+# Versions used for the archived float64 experiment. The PyTorch build can be CPU or CUDA.
+numpy==2.5.2
+scipy==1.18.1
+torch==2.12.1
+threadpoolctl==3.6.0
+matplotlib==3.11.1

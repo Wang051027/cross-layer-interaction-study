@@ -8,7 +8,18 @@ Research code for conditional neuron interactions, layer-wise nonlinear decompos
 
 当前是探索性研究。计算核验支持交互定义、逐层分解和修补实现；现有结果尚不支持“已找到紧凑、稳定且充分的语义回路”。仓库名是研究方向名称，尚非定稿论文标题。
 
-代码更新于 2026 年 11 月 3 日，实验进度截至 11 月 1 日。最新实验在原 36 张 dSprites 图像内，按大小和角度留出条件，先冻结组合规则，再预测三组共同变化时的 block2 响应、输出及阻断效应。中间层预测通过预设判据，输出与干预预测未全部通过。方法、结果和阅读入口见 [最新实验说明](docs/LATEST_EXPERIMENT.md)。
+最新实验于 2026 年 11 月 1 日完成。它在 36 张 dSprites 图像中按大小和角度留出条件，先冻结组合规则，再预测三组共同变化时的 block2 响应、输出及阻断效应。中间层预测通过预设判据，另外三项未通过。[最新实验说明](docs/LATEST_EXPERIMENT.md)
+
+## 完整复跑最新实验
+
+下载或克隆本仓库，在仓库根目录使用 Python 3.12 的虚拟环境运行：
+
+```bash
+python -m pip install -r reproduction/held_condition/requirements.txt
+python -B -X utf8 reproduce_latest.py
+```
+
+数据已随仓库发布：[六个模型权重](reproduction/held_condition/runs/dsprites_20260929)、[36 张原图与配对信息](reproduction/held_condition/runs/dsprites_shape_donor_20261010/panel/data.npz)、[冻结记录](reproduction/held_condition/reference)。入口会重新拟合、预测、测量两种干预强度、执行独立核验并生成报告。每次运行使用新的 `local_output/held-condition-*/` 目录，最终的 `comparison.json` 给出与原记录的对照结果。默认自动选择设备，可传 `--device cpu`。[复跑说明](docs/REPRODUCTION.md)
 
 ## 先运行一个例子
 
@@ -69,7 +80,7 @@ python -B run_checks.py
 
 ## 发布范围
 
-本仓库包含当前研究源码、既有中文注释、方法说明、小型真实响应示例和部分已保存结果记录。原始数据、全部模型、中间数组、历史交付档案、论文 PDF 和个人文件未包含在 Git 中。
+本仓库包含研究源码、中文注释、方法说明、真实响应示例，以及最新判别实验所需的全部模型、图像和核验输入。较早阶段的完整训练集、大型输出数组与历史交付档案由原项目单独保存。
 
 `source/` 保留原项目的相对目录关系。历史完整实验入口依赖当时的数据、模型和冻结清单，**当前版本不是一键恢复全部历史实验的发行包**。不要把逐个执行所有脚本当成复现流程；详见 [REPRODUCTION.md](docs/REPRODUCTION.md)。
 

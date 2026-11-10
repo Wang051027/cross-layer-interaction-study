@@ -1,0 +1,316 @@
+{
+  "utc": "2026-10-31T16:02:55.360032+00:00",
+  "files": [
+    {
+      "path": "reports/dSprites_留出图像条件的三组规则判别实验_2026-11-01.md",
+      "bytes": 8701,
+      "sha256": "75ff2eef2617d7ad7c9213c03d3e1fa7dab56b60ed806fe1b9b457d31a40a430"
+    },
+    {
+      "path": "runs/dsprites_rule_discrimination_20261031/analysis.json",
+      "bytes": 30430,
+      "sha256": "a8d4ca0203bff2397f5e50058f53a79dc1a4d3518268b8654dbe9e2bc7f86dbe"
+    },
+    {
+      "path": "runs/dsprites_rule_discrimination_20261031/design.json",
+      "bytes": 4291,
+      "sha256": "7b448c11f62bc262583ece33014eabe59d64609eab73572da95e8f97fb6c484a"
+    },
+    {
+      "path": "runs/dsprites_rule_discrimination_20261031/fit/202609291.json",
+      "bytes": 3997,
+      "sha256": "64df4a4f0662e1e3c2fcbf6b7e87f79a3b99387eb925958865ac3aea0108a89a"
+    },
+    {
+      "path": "runs/dsprites_rule_discrimination_20261031/fit/202609292.json",
+      "bytes": 4024,
+      "sha256": "35b1026b30f4b2b274f47316c182576bea3c6383b925a28857d6b01f44eb242b"
+    },
+    {
+      "path": "runs/dsprites_rule_discrimination_20261031/fit/202609293.json",
+      "bytes": 4012,
+      "sha256": "41cddd2c74f7b5b2e7d1608bc5fe93441de41935a1063b8b6827aa523282d565"
+    },
+    {
+      "path": "runs/dsprites_rule_discrimination_20261031/fit/202609294.json",
+      "bytes": 4008,
+      "sha256": "e6d6964434d4a03a2b1c0c1a8ccaa95255df7502e5ae5f19184c6addf40d64e5"
+    },
+    {
+      "path": "runs/dsprites_rule_discrimination_20261031/fit/202609295.json",
+      "bytes": 4015,
+      "sha256": "5edeac8abbd7424fe0a430c6b0f5b010ba3860747c09a96798c0da7697ba3031"
+    },
+    {
+      "path": "runs/dsprites_rule_discrimination_20261031/fit/202609296.json",
+      "bytes": 4016,
+      "sha256": "12cacbe732dbafaa0b6e080f31da7705bf407363e4bebc6b23a02ca21bf264f5"
+    },
+    {
+      "path": "runs/dsprites_rule_discrimination_20261031/fit_freeze.json",
+      "bytes": 721,
+      "sha256": "da47c095308994d1f368db4998b540e05093980cc20b26b1adf464e67b6ef34c"
+    },
+    {
+      "path": "runs/dsprites_rule_discrimination_20261031/fit_freeze.sha256",
+      "bytes": 66,
+      "sha256": "2e9d86170b9c1d4747c25d90c3f62266c9bf413522a56501755fd89fe76e22c9"
+    },
+    {
+      "path": "runs/dsprites_rule_discrimination_20261031/held_condition_results.png",
+      "bytes": 131501,
+      "sha256": "696f843fdaaea0706d7ec4d8442681307870a098a42ee954c217a1b60c2415fe"
+    },
+    {
+      "path": "runs/dsprites_rule_discrimination_20261031/independent_audit.json",
+      "bytes": 557,
+      "sha256": "e54b9092efa3e69d56b492ba7fd0dee354d15a8421f1939fc52320293b957bbb"
+    },
+    {
+      "path": "runs/dsprites_rule_discrimination_20261031/measurement_freeze.json",
+      "bytes": 1435,
+      "sha256": "bf70d69faafd91f30b9e77ecdf08bff78d996f01bafcc66b2bf7ebc1b8a00e46"
+    },
+    {
+      "path": "runs/dsprites_rule_discrimination_20261031/measurement_freeze.sha256",
+      "bytes": 66,
+      "sha256": "401cacd06c69d8f5b1b7e7a90fd87684417cf370a0137254923730d3bbf10be8"
+    },
+    {
+      "path": "runs/dsprites_rule_discrimination_20261031/measurements/202609291_0.5.npz",
+      "bytes": 2783290,
+      "sha256": "8bd6980ef01253ec1e0d67c355e1d39989fa9dae765eafc8a6d66ce2f2ddbfdc"
+    },
+    {
+      "path": "runs/dsprites_rule_discrimination_20261031/measurements/202609291_1.0.npz",
+      "bytes": 2795747,
+      "sha256": "51c379090c09f3896892008deffd8256663c25eb38099fe0b557e4075da02bbc"
+    },
+    {
+      "path": "runs/dsprites_rule_discrimination_20261031/measurements/202609292_0.5.npz",
+      "bytes": 2909820,
+      "sha256": "d32ca1c55cbc629657b30cda12e38b05b62740d3ddac399d42f4a47022ab8657"
+    },
+    {
+      "path": "runs/dsprites_rule_discrimination_20261031/measurements/202609292_1.0.npz",
+      "bytes": 2866195,
+      "sha256": "5769b2785100ced5c18166b427811275ceaaa5205d9a993fcafa611c664e9907"
+    },
+    {
+      "path": "runs/dsprites_rule_discrimination_20261031/measurements/202609293_0.5.npz",
+      "bytes": 3141176,
+      "sha256": "a3d961ad00bfe9e4a35bc61d3e1424bbd51461312d04c2e41d09972277ed23ab"
+    },
+    {
+      "path": "runs/dsprites_rule_discrimination_20261031/measurements/202609293_1.0.npz",
+      "bytes": 3043921,
+      "sha256": "5da9a09f5cc7e90736f7f5c5a8261a0133bb51a12ced507c302a7321d9576c75"
+    },
+    {
+      "path": "runs/dsprites_rule_discrimination_20261031/measurements/202609294_0.5.npz",
+      "bytes": 2799365,
+      "sha256": "f00d9126f0fb854248daf17cb1daa67f74f0c10bdfdad46278a6f3e13a1d098c"
+    },
+    {
+      "path": "runs/dsprites_rule_discrimination_20261031/measurements/202609294_1.0.npz",
+      "bytes": 2827926,
+      "sha256": "2d470ad025928c561c2114d7de10a7e400b4b02c4aa2c07e969f480eb1e47ac3"
+    },
+    {
+      "path": "runs/dsprites_rule_discrimination_20261031/measurements/202609295_0.5.npz",
+      "bytes": 2985853,
+      "sha256": "53999c229bd3d0d5f331d2b70599893e3e320a159ade6053150f749762550063"
+    },
+    {
+      "path": "runs/dsprites_rule_discrimination_20261031/measurements/202609295_1.0.npz",
+      "bytes": 2903684,
+      "sha256": "5d564d135fcd33a331fd57cde537ec3617470c1b4b035bc09d8f917cad7b6109"
+    },
+    {
+      "path": "runs/dsprites_rule_discrimination_20261031/measurements/202609296_0.5.npz",
+      "bytes": 2912469,
+      "sha256": "362d76dd17b262a4fcd6b46d704a7bcc3a9cbc9cc3d78892ee314775a0acec92"
+    },
+    {
+      "path": "runs/dsprites_rule_discrimination_20261031/measurements/202609296_1.0.npz",
+      "bytes": 2887309,
+      "sha256": "42a7642b4bbbe2253e7d38d4582ff3a7dceb1404f0b55c985df04e5c77d0ed20"
+    },
+    {
+      "path": "runs/dsprites_rule_discrimination_20261031/posthoc.json",
+      "bytes": 2572,
+      "sha256": "31877fd4dfdcfee78d163be29a797a43b8a3ab06407d800af8d0befa8ee2be34"
+    },
+    {
+      "path": "runs/dsprites_rule_discrimination_20261031/prediction_freeze.json",
+      "bytes": 1423,
+      "sha256": "76ed16651422b76b7968b3ad9d0e6d273e7896b7d3913856270b6bd408bbb05e"
+    },
+    {
+      "path": "runs/dsprites_rule_discrimination_20261031/prediction_freeze.sha256",
+      "bytes": 66,
+      "sha256": "e5fc62566853b939d9a402a9ae176334b3b6c00a264f2e0653a1b1d1bb91c8a7"
+    },
+    {
+      "path": "runs/dsprites_rule_discrimination_20261031/predictions/202609291_0.5.npz",
+      "bytes": 5177843,
+      "sha256": "b6ee51dba038716f846ed2d8b1c11283dbbb63f259ee646d397ee9c83a672964"
+    },
+    {
+      "path": "runs/dsprites_rule_discrimination_20261031/predictions/202609291_1.0.npz",
+      "bytes": 5567444,
+      "sha256": "90b4cd1119dc2400789def36ef09e1c14e49a666ef0b05a6aacb355dbe07464e"
+    },
+    {
+      "path": "runs/dsprites_rule_discrimination_20261031/predictions/202609292_0.5.npz",
+      "bytes": 5278640,
+      "sha256": "582332e945f9c935e8a3c423292def883db645b0bdaeb313aca0c86bbe5b6614"
+    },
+    {
+      "path": "runs/dsprites_rule_discrimination_20261031/predictions/202609292_1.0.npz",
+      "bytes": 5545013,
+      "sha256": "121f590a55db6fe64a4222f0530611cccae602c4e156ecf7bec48aa911de1800"
+    },
+    {
+      "path": "runs/dsprites_rule_discrimination_20261031/predictions/202609293_0.5.npz",
+      "bytes": 5568737,
+      "sha256": "533c894d95979c1543944abe23c97a8702c4d2ad3ab4b3dd21903a917d1cd011"
+    },
+    {
+      "path": "runs/dsprites_rule_discrimination_20261031/predictions/202609293_1.0.npz",
+      "bytes": 5867279,
+      "sha256": "468dc01f3438421a09fda2031e295b573602c1d95e81ea5bb185136e90132200"
+    },
+    {
+      "path": "runs/dsprites_rule_discrimination_20261031/predictions/202609294_0.5.npz",
+      "bytes": 5355603,
+      "sha256": "ec3d3df40e91797923908c6db3d4dfb8571ff6e66e33f94a27daedfe3b2aab14"
+    },
+    {
+      "path": "runs/dsprites_rule_discrimination_20261031/predictions/202609294_1.0.npz",
+      "bytes": 5646234,
+      "sha256": "901077f588b2966b556d352bb6b1e2d3bcdbc203e6c2934004f8c7d8ca7278f2"
+    },
+    {
+      "path": "runs/dsprites_rule_discrimination_20261031/predictions/202609295_0.5.npz",
+      "bytes": 5370383,
+      "sha256": "fa8fcd795ecb216cfacc44c66517912f8995b19e5fff43f463c0a025f30d6a9e"
+    },
+    {
+      "path": "runs/dsprites_rule_discrimination_20261031/predictions/202609295_1.0.npz",
+      "bytes": 5658375,
+      "sha256": "6fd67cadb6c152d6d6b42884701a69e6fc0ad9fcc24eb12fab6863e7e42b4897"
+    },
+    {
+      "path": "runs/dsprites_rule_discrimination_20261031/predictions/202609296_0.5.npz",
+      "bytes": 5333697,
+      "sha256": "9c29a51a0befe2e95a0ef1ec5cbbde418d0b99fb915e1c29871f1949f1904514"
+    },
+    {
+      "path": "runs/dsprites_rule_discrimination_20261031/predictions/202609296_1.0.npz",
+      "bytes": 5664824,
+      "sha256": "d565fdde9d6b734e5116b1cfee804748584db69dc6abeceeeca79a71b4deedb9"
+    },
+    {
+      "path": "runs/dsprites_rule_discrimination_20261031/protocol.json",
+      "bytes": 4473,
+      "sha256": "1a3b5af11efccc92f35d390200268484b9d6a44937453a8923e2adec486e7318"
+    },
+    {
+      "path": "runs/dsprites_rule_discrimination_20261031/protocol.sha256",
+      "bytes": 66,
+      "sha256": "a0a7b3ef4bb17c87de7d27177a8fd4f587cee381ec8f31861562976a895ebfbe"
+    },
+    {
+      "path": "runs/dsprites_rule_discrimination_20261031/README.md",
+      "bytes": 2497,
+      "sha256": "2e711698be49829e5fd7c1eb5ea8ec6e8c6bc7eac58b965b995f9355d114ae46"
+    },
+    {
+      "path": "runs/dsprites_rule_discrimination_20261031/source/analyze_dsprites_triple_rule.py",
+      "bytes": 10000,
+      "sha256": "2681ae16c395213eb59b3b3fac43d6d076ba8a62aedbe1468c5f9bc0ff8f0d4f"
+    },
+    {
+      "path": "runs/dsprites_rule_discrimination_20261031/source/audit_dsprites_triple_rule.py",
+      "bytes": 7813,
+      "sha256": "6bad000ad49c06d8ba35ed3641d58fb64ebc589c6b919f4b25bcd23a4dcfa5eb"
+    },
+    {
+      "path": "runs/dsprites_rule_discrimination_20261031/source/CURRENT_RESEARCH.md",
+      "bytes": 7424,
+      "sha256": "e6ed2e326006125d9858bcf8029919dd938e5336b4481722e6540bc82f6611f9"
+    },
+    {
+      "path": "runs/dsprites_rule_discrimination_20261031/source/dsprites_triple_rule.py",
+      "bytes": 11945,
+      "sha256": "a1c753245129daaa270f0e2a631dfb0b4a1acba4cf989804b417572691774e1f"
+    },
+    {
+      "path": "runs/dsprites_rule_discrimination_20261031/source/report_dsprites_triple_rule.py",
+      "bytes": 23748,
+      "sha256": "f303ee699d3a1d682a32029ca0c9b2af2f667940b8a9181ff86da40fdcc1ac77"
+    },
+    {
+      "path": "runs/dsprites_rule_discrimination_20261031/source/run_dsprites_triple_rule.py",
+      "bytes": 8201,
+      "sha256": "1486db50f54053a0d2aed07e4663b1603d1fdc9f574b1057429cb6f14288beeb"
+    },
+    {
+      "path": "runs/dsprites_rule_discrimination_20261031/tables/cases.csv",
+      "bytes": 283453,
+      "sha256": "41fdc3e2d13196399c077fda01443b3a668a2f1be912f49764e136ee7c72ac5f"
+    },
+    {
+      "path": "runs/dsprites_rule_discrimination_20261031/tables/patches.csv",
+      "bytes": 525483,
+      "sha256": "16908dc3d6f158cda4c1c46af7a017474d5a4256001d01a72b6436e8b4229be9"
+    },
+    {
+      "path": "runs/dsprites_rule_discrimination_20261031/tables/posthoc_diagnostic.csv",
+      "bytes": 1308,
+      "sha256": "b754b7855c865a4ad460ccae74e944195cd2d49cf9b1911e4e354fe9905e1cc1"
+    },
+    {
+      "path": "runs/dsprites_rule_discrimination_20261031/tables/strata.csv",
+      "bytes": 2486,
+      "sha256": "d8da44d61a10b078992b2736889d21110cb6c3edd8121a607ae94badb1943352"
+    },
+    {
+      "path": "runs/dsprites_rule_discrimination_20261031/tables/teacher_equal.csv",
+      "bytes": 8145,
+      "sha256": "ecf0b0c693dc5d88b8e402b3510bf39aa32bd9ed539a34164fa4706c3ceae1ad"
+    },
+    {
+      "path": "runs/dsprites_rule_discrimination_20261031/tables/teacher_scores.csv",
+      "bytes": 53628,
+      "sha256": "3d237b959e6e1c8f03fd8c114640cf157308a08cd361430f29db5ea92cdfb61b"
+    },
+    {
+      "path": "scripts/analyze_dsprites_triple_rule.py",
+      "bytes": 10000,
+      "sha256": "2681ae16c395213eb59b3b3fac43d6d076ba8a62aedbe1468c5f9bc0ff8f0d4f"
+    },
+    {
+      "path": "scripts/audit_dsprites_triple_rule.py",
+      "bytes": 7813,
+      "sha256": "6bad000ad49c06d8ba35ed3641d58fb64ebc589c6b919f4b25bcd23a4dcfa5eb"
+    },
+    {
+      "path": "scripts/dsprites_triple_rule.py",
+      "bytes": 11945,
+      "sha256": "a1c753245129daaa270f0e2a631dfb0b4a1acba4cf989804b417572691774e1f"
+    },
+    {
+      "path": "scripts/report_dsprites_triple_rule.py",
+      "bytes": 23748,
+      "sha256": "f303ee699d3a1d682a32029ca0c9b2af2f667940b8a9181ff86da40fdcc1ac77"
+    },
+    {
+      "path": "scripts/run_dsprites_triple_rule.py",
+      "bytes": 8201,
+      "sha256": "1486db50f54053a0d2aed07e4663b1603d1fdc9f574b1057429cb6f14288beeb"
+    }
+  ],
+  "verified_primary_table_ratios": 324
+}
