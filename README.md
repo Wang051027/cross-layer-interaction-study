@@ -1,89 +1,88 @@
-# Cross-layer Interaction Study
+# 神经元组合效应如何跨层传递？
 
-**神经元组合效应与跨层中介机制的受控研究**
+本仓库研究一个可以直接做实验的问题：在残差卷积网络中，同时改变几个通道组时，哪些变化是单独改变一组、两组都预测不到的？这些额外变化会经过下一层的哪些 ReLU 开关，又会让模型对两种形状的偏好改变多少？
 
-Research code for conditional neuron interactions, layer-wise nonlinear decomposition, held-condition prediction, and blocking/keep interventions in small residual CNNs. Experiments cover Fashion-MNIST and a controlled dSprites shape-classification subset. Chinese comments and reading guides are included.
+**目前的答案：在六个模型上，事先固定的规则都改善了中间层的预测；到了最终输出，这个优势没有保持。** 在留出的 dSprites 图像条件上，中间层三阶响应的预测误差是二阶基线的 **0.884 倍**，最终输出是 **1.003 倍**。实测阻断也表明，同一组通道的影响会随其余通道的状态改变。现有证据支持部分层间传递，还不足以用这个四通道规则解释最终输出。
 
-本项目把“层与层之间有什么关系”具体化为：**前层单元的组合干预产生哪些非加性效应，后层哪些状态能够阻断或重现这些效应，这些状态是否随输入因素而变化？**
+[复现最新实验](#复现最新实验) · [实验协议](docs/LATEST_EXPERIMENT.md) · [模型级结果](results/rule_discrimination/tables/teacher_scores.csv) · [代码阅读指南](docs/CODE_GUIDE.md)
 
-当前是探索性研究。计算核验支持交互定义、逐层分解和修补实现；现有结果尚不支持“已找到紧凑、稳定且充分的语义回路”。仓库名是研究方向名称，尚非定稿论文标题。
+## 怎样把“层与层的关系”变成实验
 
-最新实验于 2026 年 11 月 1 日完成。它在 36 张 dSprites 图像中按大小和角度留出条件，先冻结组合规则，再预测三组共同变化时的 block2 响应、输出及阻断效应。中间层预测通过预设判据，另外三项未通过。[最新实验说明](docs/LATEST_EXPERIMENT.md)
+早期实验在 Fashion-MNIST 上用四个空间位置建立交互测量方法；随后用 dSprites 的方形、椭圆、心形做受控配对。六个 dSprites 模型分别初始化，架构相同，各含三个残差块。它们在 24,576 张图上训练，在 3,072 张图的受控验证集上三分类准确率均为 100%。以下实验冻结权重和归一化统计量，测量内部干预怎样改变得分。
 
-## 完整复跑最新实验
+1. **替换前层通道。** 取一张受体图和一张生成大小、角度、位置相同的供体图，例如方形和椭圆。把受体第一残差块（block1）的 16 个通道固定分成四组，每组四个。全强度时把选中组的整张激活图换成供体值，半强度时换成两者的中点。模型后半段照常运行。读出是“供体类得分减受体类得分”（logit 差）；它能测量偏好移动，即使预测类别没有翻转。
+2. **算出三组共同变化多出的部分。** 对任意三组 A、B、C，先测空组、三个单组和三个双组。若只存在单组和双组效应，三组响应应为 `Q = X_AB + X_AC + X_BC − X_A − X_B − X_C + X_空组`。实测 `X_ABC − Q` 就是**三阶响应**。对 block2 的整层激活和最终 logit 差各算一次；二者回答不同问题。
+3. **先预测，再干预。** 在开发条件上，每个模型选定 block2 第一处 ReLU 的四个通道，以及 block2 输出的四个通道。用 ReLU 是否跨过零点和真实卷积权重预测中间层修正，再用空组状态的输出梯度估计它能传到输出多少。冻结名单和留出预测后，测量真实三组响应。随后在三组的全部八个子集状态上分别做两种操作：**阻断**这四个输出通道（恢复到空组值），或**只保留**它们变化（其余通道固定为空组值）。每种操作都重新运行 block3、池化和分类头，得到实际输出效应。
 
-下载或克隆本仓库，在仓库根目录使用 Python 3.12 的虚拟环境运行：
+## 最新结果：预测留出条件，而非解释已见案例
+
+固定面板有 36 张原生 64×64 图像：6 种大小 × 2 个角度 × 3 种形状。这里匹配的是生成参数，不同形状占的像素面积仍可能不同。按大小和角度把 12 个条件交错分成开发、留出各 6 个条件，各含 18 张图。每个条件只用方形→椭圆、椭圆→心形、心形→方形三个方向。每种强度共有 **6 个模型 × 18 个留出配对 × 4 种三组组合 = 432 条记录**。这些记录共享图像和模型；本轮留出的是拟合条件，图像面板本身在前期已经探索过。
+
+以下为 2026 年 11 月 1 日的结果。**误差比 = 预测误差的均方根（RMS）÷ 实测目标的 RMS**，先在每个模型内计算，再对六个模型等权平均。越低越好；预测三阶作用为零时，比值是 1。事前规定：全强度均值 ≤ 0.95，且至少 4/6 个模型低于 1，单项才通过；完整机制要求四项都通过。半强度使用同一规则，只作补充检验。
+
+| 预测对象 | 全强度误差比（主检验） | 低于 1 的模型 | 半强度误差比 | 主检验 |
+| --- | ---: | ---: | ---: | --- |
+| block2 全部 32 个通道的三阶响应 | **0.8840** | 6/6 | 0.8656 | 通过 |
+| 最终输出的三阶差分 | 1.0031 | 5/6 | 0.9868 | 未通过 |
+| 阻断选中四通道实际移除的输出作用 | 1.0435 | 2/6 | 0.9753 | 未通过 |
+| 只保留这四通道实际重现的输出作用 | 0.9693 | 4/6 | 0.8520 | 未通过 |
+
+这四个通道确实影响输出：阻断它们实际移除的作用，按模型取 RMS 后平均为 **1.990 logit**；同预算的两组随机通道分别为 **1.207、1.085 logit**。难点在于预报这份作用：规则给“阻断移除”和“只保留重现”预测了相同的带符号贡献，实测却在 **124/432** 条全强度记录中符号相反。
+
+另一个简单对照，只按开发条件中的“形状转换 × 三组编号”取输出三阶均值，误差比为 **0.6185**，优于当前规则的 1.0031。输出差异中有可预测的部分；本轮的四通道选择和固定梯度读出没有充分捕捉它。
+
+[冻结设计与判据](results/rule_discrimination/design.json) · [未取整的结果](results/rule_discrimination/analysis.json) · [逐例干预记录](reproduction/held_condition/reference/tables/patches.csv) · [阻断与只保留的事后对照](reproduction/held_condition/reference/posthoc.json)
+
+## 前面各阶段发现了什么
+
+下表按研究问题排列。早期实验从标量位置出发，后来才换成整通道和形状供体；各行的指标、分母与干预单位不同，不能串成一条性能提升曲线。
+
+| 阶段 | 做了什么 | 观察到的结果 |
+| --- | --- | --- |
+| 9/28 · Fashion-MNIST | 在 64 张测试图上改变前层四个位置，再恢复或移植 16 个固定中介位置。 | 恢复后仍剩原交互 RMS 的 **87.73%**；仅移植这些位置的重建误差为 **89.55%**。少量固定位置不足以解释大部分交互。[原报告](source/reports/跨层交互_首轮结果_2026-09-28.md) |
+| 9/29 · dSprites 标量干预 | 在三分类模型上比较全局固定、按类别固定、逐图选择 16 个中介位置。 | 三者恢复后分别剩 **71.20%、62.88%、61.16%** 的交互。12,960 次主面板非空干预中，预测类别改变 **0 次**；这阶段测到的是得分交互。[数值附表](source/reports/dSprites_逐项结果表_2026-09-29.md) |
+| 10/9–10 · 梯度与形状配对 | 先测标量干预如何改变局部梯度，再沿受体激活逐渐换为供体激活的路径重建输出变化。 | 全强度下，四个源坐标的梯度相对基准平均变化 **120.38%**，中间层梯度变化 **14.43%**。在形状配对上，仅用起点梯度预测端点变化的相对 RMS 误差为 **151.60%**，沿路径做 32 点积分后为 **0.46%**。 |
+| 10/11–13 · 三阶抵消与层间传递 | 枚举八个中间通道中的全部 56 个三元组；另从 block1 施加组干预，抹去 block2 的二阶及以上组合项再计算输出。 | 纯三阶之和与四至八阶余项的余弦在恢复、移植时分别为 **−0.930、−0.872**，存在明显抵消。抹去中间组合项后，输出条件成对交互的 RMS 仍剩 **63.80%**，六个模型均比原来弱。 |
+| 10/17 · 原组合为何失效 | 把中间层拆成只含空组与单组效应的基准 A，以及剩余的组合项 R。在从半强度切到全强度后原组合不再触发、基准仍在阈值原侧的 539 个状态上，分别只换 A 或只换 R。 | 只换 A，原组合在 **533/539** 个状态不能再跨过 ReLU 阈值；只换 R，则是 **15/539**。在这批失败状态里，基准移动比组合项改变更能重现失效。 |
+| 10/18–25 · 联合触发与组外背景 | 在上述状态中寻找上游干预，要求整组重新触发 ReLU，且去掉任一成员都不再触发；再分别切换组内与组外状态。 | 在移动基准、固定原基准和实际组外背景下都成立的定向恢复共 **26 条记录，去重为 15 个状态，分布在 5 个模型**。在组外也改变的 14 条中，组外使原组的输出效应增强 **8** 条、削弱 **6** 条；另外 12 条组外未变。 |
+| 10/25 · 单点与联合阻断 | 在上述 26 条记录上，按同一案例的实测输出作用排序，阻断 block3 第一处 ReLU 的位置。 | 阻断最强单点后，原组输出作用的 RMS 仍剩 **97.99%**；联合阻断最多 256 个位置后剩 **37.63%**，同预算两组随机对照剩 **93.49%、93.19%**。这里测量的是整组的条件效应，包含可加成分，并非最新实验的纯三阶效应。 |
+
+[十月结果的逐模型数值、计数与原始记录指纹](results/stage_evidence.json) · [早期 dSprites 的模型、数据划分与对照](source/reports/dSprites_旧研究再评估_2026-09-29.md)
+
+## 复现最新实验
+
+**从六个已训练的模型出发，可以完整复跑最新实验，无需另找数据或重新训练。** 仓库提供了[六个权重](reproduction/held_condition/runs/dsprites_20260929)、[36 张原图及配对索引](reproduction/held_condition/runs/dsprites_shape_donor_20261010/panel/data.npz)、[原始冻结记录](reproduction/held_condition/reference)和[固定版本依赖](reproduction/held_condition/requirements.txt)。安装依赖后，实验可离线在 CPU 上运行。先克隆仓库，或下载 ZIP 并进入解压后的仓库根目录：
 
 ```bash
-python -m pip install -r reproduction/held_condition/requirements.txt
-python -B -X utf8 reproduce_latest.py
+git clone https://github.com/Wang051027/cross-layer-interaction-study.git
+cd cross-layer-interaction-study
 ```
 
-数据已随仓库发布：[六个模型权重](reproduction/held_condition/runs/dsprites_20260929)、[36 张原图与配对信息](reproduction/held_condition/runs/dsprites_shape_donor_20261010/panel/data.npz)、[冻结记录](reproduction/held_condition/reference)。入口会重新拟合、预测、测量两种干预强度、执行独立核验并生成报告。每次运行使用新的 `local_output/held-condition-*/` 目录，最终的 `comparison.json` 给出与原记录的对照结果。默认自动选择设备，可传 `--device cpu`。[复跑说明](docs/REPRODUCTION.md)
+**Windows PowerShell**（Python 3.12）：
 
-## 先运行一个例子
+```powershell
+py -3.12 -m venv .venv
+.\.venv\Scripts\python.exe -m pip install -r reproduction/held_condition/requirements.txt
+.\.venv\Scripts\python.exe -B -X utf8 reproduce_latest.py --device cpu
+```
 
-Python 3.11+；在仓库根目录执行：
+**Linux / macOS**（Python 3.12，同一入口）：
 
 ```bash
-python -m pip install -r requirements-demo.txt
-python -B run_dsprites_demo.py
-python -B run_demo.py
-python -B check_repository.py
+python3.12 -m venv .venv
+.venv/bin/python -m pip install -r reproduction/held_condition/requirements.txt
+.venv/bin/python -B -X utf8 reproduce_latest.py --device cpu
 ```
 
-- `run_dsprites_demo.py`：重算三张 dSprites 输入的真实缓存输出，展示条件交互、恢复和移植评分。
-- `run_demo.py`：用四张 Fashion 输入的真实缓存响应演示单独／成对预测与高阶残差。
-- `check_repository.py`：检查发布文件的 SHA-256 与所有 Python 文件的语法；仅需标准库。
+入口会重新拟合规则，先保存预测，再测量两种强度下的真实响应和两项干预，最后与冻结记录比对。有兼容 CUDA 环境可改用 `--device cuda`。每次运行新建一个 `local_output/held-condition-*/` 目录：
 
-两套示例都不下载数据、不训练模型、无需 GPU。它们是历史响应的计算演示，不能替代六个模型的完整实验。
+| 想核对什么 | 在本次输出目录中打开 |
+| --- | --- |
+| 是否复跑成功 | `comparison.json`：`status` 应为 `PASS`；`decisions` 应只有 `middle_third_all` 为 `true`。即使三个研究目标未达标，复现仍可通过。 |
+| 实验报告和逐例数字 | `experiment/source/reports/` 是报告；`experiment/source/runs/dsprites_rule_discrimination_20261031/tables/` 是结果表。 |
 
-需要检查核心实现与原网络前向的一致性时：
+**已验证的环境：** Windows、Python 3.12.14。独立 CPU 环境复跑核对了 864 条案例、4,320 条干预名单记录和 516 行模型级统计，数值在容差内一致；CUDA 复跑的 6 个拟合文件、12 个预测文件、12 个实测文件还与原件逐字节相同。[复跑核验记录](checks/held_condition_replay.json) · [完整复现说明](docs/REPRODUCTION.md)
 
-```bash
-python -m pip install -r requirements.txt
-python -B run_checks.py
-```
+若只想先读懂指标，可安装 `requirements-demo.txt` 后运行 `python -B run_dsprites_demo.py` 或 `python -B run_demo.py`，它们重算小样本的真实缓存响应。`python -B check_repository.py` 只校验发布文件的哈希与 Python 语法。历史训练集和早期大型运行档案未全部发布；上面的完整复跑范围是 **11 月 1 日的留出条件实验**。
 
-该检查使用已知答案及固定随机网络，**不读取本机原实验目录**。不要使用 `python -O`，因为研究代码通过断言执行数值核验。
-
-## 代码和方法从哪里读
-
-| 入口 | 内容 |
-|---|---|
-| [代码阅读指南](docs/CODE_GUIDE.md) | 从研究问题、公式到具体函数 |
-| [复现范围和运行顺序](docs/REPRODUCTION.md) | 可立即运行的检查、完整实验所需档案、已知限制 |
-| [全部源码索引](docs/SCRIPT_INDEX.md) | 178 个研究源码文件的用途 |
-| [最新判别实验](docs/LATEST_EXPERIMENT.md) | 固定组合规则、留出条件预测、二阶基线与通道阻断 |
-| [研究逻辑](source/reports/dSprites_研究逻辑与复用边界_2026-09-29.md) | 原设想如何变成可证伪的跨层机制问题 |
-| [dSprites 再评估报告](source/reports/dSprites_旧研究再评估_2026-09-29.md) | 当前结果、失败边界和下一步问题 |
-| [数值附表](source/reports/dSprites_逐项结果表_2026-09-29.md) | 各目标、预算、强度和模型的结果 |
-| [发布来源记录](PROVENANCE.json) | 原始源码与注释／公开副本的对应哈希 |
-
-## 早期 dSprites 实验（2026 年 9 月 29 日）
-
-使用原生 64×64 二值图像，训练六个新初始化的三类小残差 CNN。训练／验证为 24,576／3,072 张；开发与评价面板各 144 条因素记录。评价固定中心位置，匹配形状、大小和角度，另设严格右移 4 像素的配对控制。
-
-源为 block1 的四个空间标量，枚举 16 个干预组合、24 个条件成对差分；中介位于 block2。比较全局固定、类别固定和逐图选择，加入梯度、实际单点修补、随机、完整候选池等控制。
-
-主设置：共同 64 候选、16 个中介、α=1、真实类 margin、实际单点评分。下面为六模型均值，两个指标均越低越好：
-
-| 选择方式 | 恢复后剩余交互 | 移植重建误差 |
-|---|---:|---:|
-| 全局固定 | 71.20% | 74.07% |
-| 类别固定 | 62.88% | 65.34% |
-| 逐图选择 | 61.16% | 63.81% |
-
-类别条件解释了相当一部分优势；逐图额外收益依赖评价目标和干预强度。12,960 次主面板非空源干预未改变预测类别，因此这里的证据针对 **logit 中的组合效应**，尚未证明分类决策依赖这些源点。完整说明和不确定性见报告。
-
-![dSprites results](source/reports/dsprites_results_20260929.png)
-
-## 发布范围
-
-本仓库包含研究源码、中文注释、方法说明、真实响应示例，以及最新判别实验所需的全部模型、图像和核验输入。较早阶段的完整训练集、大型输出数组与历史交付档案由原项目单独保存。
-
-`source/` 保留原项目的相对目录关系。历史完整实验入口依赖当时的数据、模型和冻结清单，**当前版本不是一键恢复全部历史实验的发行包**。不要把逐个执行所有脚本当成复现流程；详见 [REPRODUCTION.md](docs/REPRODUCTION.md)。
-
-公开副本保留技术注释，并将少数本机专用路径替换为相对占位路径。来源记录逐文件列出原始和发布哈希，以及文档字符串和路径调整造成的语法树差异。完整实验的冻结原件独立保存。
-
-第三方数据来源与许可见 [THIRD_PARTY.md](THIRD_PARTY.md)。本次未为原创项目代码指定开源许可证；数据集附带许可证不代表本仓库整体采用该许可证。
+[源码索引](docs/SCRIPT_INDEX.md) · [实现与公式](source/scripts/dsprites_triple_rule.py) · [独立核验代码](source/scripts/audit_dsprites_triple_rule.py) · [文件来源](PROVENANCE.json) · [第三方数据与许可](THIRD_PARTY.md)

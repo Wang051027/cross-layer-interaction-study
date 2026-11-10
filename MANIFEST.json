@@ -20,8 +20,8 @@
     },
     {
       "path": "README.md",
-      "bytes": 6282,
-      "sha256": "14bd439962f348eb82c46755c18bcdf4c6e00a88adc7dec7c19126c484eae137"
+      "bytes": 11745,
+      "sha256": "705485f4f56417c916a5c022301b1cfca4365ccc08e1ced7b841617ca29b520d"
     },
     {
       "path": "THIRD_PARTY.md",
@@ -582,6 +582,11 @@
       "path": "results/rule_discrimination/tables/teacher_scores.csv",
       "bytes": 53111,
       "sha256": "f78092734ed236eaad964e53a1766f69e6f8027edb8fb5081648cd51b5f37338"
+    },
+    {
+      "path": "results/stage_evidence.json",
+      "bytes": 11180,
+      "sha256": "ac17345ef204f426c60385dfdffaf35197d4545568d16f63c55daeb0b3aa992d"
     },
     {
       "path": "run_checks.py",

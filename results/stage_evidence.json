@@ -1,0 +1,330 @@
+{
+  "scope": "Read-only excerpts from the October discovery runs cited in the project README. Counts of records that reuse images or interventions are not independent sample sizes. source_file paths are relative to the historical archive; source_sha256 identifies the full original result before selection.",
+  "stages": [
+    {
+      "source_file": "runs/dsprites_gradient_20261009/analysis.json",
+      "source_sha256": "4f387815f21b3e125e8d9ec73b7cf8beec504b6f2057f2c5b3b824604ea8519f",
+      "measure": "Full-strength relative drift of the logit gradient with respect to activations; six-model arithmetic mean. These are the four-scalar-source experiments.",
+      "diagnostic_where": {
+        "alpha": 1.0
+      },
+      "diagnostic": [
+        {
+          "seed": 202609291,
+          "middle_relative_drift": 0.15682025609842465,
+          "source_relative_drift": 1.3279708058783741
+        },
+        {
+          "seed": 202609292,
+          "middle_relative_drift": 0.18066869966385374,
+          "source_relative_drift": 1.7592753693078056
+        },
+        {
+          "seed": 202609293,
+          "middle_relative_drift": 0.18303397044744787,
+          "source_relative_drift": 0.5350935687032452
+        },
+        {
+          "seed": 202609294,
+          "middle_relative_drift": 0.10681192289068214,
+          "source_relative_drift": 0.9981221311873056
+        },
+        {
+          "seed": 202609295,
+          "middle_relative_drift": 0.12518414025032987,
+          "source_relative_drift": 1.357603034105096
+        },
+        {
+          "seed": 202609296,
+          "middle_relative_drift": 0.11350509754199034,
+          "source_relative_drift": 1.2449001109707014
+        }
+      ],
+      "six_model_mean": {
+        "middle_relative_drift": 0.14433734781545476,
+        "source_relative_drift": 1.2038275033587547
+      }
+    },
+    {
+      "source_file": "runs/dsprites_shape_donor_20261010/analysis.json",
+      "source_sha256": "e1dcc9fafa797c497a8fdecef5c00819deeeef5c3548233867f598620f83f286",
+      "measure": "Source interpolation path, 36-image panel: RMS error predicting the endpoint output change divided by RMS actual output change. A single starting gradient and the fixed 32-midpoint integral are compared on the same path.",
+      "path": {
+        "baseline": [
+          {
+            "seed": 202609291,
+            "error_ratio": 1.4979268749437988
+          },
+          {
+            "seed": 202609292,
+            "error_ratio": 1.3415206920229017
+          },
+          {
+            "seed": 202609293,
+            "error_ratio": 1.5597157478460881
+          },
+          {
+            "seed": 202609294,
+            "error_ratio": 2.3051775400138474
+          },
+          {
+            "seed": 202609295,
+            "error_ratio": 1.0722531094744137
+          },
+          {
+            "seed": 202609296,
+            "error_ratio": 1.319426252081381
+          }
+        ],
+        "midpoint_32": [
+          {
+            "seed": 202609291,
+            "error_ratio": 0.0051020642304776785
+          },
+          {
+            "seed": 202609292,
+            "error_ratio": 0.005129233948652699
+          },
+          {
+            "seed": 202609293,
+            "error_ratio": 0.0036166374125805667
+          },
+          {
+            "seed": 202609294,
+            "error_ratio": 0.0051053552662003315
+          },
+          {
+            "seed": 202609295,
+            "error_ratio": 0.004439533204940159
+          },
+          {
+            "seed": 202609296,
+            "error_ratio": 0.004491671641901734
+          }
+        ]
+      },
+      "six_model_mean_error_ratio": {
+        "baseline": 1.5160033693970718,
+        "midpoint_32": 0.004647415950792195
+      }
+    },
+    {
+      "source_file": "runs/dsprites_triple_gates_20261011/analysis.json",
+      "source_sha256": "b3d58c298cf60b8e80d6a2ec07ecc6739e1d1493e7622997da73a230f7755ff5",
+      "measure": "All 56 triples among the 8 selected middle channels. Full-strength cosine across shape pairs between the signed sum of pure order-3 coefficients and the combined order-4-to-8 remainder, then mean over models.",
+      "order_cancellation_alpha": 1.0,
+      "order_cancellation": {
+        "restore": [
+          {
+            "seed": 202609291,
+            "triple_vs_orders4_cosine": -0.9263032103419725
+          },
+          {
+            "seed": 202609292,
+            "triple_vs_orders4_cosine": -0.9798354188377763
+          },
+          {
+            "seed": 202609293,
+            "triple_vs_orders4_cosine": -0.863078190636236
+          },
+          {
+            "seed": 202609294,
+            "triple_vs_orders4_cosine": -0.9348684769383417
+          },
+          {
+            "seed": 202609295,
+            "triple_vs_orders4_cosine": -0.9581215814916726
+          },
+          {
+            "seed": 202609296,
+            "triple_vs_orders4_cosine": -0.9154835686112006
+          }
+        ],
+        "transplant": [
+          {
+            "seed": 202609291,
+            "triple_vs_orders4_cosine": -0.7285122713749871
+          },
+          {
+            "seed": 202609292,
+            "triple_vs_orders4_cosine": -0.974722373308793
+          },
+          {
+            "seed": 202609293,
+            "triple_vs_orders4_cosine": -0.9774144460056444
+          },
+          {
+            "seed": 202609294,
+            "triple_vs_orders4_cosine": -0.8543870551135528
+          },
+          {
+            "seed": 202609295,
+            "triple_vs_orders4_cosine": -0.8792564314745479
+          },
+          {
+            "seed": 202609296,
+            "triple_vs_orders4_cosine": -0.8165522931377712
+          }
+        ]
+      },
+      "six_model_mean_cosine": {
+        "restore": -0.9296150744762,
+        "transplant": -0.8718074784025494
+      }
+    },
+    {
+      "source_file": "runs/dsprites_layer_transfer_20261013/analysis.json",
+      "source_sha256": "fb3a310731592c7c0fdb561dc436924bc3cefbea785acf27c08dc52b5192eeeb",
+      "measure": "Replace the middle field by its order-0 and order-1 reconstruction. Ratio: remaining RMS of the output conditional pair differences divided by their unmodified RMS, calculated within model, then averaged.",
+      "primary_where": {
+        "alpha": 1.0,
+        "metric": "conditional_pairs",
+        "method": "middle_le1",
+        "operation": "erase"
+      },
+      "primary": [
+        {
+          "seed": 202609291,
+          "remaining_ratio": 0.6415393334434821
+        },
+        {
+          "seed": 202609292,
+          "remaining_ratio": 0.6895521618805223
+        },
+        {
+          "seed": 202609293,
+          "remaining_ratio": 0.6357790279519022
+        },
+        {
+          "seed": 202609294,
+          "remaining_ratio": 0.5648254275716887
+        },
+        {
+          "seed": 202609295,
+          "remaining_ratio": 0.6148422968006518
+        },
+        {
+          "seed": 202609296,
+          "remaining_ratio": 0.6815564138957483
+        }
+      ],
+      "six_model_mean_remaining_ratio": 0.6380157769239992,
+      "models_below_one": 6
+    },
+    {
+      "source_file": "runs/dsprites_ar_factorial_20261017/claim_checks.json",
+      "source_sha256": "c689254ea1bc6d7f4969724508ff5aeaaa2606b1a392bc2a756003c78d339de3",
+      "measure": "At the previously selected ReLU, start with the half-strength baseline and residual (00), then change only the additive baseline A (10), only the interaction residual R (01), or both (11) to full strength. Counts below pertain only to the 539 failure states where the baseline remained on the original side but the original group no longer crossed threshold at full strength.",
+      "categories": "baseline_changed,group_not_cross,single_suffices,joint_retained",
+      "focus539_counts": {
+        "00": [
+          0,
+          0,
+          0,
+          539
+        ],
+        "10": [
+          0,
+          533,
+          3,
+          3
+        ],
+        "01": [
+          0,
+          15,
+          482,
+          42
+        ],
+        "11": [
+          0,
+          539,
+          0,
+          0
+        ]
+      }
+    },
+    {
+      "source_file": "runs/dsprites_joint_window_20261018/claim_checks.json",
+      "source_sha256": "170589eacb304ac609c0ab5005e0db4f909861ef85d2550c27bb05e75fa3c60d",
+      "measure": "Full-strength failure states targeted for rescue. A directed rescue must restore triggering by the full set and fail after dropping any member, under all three references. One state may have more than one successful intervention.",
+      "denominator": 539,
+      "aligned_case_method_count": 26,
+      "aligned_unique_states": 15
+    },
+    {
+      "source_file": "runs/dsprites_coalition_context_20261025/claim_checks.json",
+      "source_sha256": "cc0d8b6e0833eeb05daa173d2ce4e70fd42fa639a8815c188fa566b9101dd0fc",
+      "measure": "Four states cross the original channel set on/off with the old/new outside-channel background. Counts refer to strict rescue records; the effect includes additive components.",
+      "primary_records": 26,
+      "primary_distinct_states": 15,
+      "primary_models": 5,
+      "outside_unchanged": 12,
+      "modulation_counts": {
+        "enhanced": 8,
+        "unchanged": 12,
+        "attenuated": 6
+      }
+    },
+    {
+      "source_file": "runs/dsprites_downstream_routes_20261025/claim_checks.json",
+      "source_sha256": "b8a498924b1e9c5d618feb2d460de4f94e789384c9948fac525ea125e967cc5f",
+      "measure": "Downstream block3 first ReLU under the new outside background, native skip kept. Within each of the five models with strict rescue records: RMS remaining group effect / RMS unblocked group effect, then equally weighted across models. Absolute ranking uses the measured outputs of the same cases; random0/1 are same-budget controls.",
+      "teacher_equal_where": {
+        "context": 1,
+        "layer": 0
+      },
+      "teacher_equal": [
+        {
+          "kind": "point",
+          "order": "absolute",
+          "budget": 1,
+          "spent_min": 1,
+          "spent_max": 1,
+          "remaining_rms_ratio": 0.9799490541868418,
+          "teachers": 5,
+          "records": 26
+        },
+        {
+          "kind": "point",
+          "order": "absolute",
+          "budget": 256,
+          "spent_min": 197,
+          "spent_max": 256,
+          "remaining_rms_ratio": 0.3763440588488909,
+          "teachers": 5,
+          "records": 26
+        },
+        {
+          "kind": "point",
+          "order": "random0",
+          "budget": 256,
+          "spent_min": 197,
+          "spent_max": 256,
+          "remaining_rms_ratio": 0.9348629438156573,
+          "teachers": 5,
+          "records": 26
+        },
+        {
+          "kind": "point",
+          "order": "random1",
+          "budget": 256,
+          "spent_min": 197,
+          "spent_max": 256,
+          "remaining_rms_ratio": 0.9318988893320299,
+          "teachers": 5,
+          "records": 26
+        },
+        {
+          "kind": "channel",
+          "order": "absolute",
+          "budget": 4,
+          "spent_min": 4,
+          "spent_max": 4,
+          "remaining_rms_ratio": 0.43357046486304895,
+          "teachers": 5,
+          "records": 26
+        }
+      ]
+    }
+  ]
+}
