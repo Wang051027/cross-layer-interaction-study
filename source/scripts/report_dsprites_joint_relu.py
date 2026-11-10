@@ -205,7 +205,7 @@ def make_figures(tables):
         ax.set_ylim(0, 104); ax.set_ylabel('Retained joint mechanism (%)'); ax.set_title(f'Source mask {group} | 72 paired cases per teacher')
         ax.grid(axis='y', alpha=.18)
     axes[1].legend(title='Teacher seed suffix', ncol=3, fontsize=8, loc='lower center')
-    fig.suptitle('Full-strength replication of half-strength joint thresholds\nSame inputs and architecture; no reranking')
+    fig.suptitle('Full-strength replication of half-strength joint thresholds\nChannel rankings fixed at half strength')
     save(fig, 'stability')
     # 开关净输出幅度与有符号投影，防止把RMS幅度说成解释比例。
     fig, axes = plt.subplots(1, 2, figsize=(11, 4.6), layout='constrained')
@@ -230,7 +230,7 @@ def make_figures(tables):
         ax.set_xticks(range(10), [*map(str, range(1, 10)), '10+']); ax.set_ylim(0, 50)
         ax.set_xlabel('Exact minimum whole-channel count'); ax.set_ylabel('Share of robust decidable flips (%)')
         ax.set_title(f'Source mask {mask} | descriptive census'); ax.legend(); ax.grid(axis='y', alpha=.18)
-    fig.suptitle('First-ReLU threshold census across all six teachers\nCoordinates are dependent measurements, not independent samples')
+    fig.suptitle('First-ReLU threshold census across all six teachers\nCounts are pooled over ReLU locations within each model')
     save(fig, 'minimum')
     # 具体单点输出量级：每个教师一条经验分布，不掩盖零效应。
     fig, axes = plt.subplots(1, 2, figsize=(11, 4.3), layout='constrained')
@@ -242,7 +242,7 @@ def make_figures(tables):
         ax.set_xlabel('Absolute net effect on donor-minus-recipient logit'); ax.set_ylabel('Case-state cumulative proportion (%)')
         ax.set_title('Selected point' if method == 'selected1' else 'Selected ≤32 points'); ax.grid(alpha=.18)
     axes[1].legend(title='Teacher seed suffix', fontsize=8)
-    fig.suptitle('A joint threshold can have a small output effect\n144 existing case-states per teacher; no new images')
+    fig.suptitle('A joint threshold can have a small output effect\n144 source states per model on the 36-image panel')
     save(fig, 'effect_distribution')
     return paths
 

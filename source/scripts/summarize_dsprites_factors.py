@@ -51,7 +51,7 @@ def main():
     summary=read(RUN/'summary.json');rows=summary['methods'];factors=np.load(DATA/'evaluation_factors.npy')
     base=[r for r in rows if r['frame']=='base' and r['alpha']==1 and r['label']==-1]
     def values(mode,method,key,budget=16,alpha=1.,label=-1):
-        """固定模型顺序，不把同一教师的多个随机组当作额外教师。"""
+        """按固定种子顺序返回六个模型的指标。"""
         found=[r for r in rows if r['frame']=='base' and r['alpha']==alpha and r['label']==label
                and r['target']==mode and r['method']==method and (r['budget']==budget or budget is None)]
         assert len(found)==6,(mode,method,key,budget,alpha,label,len(found))
@@ -152,7 +152,7 @@ def main():
             ax.set_xticks([0,1],['Absolute coordinates','Aligned coordinates']);ax.set_yscale('log')
             ax.set_title('Right 4 px: paired interaction change');ax.set_ylabel('RMS difference / original RMS')
         ax.grid(axis='y',alpha=.18)
-    fig.suptitle('dSprites transfer: 6 fresh models, 144 matched images, k=16, evaluation alpha=1',fontsize=15)
+    fig.suptitle('dSprites transfer: 6 models, 144 factor records, k=16, evaluation alpha=1',fontsize=15)
     fig.savefig(BASE/'reports/dsprites_results_20260929.png',dpi=190);plt.close(fig)
     image_figure()
     print(json.dumps(dict(status='PASS',primary_rows=len(groups),comparisons=len(comparisons),factor_rows=len(factor_rows)),ensure_ascii=False))

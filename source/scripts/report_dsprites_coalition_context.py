@@ -73,7 +73,7 @@ def figures(primary,example):
     ax.set_title('ReLU contributions to C–outside interaction',loc='left',pad=48,fontweight='bold')
     ax.legend(loc='lower left',bbox_to_anchor=(0,1.01),frameon=False,fontsize=9,ncol=1)
     ax.grid(axis='x',color='#E6E8EC',lw=.6);ax.set_axisbelow(True)
-    fig.text(.12,.01,'14 records with outside changes; 7 have opposing terms. Exact expansion around 00 gates, not unique causal shares.',fontsize=9)
+    fig.text(.12,.01,'Outside channels changed in 14 records. Terms had opposing signs in 7 records.',fontsize=9)
     fig.tight_layout(rect=(0,.04,1,1));save(fig,'03_relu_interaction_cancellation')
     return paths
 
@@ -134,7 +134,7 @@ F仍是供体类别logit减受体类别logit，三类原始logit全部保存。�
 |---|---:|---:|---:|---:|---:|---:|
 {chr(10).join(table)}
 
-源通道干预下，组外单独作用的RMS均值大于C单独作用；这不意味着每个案例都由组外主导。中间通道的11条成功记录都只改变C内激活，所以o和J严格为零。第二激活只有2条成功，来自同一模型，不能据此比较干预族的普遍优劣。第一激活无上轮严格成功，保持缺失。
+源通道干预下，组外单独作用的RMS均值大于C单独作用；这不意味着每个案例都由组外主导。中间通道的11条成功记录都只改变C内激活，所以o和J严格为零。第二激活的 2 条恢复记录均来自同一模型。第一激活无上轮严格成功，保持缺失。
 
 ![C的条件输出效应](figures/dsprites_coalition_context_20261025/01_conditional_C_effects.png)
 
@@ -172,7 +172,7 @@ F仍是供体类别logit减受体类别logit，三类原始logit全部保存。�
 |---|---:|---:|---:|
 {chr(10).join(pointtable)}
 
-预定恢复例完整ΔF为+3.371569，固定j为原00的0激活后仅减少+0.004414；固定为11激活的对比差为+0.005377。这支持“C确实影响输出，但大部分变化经其他位置或路径到达读出”，不能把整张C图的效应归给一个被定位的开关。两种控制参照均保存，不选较大的值作为唯一解释比例。
+预定恢复例完整ΔF为+3.371569，固定j为原00的0激活后仅减少+0.004414；固定为11激活的对比差为+0.005377。这支持“C确实影响输出，但大部分变化经其他位置或路径到达读出”。两种控制参照均保存，不选较大的值作为唯一解释比例。
 
 ## 6. 失败对照、可靠性与边界
 
@@ -180,7 +180,7 @@ F仍是供体类别logit减受体类别logit，三类原始logit全部保存。�
 
 独立审计{audit['native_fields']}个原前向四状态场、{audit['point_patches']}个非负点替换场及{audit['member_reversions']}个逐成员恢复场；最大误差{maxerr:.3g}。审计独立解码旧名单、重建源干预和四状态，通过原forward与hook核验，不调用新数值核心。十二份旧交付1650条目及更早来源保持一致。5张CSV共{sum(tables.values())}行；全部端点原始数组保留。
 
-结论仍限同一36图面板、已有自适应搜索解、同架构六个模型。26记录并非26个独立样本，15状态也共享输入。尚无未见输入泛化、跨架构稳定性、分类准确率收益或天然唯一通路结论。下一步若继续同面板，应定位C作用通往多个下游位置的路径，并比较路径联合阻断与单点阻断；本轮未做这项后续搜索。
+结论仍限同一36图面板、已有自适应搜索解、同架构六个模型。26 条记录对应 15 个源状态。下一步若继续同面板，应定位C作用通往多个下游位置的路径，并比较路径联合阻断与单点阻断；本轮未做这项后续搜索。
 
 - [数据、代码与复现入口](../runs/dsprites_coalition_context_20261025/README.md)
 - [全部四状态效应](../runs/dsprites_coalition_context_20261025/tables/effects.csv)、[四状态原始读出](../runs/dsprites_coalition_context_20261025/tables/states.csv)

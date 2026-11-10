@@ -19,7 +19,7 @@ def rms(values):
 
 
 def write_table(name, rows):
-    """逐行来源可追溯；不把共享输入案例当独立抽样。"""
+    """逐行来源可追溯；按模型汇总案例。"""
     path = RUN/f'tables/{name}.csv'; assert not path.exists(); path.parent.mkdir(exist_ok=True)
     with path.open('w', encoding='utf-8-sig', newline='') as f:
         writer = csv.DictWriter(f, fieldnames=list(rows[0])); writer.writeheader(); writer.writerows(rows)
@@ -232,7 +232,7 @@ def make_figures(tables, claims, examples):
             ax[j].scatter(ids, [good[i][field] for i in ids], s=30, color=color, label=labels[FAMILIES.index(family)])
         ax[j].axhline(0, color='#777', lw=.7); ax[j].set_xlabel('按模型、案例、方法排序的成功解'); ax[j].set_ylabel('供体−受体 logit'); ax[j].grid(axis='y', alpha=.2)
     ax[0].set_title('实际完整输出变化 ΔF'); ax[1].set_title('共同j开关控制的变化 ΔE'); ax[0].legend(fontsize=8)
-    fig.suptitle('点是案例×方法，并非独立输入；两个面板纵轴范围不同', y=1.02); save(fig, '03_output_effects')
+    fig.suptitle('每个点代表一个案例和一种方法，两个面板各用自己的纵轴范围', y=1.02); save(fig, '03_output_effects')
     ex = examples['first_aligned']['solution']; rr = [r for r in tables['member_drops'] if r['seed'] == ex['seed'] and r['case'] == ex['case'] and r['mask'] == ex['mask'] and r['endpoint'] == ex['endpoint']]
     direction = examples['first_aligned']['direction']; names = ['完整C']+[f"删通道{r['channel']}" for r in rr]
     fig, ax = plt.subplots(1, 2, figsize=(11.5, 4.2)); x = np.arange(len(names))
@@ -311,7 +311,7 @@ def write_report(tables, claims, examples, audit):
 |---|---:|---:|---:|---:|---:|
 {chr(10).join(summary)}
 
-各行案例可能重叠；{claims['aligned_case_method_count']}不是独立输入数。去重的{claims['aligned_unique_states']}个状态也共享原36幅图，不做把状态当独立样本的显著性检验。跨模型通道编号不当作同一功能单元。
+各方法共得到 {claims['aligned_case_method_count']} 条恢复记录，按案例和源状态去重后为 {claims['aligned_unique_states']} 个状态。通道编号沿用各模型自己的索引。
 
 | 教师 | 原失败状态 | 源通道三参照通过 | 中间通道通过 | 第一激活通过 | 第二激活通过 |
 |---|---:|---:|---:|---:|---:|
@@ -355,7 +355,7 @@ F=供体类别logit−受体类别logit，三类原始logit全部保存。以同
 |---|---:|---:|---:|---:|---:|
 {chr(10).join(effects)}
 
-没有成功的教师不作零效应观测；分母原d为该教师/源mask分组全部既有状态的完整强度全部残差修正RMS，与前轮一致。比例是比值，表中未乘100，不能当作准确率或唯一因果百分比。F正负也不等于分类改善。点在干预前已触发而干预后仍触发时，还可能是C对该点的必要性改变，不应一律说成新开关翻转。
+各模型在有恢复记录时纳入均值。分母为该模型、该源掩码下全部原状态的全强度残差修正 RMS。表中直接列比值，F 的符号给出得分变化方向。点在干预前已触发而干预后仍触发时，还可能是C对该点的必要性改变，不应一律说成新开关翻转。
 
 ![实际输出与共同开关控制](figures/dsprites_joint_window_20261018/03_output_effects.png)
 

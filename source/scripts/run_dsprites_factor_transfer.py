@@ -345,7 +345,7 @@ def evaluate(device):
 
 
 def summarize():
-    """先在模型内汇总MSE，再报告六个教师；不把24个差分当独立样本。"""
+    """在模型内汇总 24 个差分的均方误差，再报告六个模型的结果。"""
     verify_freeze('adaptive_freeze'); assert not (RUN / 'summary.json').exists()
     with np.load(RUN / 'panel/data.npz', allow_pickle=False) as a:
         factors = a['factors'].copy()

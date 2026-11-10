@@ -56,7 +56,7 @@ def figures(claims,ex,summaries):
         for y,value in enumerate(values):ax.text(value+(0.012 if value>=0 else -.012),y,f'{value:+.3f}',va='center',ha='left' if value>=0 else 'right',fontsize=9)
         ax.margins(x=.22)
     fig.suptitle('Fixed example: teacher 292, case 70, mask 15, C = (7, 9)',fontsize=12)
-    fig.text(.08,.015,'Each bar is a separate channel intervention. First-layer bars are not additive. Independent horizontal scales.',fontsize=9)
+    fig.text(.08,.015,'Each bar shows the effect of blocking one channel. Panels use separate scales.',fontsize=9)
     fig.tight_layout(rect=(0,.07,1,.96));save(fig,'02_example_channels')
     record=ex['record']['record'];loc=load(RUN/f'discovery/record_{record:03d}/data.npz');cm=LinearSegmentedColormap.from_list('signed_effect',[gold,'#FFFFFF',blue])
     fig,axes=plt.subplots(1,2,figsize=(10.7,4.8))
@@ -108,7 +108,7 @@ def report():
     teacher.dump(RUN/'report_checks.json',checks)
     text=f'''# dSprites：原组合的下游通道、ReLU位置与联合阻断
 
-2026年10月25日。沿用原36图与六个同架构冻结模型，不增加输入或训练。保留上轮全部26条严格恢复记录（15状态、5个有成功的模型），另加4个仅分解对照、每模型首个非空失败源干预共6条、原参照依赖失败例1条，合计37条案例×方法记录。没有把26条当独立样本。
+2026年10月25日。沿用原36图与六个同架构冻结模型，沿用冻结模型和既有输入。保留上轮全部26条严格恢复记录（15状态、5个有成功的模型），另加4个仅分解对照、每模型首个非空失败源干预共6条、原参照依赖失败例1条，合计37条案例×方法记录。
 
 **原组合的输出作用分布在多个通道和空间位置；只盯开关翻转会遗漏大量保持开启的位置上的幅度传递。联合阻断能显著减少效应，但残差支路和正负抵消使“小净余量”不能直接证明路径已消失。** 位置按同一面板上的实测输出作用排序。
 
@@ -152,7 +152,7 @@ def report():
 |---|---:|---:|
 {chr(10).join(meanrows)}
 
-最多256点的两随机对照仍剩{100*agg(0,10)['remaining_rms_ratio']:.2f}%/{100*agg(0,16)['remaining_rms_ratio']:.2f}%；最多4通道随机对照剩{100*agg(0,50)['remaining_rms_ratio']:.2f}%/{100*agg(0,56)['remaining_rms_ratio']:.2f}%。这些对照支持定位在当前队列内捕捉了输出相关位置，但输出排序与测试使用相同案例，不能视为独立验证。整通道和单点覆盖的空间数量不同，不能把二者当相同成本比较。
+最多256点的两随机对照仍剩{100*agg(0,10)['remaining_rms_ratio']:.2f}%/{100*agg(0,16)['remaining_rms_ratio']:.2f}%；最多4通道随机对照剩{100*agg(0,50)['remaining_rms_ratio']:.2f}%/{100*agg(0,56)['remaining_rms_ratio']:.2f}%。位置排名和干预结果来自同一组案例。整通道和单点覆盖的空间数量不同，两种预算以各自覆盖的位置数报告。
 
 ![预算与余量](figures/dsprites_downstream_routes_20261025/01_blocking_budget.png)
 
@@ -160,7 +160,7 @@ def report():
 
 残差块有卷积分支u和直接支路H。对每个C配对进一步交叉u-off/u-on与H-off/H-on。固定例：卷积分支单独带来{pair['convolution_only']:+.6f}，直接支路单独带来{pair['skip_only']:+.6f}，两路交互{pair['branch_interaction']:+.6f}，合成{pair['C_effect']:+.6f}。
 
-第一层全部变化被阻断后，该例仍有{get(0,62)['remaining']:+.6f}，与直接支路单独效应完全一致；同时恢复该支路，余量为0。26条主记录都保留非零直接支路效应。两条记录的卷积单独与直接支路单独作用反向。全量阻断是实现/路径覆盖控制，不能称为稀疏电路发现。
+第一层全部变化被阻断后，该例仍有{get(0,62)['remaining']:+.6f}，与直接支路单独效应完全一致；同时恢复该支路，余量为0。26条主记录都保留非零直接支路效应。两条记录的卷积单独与直接支路单独作用反向。全量阻断用于核对路径覆盖。
 
 前256点阻断后剩{get(0,4)['remaining']:+.6f}：其中直接支路单独为{pair['skip_only']:+.6f}，未阻断卷积变化在此支路背景下的条件作用为{get(0,4)['remaining_convolution_given_skip']:+.6f}。再看末层读出，正余量合计{get(0,4)['residual_positive']:+.6f}，负余量合计{get(0,4)['residual_negative']:+.6f}。具体主要通道：{channel_detail}。最大绝对余量位置为末层({residual_example['channel']},{residual_example['y']},{residual_example['x']})，读出贡献{residual_example['residual_contribution']:+.6f}。完整32通道和前128个余量位置见证据表。
 

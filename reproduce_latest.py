@@ -3,6 +3,7 @@ from __future__ import annotations
 
 import argparse
 import csv
+import gzip
 import hashlib
 import json
 import math
@@ -68,7 +69,12 @@ def prepare(work):
             (base / name).write_bytes(frozen.read(name))
     shutil.copytree(BUNDLE / "runs", base / "runs")
     (base / "reports").mkdir()
-    shutil.copyfile(REFERENCE / "source/CURRENT_RESEARCH.md", base / "CURRENT_RESEARCH.md")
+    progress = gzip.decompress((REFERENCE / "source/CURRENT_RESEARCH.md.gz").read_bytes())
+    entry = next(item for item in read(REFERENCE / "delivery_manifest.json")["files"]
+                 if item["path"] == f"runs/{EXPERIMENT}/source/CURRENT_RESEARCH.md")
+    if hashlib.sha256(progress).hexdigest() != entry["sha256"]:
+        raise ValueError("Frozen progress file checksum differs")
+    (base / "CURRENT_RESEARCH.md").write_bytes(progress)
     run = base / "runs" / EXPERIMENT
     run.mkdir()
     shutil.copyfile(REFERENCE / "design.json", run / "design.json")

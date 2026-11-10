@@ -221,7 +221,7 @@ def make_figures(tables):
         ax.bar_label(bars, padding=3); ax.set_xticks(range(4), ['A alone', 'R alone', 'Either alone', 'Only together'], rotation=15)
         ax.set_ylabel('Existing case-states'); ax.set_title(title)
     axes[0].set_ylim(0, 820)
-    fig.suptitle('Which intervention is sufficient to lose the joint condition?\nBoolean patterns are intervention-specific, not unique causal shares')
+    fig.suptitle('Which intervention is sufficient to lose the joint condition?\nThreshold outcomes for the four combinations of A and R')
     save(fig, 'failure')
     fig, axes = plt.subplots(2, 2, figsize=(11, 8), sharey='row', layout='constrained')
     for col, context in enumerate(('frozen_C', 'all32')):
@@ -240,7 +240,7 @@ def make_figures(tables):
     padding = (max(projections)-min(projections))*.08
     axes[1, 0].set_ylim(min(0, min(projections))-padding, max(0, max(projections))+padding)
     axes[0, 1].legend(title='Teacher seed suffix', ncol=3, fontsize=8)
-    fig.suptitle('Exact output-change decomposition: A + R + interaction\nRMS amplitudes do not add; signed projections do')
+    fig.suptitle('Output change from A, R and their interaction\nSigned projections onto the total change sum to 100%')
     save(fig, 'output')
     fig, axes = plt.subplots(1, 2, figsize=(11, 4.6), layout='constrained')
     for ax, key, ylabel in zip(axes, ('remainder_ratio00', 'probe_ratio00'), ('Point nonlinear remainder RMS / value at 00', '+1 activation probe RMS / value at 00')):
@@ -249,7 +249,7 @@ def make_figures(tables):
             ax.plot(range(4), [next(r[key] for r in rows if r['cell'] == cell) for cell in order], 'o-', color=color, label=str(seed)[-3:])
         ax.set_xticks(range(4), labels); ax.set_ylim(bottom=0); ax.set_ylabel(ylabel); ax.grid(axis='y', alpha=.18)
     axes[1].legend(title='Teacher seed suffix', ncol=3, fontsize=8)
-    fig.suptitle('Switch amplitude and downstream response are separate controls\nThe +1 probe is a standardized perturbation, not the actual switch effect')
+    fig.suptitle('Switch amplitude and downstream response are separate controls\nProbe response to a +1 activation increment')
     save(fig, 'probe')
     return paths
 

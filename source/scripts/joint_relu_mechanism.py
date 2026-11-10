@@ -71,7 +71,7 @@ def census(model, t):
     minimum = minimum_order(za[ids], changes, direction)
     kmap = np.zeros(32768, dtype=np.int16); kmap[ids] = minimum['k']
     joint = kmap >= 2
-    # 八个计数不充当独立样本；图像/案例/模型分母另行保留。
+    # 分别记录事件数、图像数、案例数和模型数。
     counts = np.array([32768, flip.sum(), robust.sum(), (~minimum['valid']).sum(),
                        (kmap == 1).sum(), joint.sum(), (joint & (zh > 0)).sum(),
                        (joint & (zh < 0)).sum()], dtype=np.int64)

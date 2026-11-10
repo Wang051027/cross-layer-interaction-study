@@ -58,7 +58,7 @@ def scalar_output(logits, label):
 
 
 def contrast_last(values, stencil):
-    """对最后的16组合轴做24个条件成对差分，不将差分视为独立样本。"""
+    """沿末尾的 16 个组合计算 24 个条件成对差分。"""
     return (values[..., stencil[:, 0]] - values[..., stencil[:, 1]]
             - values[..., stencil[:, 2]] + values[..., stencil[:, 3]])
 

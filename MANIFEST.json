@@ -15,8 +15,8 @@
     },
     {
       "path": "PROVENANCE.json",
-      "bytes": 67089,
-      "sha256": "37874cc87a363be11688c43dd9d9f5ddc1f0389ae99d6777787721649e9f24ee"
+      "bytes": 67097,
+      "sha256": "82a42839429a8aba1791e6e44bda8c7946422f68d0c5d4bf375328aea636f6a2"
     },
     {
       "path": "README.md",
@@ -110,8 +110,8 @@
     },
     {
       "path": "reproduce_latest.py",
-      "bytes": 8610,
-      "sha256": "a8211d871295eae1493834c54d812628d47bf81e2e076375d428ad7c5ebecbba"
+      "bytes": 8979,
+      "sha256": "2ceebf396adf325b050e9f0670d349e3d82ede07464b8d38febaff91a4c540f7"
     },
     {
       "path": "reproduction/held_condition/protocol_sources.zip",
@@ -209,9 +209,9 @@
       "sha256": "a0a7b3ef4bb17c87de7d27177a8fd4f587cee381ec8f31861562976a895ebfbe"
     },
     {
-      "path": "reproduction/held_condition/reference/source/CURRENT_RESEARCH.md",
-      "bytes": 7424,
-      "sha256": "e6ed2e326006125d9858bcf8029919dd938e5336b4481722e6540bc82f6611f9"
+      "path": "reproduction/held_condition/reference/source/CURRENT_RESEARCH.md.gz",
+      "bytes": 3761,
+      "sha256": "d42fccfd7f9935cd43667c3277e5f68c9f665f09e627ace6e5fd95d5461c1368"
     },
     {
       "path": "reproduction/held_condition/reference/tables/cases.csv",
@@ -615,28 +615,28 @@
     },
     {
       "path": "source/reports/cross_layer_mechanism_20260928.png",
-      "bytes": 253760,
-      "sha256": "2e5f94d665ac6e12f28b6d681a3710f6d3940e20d0b2dd56049df1a952097006"
+      "bytes": 251520,
+      "sha256": "96b8986b247f86cb2b3712b11fb076acc7977dbd65f5c951ffd6628972b24989"
     },
     {
       "path": "source/reports/dSprites_旧研究再评估_2026-09-29.md",
-      "bytes": 12872,
-      "sha256": "a15882d1ee3c14260975afc307d1e5793206ebcf8e38df64a113918316a96c47"
+      "bytes": 10687,
+      "sha256": "169945168a686e80b2b7bee0e9f6635b14a3c9e0ec21e5f6fbea9ff0ca9a3b91"
     },
     {
       "path": "source/reports/dSprites_研究逻辑与复用边界_2026-09-29.md",
-      "bytes": 9687,
-      "sha256": "08d8501c6734070a5d301599f8be03aa42fe3a23b2f71892da71e2ef10f51be2"
+      "bytes": 9062,
+      "sha256": "7b381ba1ef5079a6674dcaa5c2cd41906856d260691fdd8ae38960ccc3de19a2"
     },
     {
       "path": "source/reports/dSprites_迁移评估协议_2026-09-29.md",
-      "bytes": 5099,
-      "sha256": "f963244d1e778156a6caea51e443fd7696f6219bf4e09a1071e021aec8e6f808"
+      "bytes": 4761,
+      "sha256": "6728cb06490f264f58d71a19838ad76bd8a61a99797dd061a1d8e57033ddc696"
     },
     {
       "path": "source/reports/dSprites_逐项结果表_2026-09-29.md",
-      "bytes": 11225,
-      "sha256": "802bac16350944b4391acbaa8930f37134c1f0117d146c02f4eb23b7ee5f9922"
+      "bytes": 10766,
+      "sha256": "6b55e1288de45f8dd8c2b9664dff203b3aae8d04ab33782be4659bedad4b6b00"
     },
     {
       "path": "source/reports/dsprites_panel_20260929.png",
@@ -645,48 +645,48 @@
     },
     {
       "path": "source/reports/dsprites_results_20260929.png",
-      "bytes": 323683,
-      "sha256": "6ba870a18e5d2c04844f0668ec9fe36696b50a1a93d1f290eab9cf621a343158"
+      "bytes": 326016,
+      "sha256": "3689ac2c7ceea155df9a6ccdc172fbe756700c47351358ce9d0e28c7752d94ad"
     },
     {
       "path": "source/reports/局部线性回退规则_数学说明_2026-09-14.md",
-      "bytes": 5060,
-      "sha256": "13715c63bb1c834164c33fdaa864dad11527c013b2592161d8b036dab73f44eb"
+      "bytes": 4843,
+      "sha256": "b43cc5d9f4ce7402831405f71177db432791e8b6a6012fc7f450dff0536b09b9"
     },
     {
       "path": "source/reports/稳定状态合并与精确修正_数学说明_2026-09-17.md",
-      "bytes": 4046,
-      "sha256": "ec0f2efbab5768fa5d74186c0afd2177be17ab84713babd8708e9344c6ba601a"
+      "bytes": 3861,
+      "sha256": "f3f3a12862d2446924618f9c623ce9262f76bbfb7bf116d03912defd87f7d193"
     },
     {
       "path": "source/reports/联合干预响应_分析协议_2026-09-25.md",
-      "bytes": 3580,
-      "sha256": "86eb9e6fa82c9113beeb09481a16973475f5e244cf51008c9318e935d39f663a"
+      "bytes": 3398,
+      "sha256": "21a968af6aa7c70d90ad769ec49428cb0536760d703f09eb19dedadb60adc7b0"
     },
     {
       "path": "source/reports/自适应中介_实验协议_2026-09-28.md",
-      "bytes": 5408,
-      "sha256": "5d3d3e97b6235ced23938f31b4431e77ebc092ed90f058e6f186acdfcfbaa33f"
+      "bytes": 5127,
+      "sha256": "5b9fcae5682aee493063b81a0f4a18eb40a544bda65d8f45ac6ab420fb0de67d"
     },
     {
       "path": "source/reports/自适应中介_第二轮结果_2026-09-28.md",
-      "bytes": 12408,
-      "sha256": "5b96a1d31cbd7454e46c280fe0915f8bb6ada3f07cec6441fbbf401743ceeabc"
+      "bytes": 11163,
+      "sha256": "31bc20aa7c60849750d8e9a599a0922c6ce092ec19eda47f88bcdb5852c713cb"
     },
     {
       "path": "source/reports/跨层交互_实验协议_2026-09-28.md",
-      "bytes": 6633,
-      "sha256": "65c7c4e73908a3bcd83d642ee39a40203d0490f044016403debad6f18aa405b6"
+      "bytes": 6282,
+      "sha256": "9c8454fd24700fa101963e3180ba38963d3d643d3bfac3c486d080bc9c32c85e"
     },
     {
       "path": "source/reports/跨层交互_首轮结果_2026-09-28.md",
-      "bytes": 10775,
-      "sha256": "4a25c4a5e59057c9b06c3ec5e6012274af97e4e6df55b2e5b45f33c8152b3e6c"
+      "bytes": 9313,
+      "sha256": "cee5f35f19c9e35e233ed68f2eb06170b3d57f96d63390b6c853a0c5abad2578"
     },
     {
       "path": "source/scripts/adaptive_mediator.py",
-      "bytes": 7404,
-      "sha256": "5ba300899980ee5496f20b381c9a4d470fb853c9b2301336bc49a468b069e239"
+      "bytes": 7378,
+      "sha256": "97bed364cd3856201bb9a62c62f1abbe815a10706061a4d38c28e6598c6b10cd"
     },
     {
       "path": "source/scripts/analyze_dsprites_coalition_context.py",
@@ -940,8 +940,8 @@
     },
     {
       "path": "source/scripts/finalize_joint_response.py",
-      "bytes": 10324,
-      "sha256": "b5e69449e3a864b387eb9d9e96636bbcae26bec9e0a697f3a1bbac4999a92053"
+      "bytes": 10252,
+      "sha256": "3826f88e78ce9ab98319551f67f6bc19d28ff53338a3234f05d6f1578313163f"
     },
     {
       "path": "source/scripts/gradient_mechanism.py",
@@ -950,8 +950,8 @@
     },
     {
       "path": "source/scripts/joint_relu_mechanism.py",
-      "bytes": 10165,
-      "sha256": "d0d807db58f7f0ccb88d64a669ba1de04e43eb3985654ffa15cadb95d1ce768f"
+      "bytes": 10148,
+      "sha256": "0fe93c784c5172e9d68ba24d64e2d5042c9a9a84b7970b515ee981610617d92f"
     },
     {
       "path": "source/scripts/joint_response.py",
@@ -1020,38 +1020,38 @@
     },
     {
       "path": "source/scripts/report_adaptive_mediator.py",
-      "bytes": 21264,
-      "sha256": "7daa1cd18e794901f28ca63e46b9371f8b8dedecad72dcb8cefa727be8e396d1"
+      "bytes": 19854,
+      "sha256": "c865eb850c323aa9044a3c35ce693dc511bcb6378dc8629b06b4a1b5e3ee47ab"
     },
     {
       "path": "source/scripts/report_cross_layer_mechanism.py",
-      "bytes": 20756,
-      "sha256": "630992842a930db72f054812404ae52d6d6c26cf0af2eca5d6dc5969b57707ab"
+      "bytes": 19210,
+      "sha256": "ca04a2b5c37768641a9fd0992bf751292856fc93089613d868bb680e3997b546"
     },
     {
       "path": "source/scripts/report_dsprites_ar_factorial.py",
-      "bytes": 25885,
-      "sha256": "13450642570016836943fb1a04b132f9e1078db574c42af50b5b5de44ca9f776"
+      "bytes": 25837,
+      "sha256": "1be4d193ea40273ff37d2fb9bb3099d55ce631b703513545d1a52a9ae3c43add"
     },
     {
       "path": "source/scripts/report_dsprites_channel_gates.py",
-      "bytes": 34567,
-      "sha256": "5a326e7b109d5cbfe61797d210859f9db41e99d1f73575f45235c745825d4789"
+      "bytes": 34356,
+      "sha256": "873a8233aa6be068a916bdc4f08f4dab7a33fd9366313cb771d763071a5d2b76"
     },
     {
       "path": "source/scripts/report_dsprites_coalition_context.py",
-      "bytes": 21005,
-      "sha256": "d40430b35649ae2ee5fee565d70c95bae9e5980c3504eee8d86912507d3cff1d"
+      "bytes": 20746,
+      "sha256": "98fe61924c58a5a4801dbdca9f7da68e1ec87a3710f98ec05a2dc3de34e64c6a"
     },
     {
       "path": "source/scripts/report_dsprites_downstream_routes.py",
-      "bytes": 23936,
-      "sha256": "0798f9e0a1d43e5d7abbc22183929bc9cd393d44eb8b31c4eee482051550848b"
+      "bytes": 23760,
+      "sha256": "f45aa4c5e43e88867611aef06b1717bfd465cd199ee0bf99bbdd3befb3466d92"
     },
     {
       "path": "source/scripts/report_dsprites_factor_transfer.py",
-      "bytes": 22659,
-      "sha256": "2745d3933369ea6a2a6a8e34568edade439f294913de5430c64f4a5609bac400"
+      "bytes": 22638,
+      "sha256": "0d69405aa2db27ed19d1fd7e25c96a8015de58e25a4972224d63538e57260206"
     },
     {
       "path": "source/scripts/report_dsprites_gradient.py",
@@ -1060,13 +1060,13 @@
     },
     {
       "path": "source/scripts/report_dsprites_joint_relu.py",
-      "bytes": 22088,
-      "sha256": "128db9130b3374cd9b6a2ef3a8475e862e96bf0303c60bd0adf9a62146526ff3"
+      "bytes": 22075,
+      "sha256": "4b26d5542497b4d9e4f13e2577abe43815d4a49e634222b94fa53efd6dc8ca15"
     },
     {
       "path": "source/scripts/report_dsprites_joint_window.py",
-      "bytes": 35500,
-      "sha256": "4ae771a788b9fdb0406af42b2646f688096be09d85d5cd00c8c832aff48dca4e"
+      "bytes": 35343,
+      "sha256": "a1b748a7378256e2cf8688470dfb8f68ffdb8492cddbac460a0b9b2c1980bb93"
     },
     {
       "path": "source/scripts/report_dsprites_layer_transfer.py",
@@ -1080,13 +1080,13 @@
     },
     {
       "path": "source/scripts/report_dsprites_shape_donor.py",
-      "bytes": 38898,
-      "sha256": "c1a122e5e3c0a63aa32aba065cad78c4daaee87d7563866a623ffb56cf97363a"
+      "bytes": 38485,
+      "sha256": "d28cc68ad99c5c36526e58b29c24fd86c6fa3619e06a8d978eafcb80ccb8b88c"
     },
     {
       "path": "source/scripts/report_dsprites_triple_gates.py",
-      "bytes": 59647,
-      "sha256": "1e6e2c3918734ff1187a5692e2bfb80298e86cec21a64caaa3a8d042aed162c8"
+      "bytes": 59452,
+      "sha256": "eff38b50d5416fa76d4f3b451e0869b0886980dc72fe583581941131a19ac0de"
     },
     {
       "path": "source/scripts/report_dsprites_triple_rule.py",
@@ -1095,18 +1095,18 @@
     },
     {
       "path": "source/scripts/report_dsprites_upstream_rescue.py",
-      "bytes": 45141,
-      "sha256": "50cc76934807b711bc4076c0f9657447676d4d60c7b3d344cd5d605136272adb"
+      "bytes": 44825,
+      "sha256": "9306b9fe8cfb3e9698a6fea4d261ddb9883fb4005d2d4653cf438139e150ebc9"
     },
     {
       "path": "source/scripts/report_joint_response.py",
-      "bytes": 24556,
-      "sha256": "49b85dc1efb2067eea5a9e3992e4a2d374e4c66c1fb8577c6906c9f6ffe32081"
+      "bytes": 24169,
+      "sha256": "7dc0dca07efe0241775a7e35b1dde1662b9f54259d874cff5d1b2a719e361e69"
     },
     {
       "path": "source/scripts/report_switch_results.py",
-      "bytes": 36651,
-      "sha256": "358849f9104f479d7f6bb8604675b81d0e8bf77ab84026ecaeec49fa923ded62"
+      "bytes": 36359,
+      "sha256": "ede7c890c51719f6727e0d43d41bd4d98fb4acb3c3909826ac39c0a491bf3c7c"
     },
     {
       "path": "source/scripts/research_runtime.py",
@@ -1165,8 +1165,8 @@
     },
     {
       "path": "source/scripts/run_dsprites_factor_transfer.py",
-      "bytes": 25388,
-      "sha256": "1e983c73a909d1269390ee045110d9f9486b7bf37396a6cc67d4c95a3eb39327"
+      "bytes": 25384,
+      "sha256": "a8d9f1825f1bd507bb14835fd1a39c73e1443089ab09e08cf06d6a3e8150a04d"
     },
     {
       "path": "source/scripts/run_dsprites_gradient.py",
@@ -1270,8 +1270,8 @@
     },
     {
       "path": "source/scripts/summarize_dsprites_factors.py",
-      "bytes": 11364,
-      "sha256": "96ecc74a000bf528f0f05cc57e2c7086b6189260b877c80a0c1b264f5b1eb1a7"
+      "bytes": 11331,
+      "sha256": "929742b452951fde2dc2fcc0022be9d4c8dc586e92553d5861bd0f3bfac94d2d"
     },
     {
       "path": "source/scripts/summarize_scale_results.py",
@@ -1285,8 +1285,8 @@
     },
     {
       "path": "source/scripts/tabulate_dsprites_results.py",
-      "bytes": 9796,
-      "sha256": "1848fd67bf748816503f286b21854515c4cd5f443017edc581c1851c8763f0e8"
+      "bytes": 9308,
+      "sha256": "7ad82ed3632af525d66092ec50a682b40c58a8a32c2b5f0770aeed4ae730c30e"
     },
     {
       "path": "source/scripts/test_adaptive_mediator.py",
@@ -1505,28 +1505,28 @@
     },
     {
       "path": "source/scripts/write_external_report.py",
-      "bytes": 16808,
-      "sha256": "acb8935776d5a1cb2ac87b1e0b2f8f3e36fb2b2f6b07e15c4e632402cc6a04a0"
+      "bytes": 16736,
+      "sha256": "20a0cafccc6c7540665d3ff858c378dca886f2cf3fc29ba215ca694b7ae17321"
     },
     {
       "path": "source/scripts/write_followup_report.py",
-      "bytes": 15102,
-      "sha256": "94507b699208e9eb37d2b1f704d68415e517f631bc413adcd83d6f23f795ebc9"
+      "bytes": 15024,
+      "sha256": "b3d8b75481bb777a9c4a3040bf7b56beff778d1df066aa81bd89a0478f37c65b"
     },
     {
       "path": "source/scripts/write_residual_report.py",
-      "bytes": 25488,
-      "sha256": "2d8cab67f245a5639e14f9ba607d15b1ff23c6206a6e1879fb0b1004c500599b"
+      "bytes": 25473,
+      "sha256": "f8aec416c874ddd74e750231019dc7e4778299a76f06c5ce6103a4200a511783"
     },
     {
       "path": "source/scripts/write_scale_report.py",
-      "bytes": 22570,
-      "sha256": "835c6413518cd533316ee6d27bbe96f22a502475e5f22eadcac9afba376cd879"
+      "bytes": 22462,
+      "sha256": "4587693d4b0cc87a35b97ad2e4e8a8891df4ee0905b63f84739bb8860daf5dc8"
     },
     {
       "path": "source/scripts/write_structure_report.py",
-      "bytes": 21010,
-      "sha256": "b27531ad2028f1713acb86c0544dc86938c8c770b43ad4f93fca958c519b7a50"
+      "bytes": 20956,
+      "sha256": "88d8208cf872efb85419e4d167de53ad82bab7fcb5b47e20a6b39edb9abacae3"
     },
     {
       "path": "source/upstream/CAT_MT_phase7_v0.7/code/acquire_fashion.py",

@@ -118,7 +118,7 @@ Fashion-MNIST 四个官方文件已通过发布方 MD5 和 IDX 检查。采用�
 
 保留原外部协议的首个种子 202609071、网络结构、AdamW、批量 128、学习率 0.001、权重衰减 0.0001、最多 15 轮、验证交叉熵选择及耐心值 4。训练前记录了原协议未写明的执行细节和融合 PCA 修订，保存协议及源码哈希。没有更换种子、按结果淘汰教师或改动原主比较。
 
-教师实际训练 {teacher['epochs']} 轮，选中第 {teacher['best_epoch']} 轮；5,000 个验证输入上的准确率为 **{teacher['best_validation_accuracy']*100:.2f}%**，交叉熵 {teacher['best_validation_cross_entropy']:.5f}。训练使用 GPU float32，干预审计使用 CPU float64。该准确率参与过 checkpoint 选择，不能当作独立测试准确率。
+教师实际训练 {teacher['epochs']} 轮，选中第 {teacher['best_epoch']} 轮；5,000 个验证输入上的准确率为 **{teacher['best_validation_accuracy']*100:.2f}%**，交叉熵 {teacher['best_validation_cross_entropy']:.5f}。训练使用 GPU float32，干预审计使用 CPU float64。该数值是用于选择检查点的验证集准确率。
 
 每层用固定 512 个训练输入拟合，用固定 128 个验证输入检查。源坐标在训练平均激活的中央 3×3 范围内选定，q=8。主强度为完全置零，次强度为减半；每个验证输入执行全部 256 个真实尾部输出，NRMSE 统计 219 个高阶组合。
 
@@ -158,7 +158,7 @@ Fashion-MNIST 四个官方文件已通过发布方 MD5 和 IDX 检查。采用�
 
 本机使用已存在的 Python 环境，仅调用 NumPy、PyTorch、threadpoolctl；绘图另用 Matplotlib。版本及执行路径见 [运行说明](../RUNBOOK.md)。脚本对已存在的运行目录主动报错，避免覆盖；复跑时需使用新的输出目录或显式调整脚本中的运行标识。
 
-NRMSE 定义为 sqrt(所有被评分 logit 变化误差的平方和 / 对应真实变化的平方和)。这些组合共享输入、模型和坐标，不能把干预输出数量当作独立统计样本数。当前外部独立测试执行次数为 **0**。
+NRMSE 定义为 sqrt(所有被评分 logit 变化误差的平方和 / 对应真实变化的平方和)。这些组合共享输入、模型和坐标。当前外部独立测试执行次数为 **0**。
 """
     (BASE / "reports/复核与首轮外部实验_2026-09-10.md").write_text(report,encoding="utf-8")
     state=dict(date="2026-09-10",upstream_archive_sha256=imported["archive_sha256"],
