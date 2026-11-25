@@ -1,0 +1,22 @@
+{
+  "status": "PASS",
+  "device": "cuda",
+  "engine": "grouped",
+  "records": 864,
+  "channel_group_records": 8640,
+  "max_abs": {
+    "affine_gradient": 1.0658141036401503e-14,
+    "channel_readout": 1.27675647831893e-14,
+    "site_partition": 1.2781442570997115e-14,
+    "always_off": 0.0,
+    "actual_last_intervention": 1.4099832412739488e-14,
+    "actual_joint_intervention": 2.0872192862952943e-14,
+    "upstream_to_all_last": 2.4855117963795692e-14,
+    "actual_first_single": 2.5087570909576584e-14,
+    "all_first_equals_skip": 1.459943277382081e-14,
+    "all_last": 0.0,
+    "all_both": 0.0,
+    "prior_patched_third": 7.105427357601002e-15,
+    "prior_natural_third": 7.105427357601002e-15
+  }
+}

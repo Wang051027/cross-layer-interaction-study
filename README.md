@@ -6,6 +6,17 @@
 
 将每层预选的 64 个位置锁回空组开关，三组端点的得分改变量 RMS 为 **4.187 logit**。在全部八个子集状态锁相同位置，三阶改变量 RMS 为 **0.661 logit**，阻断后六模型的三阶 RMS 平均剩余 **91.14%**。[完整实验报告](reproduction/final/reports/dSprites_三组通道的开关预测与八状态阻断_2026-11-25.md) · [逐模型结果](reproduction/final/runs/dsprites_gate_forecast_20261125/teacher_scores.csv)
 
+11 月 26 日继续追踪这 91.14% 经哪里传到输出。只让最后一个残差块的卷积分支变化，保留上轮余量 RMS 的 **94.20%**，只让捷径变化则保留 **7.05%**。在开发条件为两处 ReLU 各选定 4 个通道，在留出条件将这些通道的激活恢复到空组值后，余量降至 **47.25%**（原始三阶 RMS 的 **42.97%**）。两个同预算随机对照留下 **76.42% 和 81.72%**。第一处四通道作用的 **72.63%**（有符号投影）经预选末层四通道以外的通道表达。[支路、通道连接与抵消报告](reproduction/final/reports/dSprites_两层开关阻断后的剩余传递路径_2026-11-26.md) · [通道连接表](reproduction/final/runs/dsprites_remaining_routes_20261126/link_scores.csv)
+
+## 复现剩余效应的路径干预
+
+在 Python 3.12 环境从仓库根目录运行以下命令。程序从冻结权重和上轮 64 点名单重选开发端通道，重算 864 条留出记录、两组随机对照及单连接干预。[复现说明](reproduction/final/experiments/remaining_routes_20261126/README.md) · [跨设备复跑记录](reproduction/final/runs/dsprites_remaining_routes_20261126/replay_comparison.json)
+
+```bash
+python -m pip install -r reproduction/held_condition/requirements.txt
+python -B -X utf8 reproduction/final/experiments/remaining_routes_20261126/reproduce.py --device cpu
+```
+
 ## 复现开关预测与八状态阻断
 
 在 Python 3.12 环境从仓库根目录运行以下命令。入口复跑 11 月 10 日及 11 月 25 日两轮实验，核对位置编号、布尔开关、端点得分和八状态差分。输出写入 `local_output/final-时间戳/`。[复现说明](reproduction/final/experiments/gate_forecast_20261125/README.md) · [CPU 与 CUDA 核对记录](reproduction/final/runs/dsprites_gate_forecast_20261125/replay_comparison.json) · [11 月 1 日判别实验协议](docs/LATEST_EXPERIMENT.md)

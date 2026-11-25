@@ -10,6 +10,8 @@
 
 11 月 10 日和 25 日的 [开关预测与八状态阻断复现入口](../reproduction/final/experiments/gate_forecast_20261125/README.md) 连续运行两轮实验。
 
+11 月 26 日的[剩余传递路径复现入口](../reproduction/final/experiments/remaining_routes_20261126/README.md)从原权重、图像、拟合参数及已封存的 64 点名单重做通道筛选、支路干预、逐连接替换和跨设备数值比较。
+
 ## 从空目录复跑 11 月 1 日三组规则实验
 
 在克隆或解压后的仓库根目录，使用 Python 3.12 虚拟环境。安装依赖后，实验本身可以离线运行：

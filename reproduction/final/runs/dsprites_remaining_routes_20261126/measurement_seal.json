@@ -1,0 +1,11 @@
+{
+  "utc": "2026-11-25T16:34:29.447698+00:00",
+  "selection_seal": "66c10e818444793fa8748f40930ad48bdc2118b3400ec3ea7f768f1358bf0746",
+  "files": {
+    "cases.csv": "37041a07f04fcf5919d249fb1ac30b0f7741bc1578d00e84cd047a73849ea618",
+    "group_interventions.csv": "ed7e50fcd4cb4372a7927164beed93384f848505b769bdc90577f922c0f62135",
+    "spatial_extremes.csv": "0fc7bf36e2e8a45b8b6de2c9531f41556590deb235aceaf7da16a28f3011cfd3",
+    "channels.npz": "f625c54e0ce6012b074479e33a24ac48b003a29008709e8de27381543f1f90ac",
+    "checks.json": "08238ac0e4ac43d46fd197be41199b50390c70fbc98bad619bb9770cd1cc9f63"
+  }
+}

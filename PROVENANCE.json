@@ -1,5 +1,5 @@
 {
-  "version": "public-code-release-2026-11-25",
+  "version": "public-code-release-2026-11-26",
   "original_project": "cat_mt_followup",
   "source_files": [
     {
@@ -1338,16 +1338,67 @@
       "original_sha256": "68ad706169d58c87a7287c8642e54f8f7de3c3bf25534a0389da12ac4a12054d",
       "published_sha256": "68ad706169d58c87a7287c8642e54f8f7de3c3bf25534a0389da12ac4a12054d",
       "ast_identical_to_original": true
+    },
+    {
+      "path": "reproduction/final/experiments/remaining_routes_20261126/paths.py",
+      "original_relative_path": "experiments/remaining_routes_20261126/paths.py",
+      "original_sha256": "eda392cd9780f25410829c378da8f0452bd6c855514addb68c9d69b3b15066e1",
+      "published_sha256": "eda392cd9780f25410829c378da8f0452bd6c855514addb68c9d69b3b15066e1",
+      "ast_identical_to_original": true
+    },
+    {
+      "path": "reproduction/final/experiments/remaining_routes_20261126/experiment.py",
+      "original_relative_path": "experiments/remaining_routes_20261126/experiment.py",
+      "original_sha256": "e4e53c14783758244447c97ae6c804712aa6b70da177408612d591383bc6c6b4",
+      "published_sha256": "e4e53c14783758244447c97ae6c804712aa6b70da177408612d591383bc6c6b4",
+      "ast_identical_to_original": true
+    },
+    {
+      "path": "reproduction/final/experiments/remaining_routes_20261126/summarize.py",
+      "original_relative_path": "experiments/remaining_routes_20261126/summarize.py",
+      "original_sha256": "50d25ff9fa3f3eee21435b3140d96c0cd9d8b5c1cecdd6d8a3ae674a15af9f7f",
+      "published_sha256": "50d25ff9fa3f3eee21435b3140d96c0cd9d8b5c1cecdd6d8a3ae674a15af9f7f",
+      "ast_identical_to_original": true
+    },
+    {
+      "path": "reproduction/final/experiments/remaining_routes_20261126/audit_links.py",
+      "original_relative_path": "experiments/remaining_routes_20261126/audit_links.py",
+      "original_sha256": "f9deadeb3cb5f8c5187fa57e48a5bcf382bd3239ba740754ec87d7a9a43f1c66",
+      "published_sha256": "f9deadeb3cb5f8c5187fa57e48a5bcf382bd3239ba740754ec87d7a9a43f1c66",
+      "ast_identical_to_original": true
+    },
+    {
+      "path": "reproduction/final/experiments/remaining_routes_20261126/figure.py",
+      "original_relative_path": "experiments/remaining_routes_20261126/figure.py",
+      "original_sha256": "85bd065c639257e190f7d5a2bec729257405be447eba786195ce906a22a6736b",
+      "published_sha256": "85bd065c639257e190f7d5a2bec729257405be447eba786195ce906a22a6736b",
+      "ast_identical_to_original": true
+    },
+    {
+      "path": "reproduction/final/experiments/remaining_routes_20261126/verify.py",
+      "original_relative_path": "experiments/remaining_routes_20261126/verify.py",
+      "original_sha256": "adecdf0dc0b491c524694a82563b3e1d910e16c34574ba6d9d50107f5f302cfd",
+      "published_sha256": "adecdf0dc0b491c524694a82563b3e1d910e16c34574ba6d9d50107f5f302cfd",
+      "ast_identical_to_original": true
+    },
+    {
+      "path": "reproduction/final/experiments/remaining_routes_20261126/reproduce.py",
+      "original_relative_path": "experiments/remaining_routes_20261126/reproduce.py",
+      "original_sha256": "0a8a100d2d3843780bffc2611b787cb2047e6ecd8c4af98482d9125b4ed9a33e",
+      "published_sha256": "0a8a100d2d3843780bffc2611b787cb2047e6ecd8c4af98482d9125b4ed9a33e",
+      "ast_identical_to_original": true
     }
   ],
   "note": "SHA-256 hashes of the archived and published Python sources.",
   "final_experiments": {
     "runs": [
       "dsprites_output_bottleneck_20261110",
-      "dsprites_gate_forecast_20261125"
+      "dsprites_gate_forecast_20261125",
+      "dsprites_remaining_routes_20261126"
     ],
     "source": "reproduction/final",
     "frozen_inputs": "reproduction/held_condition",
-    "verified_replay": "reproduction/final/runs/dsprites_gate_forecast_20261125/replay_comparison.json"
+    "verified_replay": "reproduction/final/runs/dsprites_gate_forecast_20261125/replay_comparison.json",
+    "remaining_routes_replay": "reproduction/final/runs/dsprites_remaining_routes_20261126/replay_comparison.json"
   }
 }

@@ -50,3 +50,4 @@ Thumbs.db
 !reproduction/held_condition/runs/dsprites_layer_transfer_20261013/evaluation/seed_*/alpha_*/data.npz
 !reproduction/final/runs/dsprites_gate_forecast_20261125/forecast_sites.npz
 !reproduction/final/runs/dsprites_gate_forecast_20261125/observed_gates.npz
+!reproduction/final/runs/dsprites_remaining_routes_20261126/channels.npz

@@ -1,0 +1,65 @@
+{
+  "status": "PASS",
+  "reference": {
+    "device": "cuda",
+    "engine": "grouped",
+    "measurement_seal": "261b63bb334c5ed854dcc3f3933bb2005f4050504e3d79bb55da0caa05ae3c32"
+  },
+  "replay": {
+    "device": "cpu",
+    "engine": "direct",
+    "measurement_seal": "a6cb01e9aec7d0229c6c7f312544768550e1e9ad03fd9d2583f2bcb102e4799a"
+  },
+  "tolerance": 1e-08,
+  "max_abs": 5.684341886080802e-14,
+  "identical_rankings": true,
+  "tables": {
+    "development": {
+      "rows": 384,
+      "max_abs": 9.103828801926284e-15
+    },
+    "cases": {
+      "rows": 864,
+      "max_abs": 5.595524044110789e-14
+    },
+    "group_interventions": {
+      "rows": 8640,
+      "max_abs": 5.684341886080802e-14
+    },
+    "spatial_extremes": {
+      "rows": 6912,
+      "max_abs": 1.9255430583342559e-16
+    },
+    "teachers": {
+      "rows": 12,
+      "max_abs": 3.774758283725532e-15
+    },
+    "components": {
+      "rows": 156,
+      "max_abs": 3.219646771412954e-15
+    },
+    "budget_scores": {
+      "rows": 360,
+      "max_abs": 8.43769498715119e-15
+    },
+    "channel_scores": {
+      "rows": 768,
+      "max_abs": 3.774758283725532e-15
+    },
+    "group_routes": {
+      "rows": 12,
+      "max_abs": 2.6645352591003757e-15
+    },
+    "link_scores": {
+      "rows": 1536,
+      "max_abs": 6.175615574477433e-16
+    }
+  },
+  "arrays": {
+    "terminal": 5.230191280070073e-15,
+    "first_removed": 2.0872192862952943e-14,
+    "first4_to_last": 4.142519660632615e-15,
+    "first4_individual_to_last": 2.447694824603275e-15
+  },
+  "summary_max_abs": 8.881784197001252e-16
+}

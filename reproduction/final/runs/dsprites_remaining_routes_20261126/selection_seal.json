@@ -1,0 +1,9 @@
+{
+  "utc": "2026-11-25T16:33:49.417699+00:00",
+  "records_per_model": 72,
+  "files": {
+    "rankings.json": "1abe71eb717ea0ba12ee244d08781df72071b904b435858c2aa3a04a8d802456",
+    "development.csv": "ddc80d12fb5297ed2522c852ea9f948763e7bd7e17b5c614e31e808cd5d7fcfe",
+    "protocol.json": "9230ce1bfeb30b561c846fba7b783d216dd26330f1660938c423c78ffeface2e"
+  }
+}

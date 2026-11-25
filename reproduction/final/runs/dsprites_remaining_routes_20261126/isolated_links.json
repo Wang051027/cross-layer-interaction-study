@@ -1,0 +1,17 @@
+{
+  "status": "PASS",
+  "device": "cpu",
+  "cases": 864,
+  "individual_links": 110592,
+  "pre_bn_checks": 3456,
+  "maximum": 5.96189764223709e-14,
+  "comparisons": {
+    "remaining": 5.684341886080802e-14,
+    "conv_only": 5.96189764223709e-14,
+    "skip_only": 9.938230793871128e-15,
+    "isolated_links": 1.4405143744511406e-14,
+    "isolated_before_bn": 1.2434497875801753e-14
+  },
+  "measurements": "261b63bb334c5ed854dcc3f3933bb2005f4050504e3d79bb55da0caa05ae3c32",
+  "audit_source": "f9deadeb3cb5f8c5187fa57e48a5bcf382bd3239ba740754ec87d7a9a43f1c66"
+}
