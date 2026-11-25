@@ -51,3 +51,4 @@ Thumbs.db
 !reproduction/final/runs/dsprites_gate_forecast_20261125/forecast_sites.npz
 !reproduction/final/runs/dsprites_gate_forecast_20261125/observed_gates.npz
 !reproduction/final/runs/dsprites_remaining_routes_20261126/channels.npz
+!reproduction/final/runs/dsprites_outside_channels_20261126/model_*.npz

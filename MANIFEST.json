@@ -1,7 +1,7 @@
 {
   "version": 4,
   "release_date": "2026-11-26",
-  "scope": "Research code, frozen dSprites inputs, gate forecasts, residual-route interventions and full replay",
+  "scope": "Research code, frozen dSprites inputs, gate forecasts, channel routing, single and joint interventions, and full replay",
   "files": [
     {
       "path": ".gitattributes",
@@ -10,18 +10,18 @@
     },
     {
       "path": ".gitignore",
-      "bytes": 1311,
-      "sha256": "5a9149c7f666a889a616202245030016cb8938ca4b97d0d242eb12860c50087a"
+      "bytes": 1383,
+      "sha256": "200dae59d71c9e16a8c9e1d8567367bb1a999b3e5bf5bf968594ff01d2521af9"
     },
     {
       "path": "PROVENANCE.json",
-      "bytes": 75821,
-      "sha256": "7c356ca437172c7716051b8f872606465702de46fad78f87fa986ad22308537f"
+      "bytes": 78449,
+      "sha256": "4ce09c8e2a5c8393274108bebfb3d4401bb2bbfdf7ace9fcd6a4ced9b89ed6ea"
     },
     {
       "path": "README.md",
-      "bytes": 13542,
-      "sha256": "5bddfe40f24b03a1b68ad21d4203b14183d0b4343711353111a884f35c47151c"
+      "bytes": 14670,
+      "sha256": "31f8b31a9c8426adc46539f10eac9a48d6950ccbfd0b354ccfd73600c78530d5"
     },
     {
       "path": "THIRD_PARTY.md",
@@ -70,8 +70,8 @@
     },
     {
       "path": "docs/REPRODUCTION.md",
-      "bytes": 6321,
-      "sha256": "b2f48d96e49151081fc5939f8a08ad1eca44ab2f45004597ff06deb6354537c5"
+      "bytes": 6568,
+      "sha256": "5ed850a3f7f74c3b35b09f75816e1da0a0fe4a1ca12ce76e4eb37a0bde8beda9"
     },
     {
       "path": "docs/SCRIPT_INDEX.md",
@@ -199,6 +199,46 @@
       "sha256": "68ad706169d58c87a7287c8642e54f8f7de3c3bf25534a0389da12ac4a12054d"
     },
     {
+      "path": "reproduction/final/experiments/outside_channels_20261126/DESIGN.md",
+      "bytes": 3773,
+      "sha256": "4281ec459c30da5a1cb6b393f842c799a6a500d525c983cd66b8052352abc6ad"
+    },
+    {
+      "path": "reproduction/final/experiments/outside_channels_20261126/README.md",
+      "bytes": 3317,
+      "sha256": "d09cf5a1af3438f93e3dca358d1044e8f376f1cce4f9df96c6c0cdacc9f1120a"
+    },
+    {
+      "path": "reproduction/final/experiments/outside_channels_20261126/figure.py",
+      "bytes": 3760,
+      "sha256": "e537c00199fc008ab81e66775240bbd0c946c165ec39bbc822a00cf9c8d7317d"
+    },
+    {
+      "path": "reproduction/final/experiments/outside_channels_20261126/interventions.py",
+      "bytes": 5755,
+      "sha256": "4d8ed18d15b9ca425b2c6ceae26632f038cde40a89ee2a9f47f7a77ddf858cc8"
+    },
+    {
+      "path": "reproduction/final/experiments/outside_channels_20261126/reproduce.py",
+      "bytes": 1463,
+      "sha256": "a58cdc68fa745aa5d38be2bea213526e4d3f7a41c7136bb7d7a9d70429c32e31"
+    },
+    {
+      "path": "reproduction/final/experiments/outside_channels_20261126/run.py",
+      "bytes": 7460,
+      "sha256": "08d6eb25c93421cc1dc171275a20a2ca302f31e93d0df7d8a10d1246e691ec56"
+    },
+    {
+      "path": "reproduction/final/experiments/outside_channels_20261126/score.py",
+      "bytes": 11385,
+      "sha256": "d28d8a59f8381ac20d97ed744bd5ef88652f45c4d320b9289a1aa89fdbe257a5"
+    },
+    {
+      "path": "reproduction/final/experiments/outside_channels_20261126/verify_replay.py",
+      "bytes": 4390,
+      "sha256": "9535a3a29aa7568c6928dc463bb1b9012214c75a9c23d05f9f3d09b90aa96ada"
+    },
+    {
       "path": "reproduction/final/experiments/remaining_routes_20261126/DESIGN.md",
       "bytes": 4580,
       "sha256": "8d1138f77555a993e55aba7cc3e32e4de5525a9eb92f1305b7a04ad2bafb2bcf"
@@ -252,6 +292,11 @@
       "path": "reproduction/final/reports/dSprites_两层开关阻断后的剩余传递路径_2026-11-26.md",
       "bytes": 10142,
       "sha256": "14ba7c094a26273ee17537004339e47965bc97ccfd9f4c1d2f781722b6ff8990"
+    },
+    {
+      "path": "reproduction/final/reports/dSprites_末层组外28通道的承接与抵消_2026-11-26.md",
+      "bytes": 12897,
+      "sha256": "3ad873c1b9e84d067739c85a1240328d401c9928c93103587ae7ee39def1ad4a"
     },
     {
       "path": "reproduction/final/runs/dsprites_gate_forecast_20261125/audit.json",
@@ -442,6 +487,121 @@
       "path": "reproduction/final/runs/dsprites_output_bottleneck_20261110/teacher_scores.csv",
       "bytes": 15977,
       "sha256": "d9a9f35e20a4e1c7d4b46c1791f77c3bdf8f31c5ea0abecf9574ef4677e93fa1"
+    },
+    {
+      "path": "reproduction/final/runs/dsprites_outside_channels_20261126/candidate_cases.csv",
+      "bytes": 515229,
+      "sha256": "875458cfa5ae63854ee9797297a0f7d0c54ee3616be4101e82d8a0139cd9ca88"
+    },
+    {
+      "path": "reproduction/final/runs/dsprites_outside_channels_20261126/channel_scores.csv",
+      "bytes": 71175,
+      "sha256": "121999a63b24a0a1341546d2a1e0b0594ee0119da5698eab537b8a8522c24d62"
+    },
+    {
+      "path": "reproduction/final/runs/dsprites_outside_channels_20261126/checks.json",
+      "bytes": 595,
+      "sha256": "6ec984f40c4ff9ab5ae44fb231afc2a19fd45d0cde4c6e010dc62930f8183543"
+    },
+    {
+      "path": "reproduction/final/runs/dsprites_outside_channels_20261126/cumulative.csv",
+      "bytes": 17862,
+      "sha256": "bc62197b4a643d9c9fc230eaa1042dc14cb7745bfbd453fa2c2b8070415e2126"
+    },
+    {
+      "path": "reproduction/final/runs/dsprites_outside_channels_20261126/development_channels.csv",
+      "bytes": 6118,
+      "sha256": "71d0d210ef116fa07e50d6924aa6c45859366bfc4c09d944aa3b5c9163a96721"
+    },
+    {
+      "path": "reproduction/final/runs/dsprites_outside_channels_20261126/development_pairs.csv",
+      "bytes": 130313,
+      "sha256": "249de37370b389b3a7e1c8592efceb377c70f29d0d356041b9edcad1878b370d"
+    },
+    {
+      "path": "reproduction/final/runs/dsprites_outside_channels_20261126/measurement_seal.json",
+      "bytes": 810,
+      "sha256": "c209009bf9ee1d255fbfa97afec68977191123bf36c2ae5ee74620d09527d8e0"
+    },
+    {
+      "path": "reproduction/final/runs/dsprites_outside_channels_20261126/model_202609291.npz",
+      "bytes": 1830410,
+      "sha256": "9a33ee1adbc49912999860ef831e1ba3048dc6499340eb9c202c345b2a1464a7"
+    },
+    {
+      "path": "reproduction/final/runs/dsprites_outside_channels_20261126/model_202609292.npz",
+      "bytes": 1826063,
+      "sha256": "5bd0d5002e14816875df00593472f219149f0861f0dfa431d38f5ba26a59eb3e"
+    },
+    {
+      "path": "reproduction/final/runs/dsprites_outside_channels_20261126/model_202609293.npz",
+      "bytes": 1818773,
+      "sha256": "b5fc283574a8b2349c9f346c182ff03b94f525d40d169036d2df1df12bd777e4"
+    },
+    {
+      "path": "reproduction/final/runs/dsprites_outside_channels_20261126/model_202609294.npz",
+      "bytes": 1838927,
+      "sha256": "318ac444c6e1a4a23dba3945f4f85903b9960b5b6d56cd56a5eef74e532608dc"
+    },
+    {
+      "path": "reproduction/final/runs/dsprites_outside_channels_20261126/model_202609295.npz",
+      "bytes": 1826340,
+      "sha256": "34d43e3896bafaf5c6cf7cd7e0b889bb496c3e60150ad142a158092a4799d6a7"
+    },
+    {
+      "path": "reproduction/final/runs/dsprites_outside_channels_20261126/model_202609296.npz",
+      "bytes": 1833406,
+      "sha256": "f5aa0c2a14f6c27cbb5f9acf8be052a2cc7b829dd5b3799f739f9dfba08aa7cf"
+    },
+    {
+      "path": "reproduction/final/runs/dsprites_outside_channels_20261126/models.csv",
+      "bytes": 1638,
+      "sha256": "5abf95c0bc34911dcf5db21583bfd0b3b7e7860add5eec45ac8c04f8d143bf65"
+    },
+    {
+      "path": "reproduction/final/runs/dsprites_outside_channels_20261126/outside_channels.png",
+      "bytes": 197744,
+      "sha256": "585cb434ebc4437ed1ff437f2adc69702bafbda6dfe1c44c56b2359196b80a5f"
+    },
+    {
+      "path": "reproduction/final/runs/dsprites_outside_channels_20261126/pair_scores.csv",
+      "bytes": 998846,
+      "sha256": "92a10560a66fe2c71643ff892839a6940e4389ea019101582c649b0fc75064df"
+    },
+    {
+      "path": "reproduction/final/runs/dsprites_outside_channels_20261126/protocol.json",
+      "bytes": 4075,
+      "sha256": "ed921b985362571791c2fdb075b089f1ea5198e58498605b0c79686df7e48495"
+    },
+    {
+      "path": "reproduction/final/runs/dsprites_outside_channels_20261126/reconstruction.json",
+      "bytes": 258,
+      "sha256": "97cbd1f7f5c53456a622d39cccfa3dea5632d82c93badaf1209ec15cd633d65c"
+    },
+    {
+      "path": "reproduction/final/runs/dsprites_outside_channels_20261126/replay_comparison.json",
+      "bytes": 1318,
+      "sha256": "babd287adefc8830f637c7167801458174c08170a514215f6e95d5fe37c221c2"
+    },
+    {
+      "path": "reproduction/final/runs/dsprites_outside_channels_20261126/selection.json",
+      "bytes": 9397,
+      "sha256": "0545eecb68ceb9d41ed85cc3fe9ac5f51da56ddf245c677faecad746ab7e4923"
+    },
+    {
+      "path": "reproduction/final/runs/dsprites_outside_channels_20261126/selection_seal.json",
+      "bytes": 441,
+      "sha256": "9fe5acabec82165dbf47ea15723fd4a86d21a0c5ae62a8ee6a1575df990519a2"
+    },
+    {
+      "path": "reproduction/final/runs/dsprites_outside_channels_20261126/set_scores.csv",
+      "bytes": 45072,
+      "sha256": "42bee5967240ada7bad047e9ea62bb4360109d5d49543446e7f32e2ea3b1830c"
+    },
+    {
+      "path": "reproduction/final/runs/dsprites_outside_channels_20261126/summary.json",
+      "bytes": 27278,
+      "sha256": "43f3968c55b24ed64539aede398555201e3baf1ac1ac03f617f7ad2f6ba96f51"
     },
     {
       "path": "reproduction/final/runs/dsprites_remaining_routes_20261126/budget_scores.csv",

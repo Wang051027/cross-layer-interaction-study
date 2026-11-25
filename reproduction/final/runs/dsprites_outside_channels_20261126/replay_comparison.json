@@ -1,0 +1,56 @@
+{
+  "status": "PASS",
+  "tolerance": 1e-08,
+  "reference": {
+    "device": "cuda",
+    "full_map_check": true,
+    "seal": "c209009bf9ee1d255fbfa97afec68977191123bf36c2ae5ee74620d09527d8e0"
+  },
+  "replay": {
+    "device": "cpu",
+    "full_map_check": false,
+    "seal": "77b64d4f95a69bf5ee0e66bb7226df60d2fd2ff0ad89d749341cd63befd1c7f4"
+  },
+  "identical_selection": true,
+  "raw_max_abs": {
+    "singles": 1.0125233984581428e-13,
+    "pairs": 1.021405182655144e-13,
+    "groups": 1.0125233984581428e-13
+  },
+  "tables": {
+    "development_channels": {
+      "rows": 168,
+      "max_abs": 4.0245584642661925e-16
+    },
+    "development_pairs": {
+      "rows": 2268,
+      "max_abs": 1.942890293094024e-16
+    },
+    "models": {
+      "rows": 12,
+      "max_abs": 1.8762769116165146e-14
+    },
+    "channel_scores": {
+      "rows": 336,
+      "max_abs": 4.767020111984266e-15
+    },
+    "set_scores": {
+      "rows": 240,
+      "max_abs": 8.881784197001252e-15
+    },
+    "pair_scores": {
+      "rows": 4536,
+      "max_abs": 3.773786838578985e-13
+    },
+    "candidate_cases": {
+      "rows": 1728,
+      "max_abs": 1.0036416142611415e-13
+    },
+    "cumulative": {
+      "rows": 336,
+      "max_abs": 3.8191672047105385e-14
+    }
+  },
+  "summary_max_abs": 4.440892098500626e-15,
+  "maximum": 3.773786838578985e-13
+}

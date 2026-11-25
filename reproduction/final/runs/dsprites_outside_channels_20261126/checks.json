@@ -1,0 +1,20 @@
+{
+  "status": "PASS",
+  "cases": 864,
+  "singles": 24192,
+  "pairs": 326592,
+  "named_sets": 17280,
+  "device": "cuda",
+  "full_map_check": true,
+  "max_abs": {
+    "pair_minus_singles": 3.907985046680551e-14,
+    "all_outside_minus_singles": 2.7711166694643907e-13,
+    "archived_individual_routing": 2.6381674622655282e-14,
+    "archived_terminal": 1.6431300764452317e-14,
+    "archived_output": 1.2781442570997115e-14,
+    "archived_upstream": 1.84297022087776e-14,
+    "outside_by_old_four_block": 3.268496584496461e-13,
+    "all32_third_zero": 0.0,
+    "before_vs_after_pooling": 0.0
+  }
+}

@@ -12,6 +12,8 @@
 
 11 月 26 日的[剩余传递路径复现入口](../reproduction/final/experiments/remaining_routes_20261126/README.md)从原权重、图像、拟合参数及已封存的 64 点名单重做通道筛选、支路干预、逐连接替换和跨设备数值比较。
 
+同日的[末层组外 28 通道复现入口](../reproduction/final/experiments/outside_channels_20261126/README.md)独立重选组外通道与增强、抵消候选对，并重算全部单通道、双通道及冻结集合的两个上游背景。
+
 ## 从空目录复跑 11 月 1 日三组规则实验
 
 在克隆或解压后的仓库根目录，使用 Python 3.12 虚拟环境。安装依赖后，实验本身可以离线运行：

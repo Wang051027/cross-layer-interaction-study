@@ -1387,6 +1387,48 @@
       "original_sha256": "0a8a100d2d3843780bffc2611b787cb2047e6ecd8c4af98482d9125b4ed9a33e",
       "published_sha256": "0a8a100d2d3843780bffc2611b787cb2047e6ecd8c4af98482d9125b4ed9a33e",
       "ast_identical_to_original": true
+    },
+    {
+      "path": "reproduction/final/experiments/outside_channels_20261126/interventions.py",
+      "original_relative_path": "experiments/outside_channels_20261126/interventions.py",
+      "original_sha256": "4d8ed18d15b9ca425b2c6ceae26632f038cde40a89ee2a9f47f7a77ddf858cc8",
+      "published_sha256": "4d8ed18d15b9ca425b2c6ceae26632f038cde40a89ee2a9f47f7a77ddf858cc8",
+      "ast_identical_to_original": true
+    },
+    {
+      "path": "reproduction/final/experiments/outside_channels_20261126/run.py",
+      "original_relative_path": "experiments/outside_channels_20261126/run.py",
+      "original_sha256": "08d6eb25c93421cc1dc171275a20a2ca302f31e93d0df7d8a10d1246e691ec56",
+      "published_sha256": "08d6eb25c93421cc1dc171275a20a2ca302f31e93d0df7d8a10d1246e691ec56",
+      "ast_identical_to_original": true
+    },
+    {
+      "path": "reproduction/final/experiments/outside_channels_20261126/score.py",
+      "original_relative_path": "experiments/outside_channels_20261126/score.py",
+      "original_sha256": "d28d8a59f8381ac20d97ed744bd5ef88652f45c4d320b9289a1aa89fdbe257a5",
+      "published_sha256": "d28d8a59f8381ac20d97ed744bd5ef88652f45c4d320b9289a1aa89fdbe257a5",
+      "ast_identical_to_original": true
+    },
+    {
+      "path": "reproduction/final/experiments/outside_channels_20261126/reproduce.py",
+      "original_relative_path": "experiments/outside_channels_20261126/reproduce.py",
+      "original_sha256": "a58cdc68fa745aa5d38be2bea213526e4d3f7a41c7136bb7d7a9d70429c32e31",
+      "published_sha256": "a58cdc68fa745aa5d38be2bea213526e4d3f7a41c7136bb7d7a9d70429c32e31",
+      "ast_identical_to_original": true
+    },
+    {
+      "path": "reproduction/final/experiments/outside_channels_20261126/verify_replay.py",
+      "original_relative_path": "experiments/outside_channels_20261126/verify_replay.py",
+      "original_sha256": "9535a3a29aa7568c6928dc463bb1b9012214c75a9c23d05f9f3d09b90aa96ada",
+      "published_sha256": "9535a3a29aa7568c6928dc463bb1b9012214c75a9c23d05f9f3d09b90aa96ada",
+      "ast_identical_to_original": true
+    },
+    {
+      "path": "reproduction/final/experiments/outside_channels_20261126/figure.py",
+      "original_relative_path": "experiments/outside_channels_20261126/figure.py",
+      "original_sha256": "e537c00199fc008ab81e66775240bbd0c946c165ec39bbc822a00cf9c8d7317d",
+      "published_sha256": "e537c00199fc008ab81e66775240bbd0c946c165ec39bbc822a00cf9c8d7317d",
+      "ast_identical_to_original": true
     }
   ],
   "note": "SHA-256 hashes of the archived and published Python sources.",
@@ -1394,11 +1436,13 @@
     "runs": [
       "dsprites_output_bottleneck_20261110",
       "dsprites_gate_forecast_20261125",
-      "dsprites_remaining_routes_20261126"
+      "dsprites_remaining_routes_20261126",
+      "dsprites_outside_channels_20261126"
     ],
     "source": "reproduction/final",
     "frozen_inputs": "reproduction/held_condition",
     "verified_replay": "reproduction/final/runs/dsprites_gate_forecast_20261125/replay_comparison.json",
-    "remaining_routes_replay": "reproduction/final/runs/dsprites_remaining_routes_20261126/replay_comparison.json"
+    "remaining_routes_replay": "reproduction/final/runs/dsprites_remaining_routes_20261126/replay_comparison.json",
+    "outside_channels_replay": "reproduction/final/runs/dsprites_outside_channels_20261126/replay_comparison.json"
   }
 }

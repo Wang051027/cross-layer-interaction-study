@@ -8,6 +8,17 @@
 
 11 月 26 日继续追踪这 91.14% 经哪里传到输出。只让最后一个残差块的卷积分支变化，保留上轮余量 RMS 的 **94.20%**，只让捷径变化则保留 **7.05%**。在开发条件为两处 ReLU 各选定 4 个通道，在留出条件将这些通道的激活恢复到空组值后，余量降至 **47.25%**（原始三阶 RMS 的 **42.97%**）。两个同预算随机对照留下 **76.42% 和 81.72%**。第一处四通道作用的 **72.63%**（有符号投影）经预选末层四通道以外的通道表达。[支路、通道连接与抵消报告](reproduction/final/reports/dSprites_两层开关阻断后的剩余传递路径_2026-11-26.md) · [通道连接表](reproduction/final/runs/dsprites_remaining_routes_20261126/link_scores.csv)
 
+将这 72.63% 逐通道拆开，在开发条件排名前 4、8、14 的组外通道分别承接组外投影的 **36.01%、61.61%、83.17%**。只阻断新选的末层四通道，全强度最终三阶输出 RMS 剩 **82.37%**。六个模型各自测完 28 个单通道与全部 378 个双通道组合。模型 291 的一个留出案例中，通道 17 和 27 的得分贡献分别为 −0.2235 和 +0.2374 logit，合计仅 +0.0139。[完整通道编号与联合阻断报告](reproduction/final/reports/dSprites_末层组外28通道的承接与抵消_2026-11-26.md) · [逐例候选通道对](reproduction/final/runs/dsprites_outside_channels_20261126/candidate_cases.csv)
+
+## 复现末层组外通道阻断
+
+在 Python 3.12 环境从仓库根目录重选名单、重算两种强度的 864 条留出记录并核对各通道的作用。[复现说明与原始数组读取示例](reproduction/final/experiments/outside_channels_20261126/README.md)
+
+```bash
+python -m pip install -r reproduction/held_condition/requirements.txt
+python -B -X utf8 reproduction/final/experiments/outside_channels_20261126/reproduce.py --device cpu
+```
+
 ## 复现剩余效应的路径干预
 
 在 Python 3.12 环境从仓库根目录运行以下命令。程序从冻结权重和上轮 64 点名单重选开发端通道，重算 864 条留出记录、两组随机对照及单连接干预。[复现说明](reproduction/final/experiments/remaining_routes_20261126/README.md) · [跨设备复跑记录](reproduction/final/runs/dsprites_remaining_routes_20261126/replay_comparison.json)
