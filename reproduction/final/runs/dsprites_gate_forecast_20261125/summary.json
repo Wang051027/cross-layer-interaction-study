@@ -1,0 +1,369 @@
+{
+  "measurement_seal": "0293de69eab360d6e81b8321f5bc6fa0d70f27b944d6067ac3d8ecdadc917fb8",
+  "by_strength": {
+    "1.0": {
+      "records": 432,
+      "mean_output_error": {
+        "class_mean": 0.618502948865108,
+        "fixed_0": 1.0,
+        "live_0": 0.45323883092668954,
+        "predicted_0": 0.46719855194907095,
+        "fixed_4": 1.0030862666341398,
+        "live_4": 0.41754941596924966,
+        "predicted_4": 0.4354872933813474,
+        "first_4": 0.42879802394565036,
+        "second_4": 0.4280766514728354,
+        "empty_masks_4": 2.717265300365757,
+        "majority_4": 1.2540251527639477,
+        "fixed_32": 0.9844732346872723,
+        "live_32": 0.3055870949749394,
+        "predicted_32": 0.38613805356608677
+      },
+      "comparisons": {
+        "fixed_4": {
+          "mean_improvement": 0.5675989732527923,
+          "improved_models": 6,
+          "material": true
+        },
+        "class_mean": {
+          "mean_improvement": 0.18301565548376075,
+          "improved_models": 5,
+          "material": true
+        },
+        "empty_masks_4": {
+          "mean_improvement": 2.28177800698441,
+          "improved_models": 6,
+          "material": true
+        },
+        "majority_4": {
+          "mean_improvement": 0.8185378593826002,
+          "improved_models": 6,
+          "material": true
+        },
+        "live_4": {
+          "mean_improvement": -0.017937877412097736,
+          "improved_models": 1,
+          "material": false
+        }
+      },
+      "output_sign_correct": 375,
+      "output_sign_total": 432,
+      "gate_scores": {
+        "first": {
+          "predicted": {
+            "precision": 0.9122820455580491,
+            "recall": 0.9010033659432999,
+            "f1": 0.9066035975804633
+          },
+          "majority": {
+            "precision": 0.9474183240713683,
+            "recall": 0.39517814097405246,
+            "f1": 0.5561363596578383
+          },
+          "mean_f1_gain": 0.35046723792262496,
+          "improved_models": 6,
+          "passes": true
+        },
+        "second": {
+          "predicted": {
+            "precision": 0.8280446501806059,
+            "recall": 0.8043322399071329,
+            "f1": 0.8159228134897701
+          },
+          "majority": {
+            "precision": 0.906386265752401,
+            "recall": 0.45808122509269317,
+            "f1": 0.6078085539761003
+          },
+          "mean_f1_gain": 0.20811425951366966,
+          "improved_models": 6,
+          "passes": true
+        }
+      },
+      "selected_precision": {
+        "first": {
+          "target": 0.9956958912037037,
+          "random1": 0.9164134837962964,
+          "random2": 0.9127965856481483
+        },
+        "second": {
+          "target": 0.9711371527777778,
+          "random1": 0.9134837962962963,
+          "random2": 0.9128327546296297
+        }
+      },
+      "interventions": {
+        "first": {
+          "target": {
+            "actual_rms": 4.09120474293932,
+            "error_ratio": 0.11816943737098705,
+            "below_one": 6,
+            "correct_sign": 421,
+            "sign_total": 432
+          },
+          "random1": {
+            "actual_rms": 0.3692806629234744,
+            "error_ratio": 0.2190706015480409,
+            "below_one": 6,
+            "correct_sign": 406,
+            "sign_total": 432
+          },
+          "random2": {
+            "actual_rms": 0.3960389519514526,
+            "error_ratio": 0.18809117729024138,
+            "below_one": 6,
+            "correct_sign": 408,
+            "sign_total": 432
+          },
+          "localization_gain": 3.7085449355018567,
+          "larger_models": 6,
+          "localization_pass": true,
+          "effect_pass": true
+        },
+        "second": {
+          "target": {
+            "actual_rms": 0.8475993945712276,
+            "error_ratio": 0.07987753448410902,
+            "below_one": 6,
+            "correct_sign": 427,
+            "sign_total": 432
+          },
+          "random1": {
+            "actual_rms": 0.13490143480790676,
+            "error_ratio": 0.08652181734232767,
+            "below_one": 6,
+            "correct_sign": 428,
+            "sign_total": 432
+          },
+          "random2": {
+            "actual_rms": 0.13352590952679755,
+            "error_ratio": 0.07869746000661763,
+            "below_one": 6,
+            "correct_sign": 431,
+            "sign_total": 432
+          },
+          "localization_gain": 0.7133857224038755,
+          "larger_models": 6,
+          "localization_pass": true,
+          "effect_pass": true
+        },
+        "both": {
+          "target": {
+            "actual_rms": 4.186761291976077,
+            "error_ratio": 0.11925946518163753,
+            "below_one": 6,
+            "correct_sign": 417,
+            "sign_total": 432
+          },
+          "random1": {
+            "actual_rms": 0.4338872836526349,
+            "error_ratio": 0.19404140453068433,
+            "below_one": 6,
+            "correct_sign": 396,
+            "sign_total": 432
+          },
+          "random2": {
+            "actual_rms": 0.45773875914173384,
+            "error_ratio": 0.16725933899975587,
+            "below_one": 6,
+            "correct_sign": 415,
+            "sign_total": 432
+          },
+          "localization_gain": 3.7409482705788926,
+          "larger_models": 6,
+          "localization_pass": true,
+          "effect_pass": true
+        }
+      },
+      "joint_nonadditive_rms": 0.37709792793460783,
+      "opposite_layers": 144,
+      "decisions": {
+        "gate_localization": true,
+        "output": true,
+        "intervention": true
+      }
+    },
+    "0.5": {
+      "records": 432,
+      "mean_output_error": {
+        "class_mean": 1.933173857599739,
+        "fixed_0": 1.0,
+        "live_0": 0.5952841177784096,
+        "predicted_0": 0.6193007245858014,
+        "fixed_4": 0.986803511663297,
+        "live_4": 0.5379940208806532,
+        "predicted_4": 0.5557916739357659,
+        "first_4": 0.5398574733519135,
+        "second_4": 0.5560798112453782,
+        "empty_masks_4": 3.7165194517227764,
+        "majority_4": 1.9288486482709433,
+        "fixed_32": 0.9117756991200935,
+        "live_32": 0.3466573036790781,
+        "predicted_32": 0.40118795347382274
+      },
+      "comparisons": {
+        "fixed_4": {
+          "mean_improvement": 0.43101183772753116,
+          "improved_models": 6,
+          "material": true
+        },
+        "class_mean": {
+          "mean_improvement": 1.377382183663973,
+          "improved_models": 6,
+          "material": true
+        },
+        "empty_masks_4": {
+          "mean_improvement": 3.160727777787011,
+          "improved_models": 6,
+          "material": true
+        },
+        "majority_4": {
+          "mean_improvement": 1.373056974335178,
+          "improved_models": 6,
+          "material": true
+        },
+        "live_4": {
+          "mean_improvement": -0.017797653055112633,
+          "improved_models": 0,
+          "material": false
+        }
+      },
+      "output_sign_correct": 370,
+      "output_sign_total": 432,
+      "gate_scores": {
+        "first": {
+          "predicted": {
+            "precision": 0.9287155436777437,
+            "recall": 0.9279420769743517,
+            "f1": 0.928323518973582
+          },
+          "majority": {
+            "precision": 0.9633996115148015,
+            "recall": 0.3134935514876092,
+            "f1": 0.4726088433159373
+          },
+          "mean_f1_gain": 0.45571467565764473,
+          "improved_models": 6,
+          "passes": true
+        },
+        "second": {
+          "predicted": {
+            "precision": 0.8879276885684041,
+            "recall": 0.8758105710932123,
+            "f1": 0.8818090816851463
+          },
+          "majority": {
+            "precision": 0.933371880869346,
+            "recall": 0.377115885078092,
+            "f1": 0.53677134149285
+          },
+          "mean_f1_gain": 0.3450377401922964,
+          "improved_models": 6,
+          "passes": true
+        }
+      },
+      "selected_precision": {
+        "first": {
+          "target": 0.9969618055555555,
+          "random1": 0.9311704282407406,
+          "random2": 0.9296874999999999
+        },
+        "second": {
+          "target": 0.9852430555555557,
+          "random1": 0.9207175925925926,
+          "random2": 0.9205729166666666
+        }
+      },
+      "interventions": {
+        "first": {
+          "target": {
+            "actual_rms": 2.227865203150008,
+            "error_ratio": 0.13131549362810876,
+            "below_one": 6,
+            "correct_sign": 425,
+            "sign_total": 432
+          },
+          "random1": {
+            "actual_rms": 0.24003356141893048,
+            "error_ratio": 0.12186411099858689,
+            "below_one": 6,
+            "correct_sign": 417,
+            "sign_total": 432
+          },
+          "random2": {
+            "actual_rms": 0.23906358003564687,
+            "error_ratio": 0.13232590133843466,
+            "below_one": 6,
+            "correct_sign": 414,
+            "sign_total": 432
+          },
+          "localization_gain": 1.9883166324227186,
+          "larger_models": 6,
+          "localization_pass": true,
+          "effect_pass": true
+        },
+        "second": {
+          "target": {
+            "actual_rms": 0.4623110819374667,
+            "error_ratio": 0.07680805346899601,
+            "below_one": 6,
+            "correct_sign": 428,
+            "sign_total": 432
+          },
+          "random1": {
+            "actual_rms": 0.08713443668626869,
+            "error_ratio": 0.06413393771558266,
+            "below_one": 6,
+            "correct_sign": 429,
+            "sign_total": 432
+          },
+          "random2": {
+            "actual_rms": 0.0862256926484815,
+            "error_ratio": 0.06703877778738852,
+            "below_one": 6,
+            "correct_sign": 431,
+            "sign_total": 432
+          },
+          "localization_gain": 0.37563101727009157,
+          "larger_models": 6,
+          "localization_pass": true,
+          "effect_pass": true
+        },
+        "both": {
+          "target": {
+            "actual_rms": 2.4137332098210877,
+            "error_ratio": 0.12130738639502851,
+            "below_one": 6,
+            "correct_sign": 429,
+            "sign_total": 432
+          },
+          "random1": {
+            "actual_rms": 0.3023138054714831,
+            "error_ratio": 0.10302666844993236,
+            "below_one": 6,
+            "correct_sign": 417,
+            "sign_total": 432
+          },
+          "random2": {
+            "actual_rms": 0.3021656585978149,
+            "error_ratio": 0.11048222004332568,
+            "below_one": 6,
+            "correct_sign": 422,
+            "sign_total": 432
+          },
+          "localization_gain": 2.1114934777864387,
+          "larger_models": 6,
+          "localization_pass": true,
+          "effect_pass": true
+        }
+      },
+      "joint_nonadditive_rms": 0.2197529954767861,
+      "opposite_layers": 72,
+      "decisions": {
+        "gate_localization": true,
+        "output": true,
+        "intervention": true
+      }
+    }
+  }
+}

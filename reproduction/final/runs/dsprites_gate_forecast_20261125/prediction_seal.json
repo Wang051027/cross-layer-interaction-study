@@ -1,0 +1,11 @@
+{
+  "utc": "2026-11-25T12:16:09.452619+00:00",
+  "protocol": "692ac2a19f32d88a3db6b9999c5defcadaf557ee47e2486bd95b9c9274430a16",
+  "cases": 864,
+  "interventions": 7776,
+  "files": {
+    "predictions.csv": "036e63320c896a9bd690432d18348e4d201938d7cb13a02c43a41d330a357b95",
+    "intervention_predictions.csv": "b5adbf9dcf143f79e26bb9c6b232a278a6b68837082a94352a39631d9ae03168",
+    "forecast_sites.npz": "66bd99d8a87bafa270339b23411a628b225b7bb6658e909889d3d6b98fc498cc"
+  }
+}

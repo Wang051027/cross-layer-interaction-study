@@ -1,0 +1,101 @@
+{
+  "status": "PASS",
+  "records": 864,
+  "device": "cpu",
+  "compared_forecasts_per_record": 15,
+  "source": "315628090934458fc4ab6751c4bf04ced353639e1102a06eb22121db6bb43aa8",
+  "maxima": {
+    "fixed_0": 0.0,
+    "live_0": 5.1514348342607263e-14,
+    "clip_0": 4.1744385725905886e-14,
+    "fixed_4": 1.1102230246251565e-14,
+    "live_4": 4.973799150320701e-14,
+    "clip_4": 4.529709940470639e-14,
+    "fixed_8": 1.3766765505351941e-14,
+    "live_8": 5.1514348342607263e-14,
+    "clip_8": 4.618527782440651e-14,
+    "fixed_16": 1.554312234475219e-14,
+    "live_16": 4.8405723873656825e-14,
+    "clip_16": 5.1514348342607263e-14,
+    "fixed_32": 1.4988010832439613e-14,
+    "live_32": 5.240252676230739e-14,
+    "clip_32": 5.240252676230739e-14,
+    "matched_lock_derivative": 2.5757174171303632e-14,
+    "outside_slope_autograd": 2.5757174171303632e-14
+  },
+  "gate_identity_sha256": "facf787d89c874758736e3e941a438274f4519e454b2e3ff0b3ccec0b7f60b71",
+  "cancellation": {
+    "1.0": {
+      "by_model": [
+        {
+          "seed": 202609291,
+          "opposed_records": 52,
+          "cosine": -0.7100430039367648
+        },
+        {
+          "seed": 202609292,
+          "opposed_records": 58,
+          "cosine": -0.7865638213820433
+        },
+        {
+          "seed": 202609293,
+          "opposed_records": 46,
+          "cosine": -0.46113271870136263
+        },
+        {
+          "seed": 202609294,
+          "opposed_records": 46,
+          "cosine": -0.6706031673482036
+        },
+        {
+          "seed": 202609295,
+          "opposed_records": 51,
+          "cosine": -0.6350744996283781
+        },
+        {
+          "seed": 202609296,
+          "opposed_records": 47,
+          "cosine": -0.6667755759416556
+        }
+      ],
+      "opposed_records": 300,
+      "mean_cosine": -0.6550321311564014
+    },
+    "0.5": {
+      "by_model": [
+        {
+          "seed": 202609291,
+          "opposed_records": 40,
+          "cosine": -0.4075695147948999
+        },
+        {
+          "seed": 202609292,
+          "opposed_records": 49,
+          "cosine": -0.6526752192410704
+        },
+        {
+          "seed": 202609293,
+          "opposed_records": 48,
+          "cosine": -0.5395949970253391
+        },
+        {
+          "seed": 202609294,
+          "opposed_records": 48,
+          "cosine": -0.39245059088216516
+        },
+        {
+          "seed": 202609295,
+          "opposed_records": 56,
+          "cosine": -0.44846159025438037
+        },
+        {
+          "seed": 202609296,
+          "opposed_records": 51,
+          "cosine": -0.48622445791924923
+        }
+      ],
+      "opposed_records": 292,
+      "mean_cosine": -0.48782939501951733
+    }
+  }
+}

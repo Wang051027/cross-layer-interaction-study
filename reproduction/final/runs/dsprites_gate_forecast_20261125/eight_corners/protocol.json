@@ -1,0 +1,11 @@
+{
+  "utc": "2026-11-25T12:20:38.849282+00:00",
+  "primary_prediction_seal": "526d749626b97d37d3e50bf371aca9da8d630b939d2d8f30f12073970636e4d4",
+  "primary_measurement_seal_known": "0293de69eab360d6e81b8321f5bc6fa0d70f27b944d6067ac3d8ecdadc917fb8",
+  "source": {
+    "EIGHT_CORNERS.md": "212234ce3837aee44c09b628c77e16f6309f6a9c54f661e99612df49ed4efdb8",
+    "eight_corners.py": "85321dbbdc5678ab18d436d71606d4c62875b33c95a639a3619663884dc22e35"
+  },
+  "engine": "batched",
+  "device": "cuda"
+}

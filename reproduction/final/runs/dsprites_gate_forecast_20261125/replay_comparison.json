@@ -1,0 +1,168 @@
+{
+  "status": "PASS",
+  "primary_device": "cuda",
+  "replay_device": "cpu",
+  "primary_measurement": "batched",
+  "replay_measurement": "indexed",
+  "primary_seal": "0293de69eab360d6e81b8321f5bc6fa0d70f27b944d6067ac3d8ecdadc917fb8",
+  "replay_seal": "bfc4cbbe01cfdd0e229c298a687e3b972ad2dd75202a749d939f320f52977961",
+  "complete_cases": 864,
+  "endpoint_interventions": 7776,
+  "seven_corner_interventions": 54432,
+  "eight_state_contrasts": 7776,
+  "matching_arrays": {
+    "forecast_sites.npz/predicted": [
+      864,
+      2,
+      4096
+    ],
+    "forecast_sites.npz/majority": [
+      864,
+      2,
+      4096
+    ],
+    "forecast_sites.npz/empty": [
+      864,
+      2,
+      4096
+    ],
+    "forecast_sites.npz/sites": [
+      864,
+      3,
+      2,
+      64
+    ],
+    "forecast_sites.npz/keys": [
+      864,
+      4
+    ],
+    "observed_gates.npz/true": [
+      864,
+      2,
+      4096
+    ],
+    "observed_gates.npz/keys": [
+      864,
+      4
+    ]
+  },
+  "tables": {
+    "predictions.csv": {
+      "rows": 864,
+      "max_abs_difference": 1.2079226507921703e-13,
+      "identical_file": false
+    },
+    "measurements.csv": {
+      "rows": 864,
+      "max_abs_difference": 9.769962616701378e-14,
+      "identical_file": false
+    },
+    "intervention_predictions.csv": {
+      "rows": 7776,
+      "max_abs_difference": 3.197442310920451e-14,
+      "identical_file": false
+    },
+    "interventions.csv": {
+      "rows": 7776,
+      "max_abs_difference": 3.2862601528904634e-14,
+      "identical_file": false
+    },
+    "teacher_scores.csv": {
+      "rows": 12,
+      "max_abs_difference": 9.2148511043888e-15,
+      "identical_file": false
+    },
+    "gate_scores.csv": {
+      "rows": 144,
+      "max_abs_difference": 0.0,
+      "identical_file": true
+    },
+    "intervention_scores.csv": {
+      "rows": 108,
+      "max_abs_difference": 2.4168167467308876e-14,
+      "identical_file": false
+    },
+    "selected_accuracy.csv": {
+      "rows": 72,
+      "max_abs_difference": 0.0,
+      "identical_file": true
+    },
+    "layer_interaction.csv": {
+      "rows": 36,
+      "max_abs_difference": 8.881784197001252e-15,
+      "identical_file": false
+    },
+    "eight_corners/low_corner_effects.csv": {
+      "rows": 54432,
+      "max_abs_difference": 2.4868995751603507e-14,
+      "identical_file": false
+    },
+    "eight_corners/predictions.csv": {
+      "rows": 7776,
+      "max_abs_difference": 3.552713678800501e-14,
+      "identical_file": false
+    },
+    "eight_corners/measurements.csv": {
+      "rows": 7776,
+      "max_abs_difference": 5.773159728050814e-14,
+      "identical_file": false
+    },
+    "eight_corners/teacher_scores.csv": {
+      "rows": 108,
+      "max_abs_difference": 1.7996715229173788e-13,
+      "identical_file": false
+    }
+  },
+  "compared_nov10_columns": {
+    "class_mean": 0.0,
+    "fixed_0": 0.0,
+    "fixed_4": 0.0,
+    "fixed_32": 0.0,
+    "live_0": 1.0658141036401503e-14,
+    "live_4": 1.0658141036401503e-14,
+    "live_32": 1.0658141036401503e-14,
+    "y": 7.105427357601002e-15
+  },
+  "nov10_replay": {
+    "predictions.csv": {
+      "rows": 864,
+      "max_abs_difference": 0.0,
+      "identical_file": true
+    },
+    "measurements.csv": {
+      "rows": 864,
+      "max_abs_difference": 0.0,
+      "identical_file": true
+    },
+    "teacher_scores.csv": {
+      "rows": 12,
+      "max_abs_difference": 0.0,
+      "identical_file": true
+    },
+    "gate_identity.csv": {
+      "rows": 864,
+      "max_abs_difference": 0.0,
+      "identical_file": true
+    }
+  },
+  "nov10_cpu_independent_max": 5.240252676230739e-14,
+  "independent_forecasts": {
+    "status": "PASS",
+    "device": "cpu",
+    "cases": 864,
+    "patched_forecasts": 7776,
+    "matching_top_lists": 1728,
+    "matching_two_layer_mask_sets": [
+      "predicted",
+      "majority",
+      "empty"
+    ],
+    "numerical_maxima": {
+      "forecast_output": 5.684341886080802e-14,
+      "forecast_patch": 3.730349362740526e-14
+    },
+    "prediction_seal": "526d749626b97d37d3e50bf371aca9da8d630b939d2d8f30f12073970636e4d4",
+    "audit_source": "7d062ff3d17e01c97e3c4bdfe79b3c16f3800c13f1ebddc63e1482c4b0e2eb36"
+  },
+  "maximum_abs_difference": 1.7996715229173788e-13
+}

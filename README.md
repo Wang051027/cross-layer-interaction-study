@@ -2,9 +2,18 @@
 
 在残差卷积网络中，同时改变三个通道组会产生多大的三阶响应？实验追踪这部分响应经过的 ReLU 开关，并测量它对两种形状得分差的影响。
 
-在六个模型的 dSprites 留出条件上，四通道规则将中间层三阶响应的预测误差降至二阶基线的 **0.884 倍**。最终输出的误差是基线的 **1.003 倍**。阻断实验显示，同一组通道的输出作用随组外通道的状态改变。
+在 36 张 dSprites 图像和六个冻结模型上，用空组、单组和双组的七种状态提前预测三组共同替换时的响应。11 月 25 日，在留出的大小与角度条件上，两处下游 ReLU 翻转的 F1 为 **0.907 和 0.816**。同一个四通道中间预测，用固定梯度估计最终三阶输出时误差比为 **1.0031**，用预测开关为 **0.4355**，重算下游开关为 **0.4175**。
 
-[复现最新实验](#复现最新实验) · [实验协议](docs/LATEST_EXPERIMENT.md) · [模型级结果](results/rule_discrimination/tables/teacher_scores.csv) · [代码阅读指南](docs/CODE_GUIDE.md)
+将每层预选的 64 个位置锁回空组开关，三组端点的得分改变量 RMS 为 **4.187 logit**。在全部八个子集状态锁相同位置，三阶改变量 RMS 为 **0.661 logit**，阻断后六模型的三阶 RMS 平均剩余 **91.14%**。[完整实验报告](reproduction/final/reports/dSprites_三组通道的开关预测与八状态阻断_2026-11-25.md) · [逐模型结果](reproduction/final/runs/dsprites_gate_forecast_20261125/teacher_scores.csv)
+
+## 复现开关预测与八状态阻断
+
+在 Python 3.12 环境从仓库根目录运行以下命令。入口复跑 11 月 10 日及 11 月 25 日两轮实验，核对位置编号、布尔开关、端点得分和八状态差分。输出写入 `local_output/final-时间戳/`。[复现说明](reproduction/final/experiments/gate_forecast_20261125/README.md) · [CPU 与 CUDA 核对记录](reproduction/final/runs/dsprites_gate_forecast_20261125/replay_comparison.json) · [11 月 1 日判别实验协议](docs/LATEST_EXPERIMENT.md)
+
+```text
+python -m pip install -r reproduction/held_condition/requirements.txt
+python -B -X utf8 reproduction/final/experiments/gate_forecast_20261125/reproduce.py --device cpu
+```
 
 ## 怎样把“层与层的关系”变成实验
 
@@ -49,7 +58,7 @@
 
 [十月结果的逐模型数值、计数与原始记录指纹](results/stage_evidence.json) · [早期 dSprites 的模型、数据划分与对照](source/reports/dSprites_旧研究再评估_2026-09-29.md)
 
-## 复现最新实验
+## 复现 11 月 1 日的四通道规则实验
 
 **复跑从六个已训练的模型出发。** 仓库提供了[六个权重](reproduction/held_condition/runs/dsprites_20260929)、[36 张原图及配对索引](reproduction/held_condition/runs/dsprites_shape_donor_20261010/panel/data.npz)、[原始冻结记录](reproduction/held_condition/reference)和[固定版本依赖](reproduction/held_condition/requirements.txt)。安装依赖后，实验可离线在 CPU 上运行。先克隆仓库，或下载 ZIP 并进入解压后的仓库根目录：
 

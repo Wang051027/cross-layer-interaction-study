@@ -48,3 +48,5 @@ Thumbs.db
 !reproduction/held_condition/runs/dsprites_shape_donor_20261010/panel/data.npz
 !reproduction/held_condition/runs/dsprites_shape_donor_20261010/evaluation/seed_*/alpha_*/data.npz
 !reproduction/held_condition/runs/dsprites_layer_transfer_20261013/evaluation/seed_*/alpha_*/data.npz
+!reproduction/final/runs/dsprites_gate_forecast_20261125/forecast_sites.npz
+!reproduction/final/runs/dsprites_gate_forecast_20261125/observed_gates.npz

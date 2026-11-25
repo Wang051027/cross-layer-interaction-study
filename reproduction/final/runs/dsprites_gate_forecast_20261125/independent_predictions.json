@@ -1,0 +1,18 @@
+{
+  "status": "PASS",
+  "device": "cpu",
+  "cases": 864,
+  "patched_forecasts": 7776,
+  "matching_top_lists": 1728,
+  "matching_two_layer_mask_sets": [
+    "predicted",
+    "majority",
+    "empty"
+  ],
+  "numerical_maxima": {
+    "forecast_output": 5.684341886080802e-14,
+    "forecast_patch": 3.730349362740526e-14
+  },
+  "prediction_seal": "526d749626b97d37d3e50bf371aca9da8d630b939d2d8f30f12073970636e4d4",
+  "audit_source": "7d062ff3d17e01c97e3c4bdfe79b3c16f3800c13f1ebddc63e1482c4b0e2eb36"
+}

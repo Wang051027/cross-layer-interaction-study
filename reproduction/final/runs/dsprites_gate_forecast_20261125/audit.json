@@ -1,0 +1,11 @@
+{
+  "status": "PASS",
+  "device": "cuda",
+  "measurement": "batched",
+  "numerical_maxima": {
+    "native_endpoint": 0.0,
+    "sealed_low_output": 0.0
+  },
+  "cases": 864,
+  "interventions": 7776
+}

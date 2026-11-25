@@ -1,0 +1,25 @@
+{
+  "status": "PASS",
+  "records": 864,
+  "prior_checks_per_record": 7,
+  "maxima": {
+    "native_tail": 0.0,
+    "empty_field": 0.0,
+    "true_field": 2.220446049250313e-14,
+    "own_gates": 0.0,
+    "constant_gate_mix": 1.5987211554602254e-14,
+    "autograd_empty_tangent": 2.842170943040401e-14,
+    "outside_tangent": 1.4210854715202004e-14,
+    "oracle_native_32": 1.509903313490213e-14,
+    "error_identity": 1.0658141036401503e-14,
+    "old_y": 5.329070518200751e-15,
+    "old_middle_norm": 3.637978807091713e-12,
+    "old_middle_error": 3.637978807091713e-12,
+    "old_rule": 2.6645352591003757e-15,
+    "old_class_mean": 0,
+    "old_removed": 8.881784197001252e-15,
+    "old_kept": 1.0658141036401503e-14
+  },
+  "prior_delivery_sha256": "667dde7502fd589b9675f4cb8793950b56953a7b5df4cfa53629dccd0fe9abd5",
+  "freeze_before_measurement": true
+}

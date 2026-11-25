@@ -6,3 +6,4 @@
 reproduction/held_condition/runs/** -text
 reproduction/held_condition/reference/** -text
 reproduction/held_condition/protocol_sources.zip binary
+reproduction/final/** -text

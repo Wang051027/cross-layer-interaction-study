@@ -1,27 +1,27 @@
 {
-  "version": 3,
-  "release_date": "2026-11-10",
-  "scope": "Research source, examples, frozen inputs and reference records for the complete held-condition dSprites replay",
+  "version": 4,
+  "release_date": "2026-11-25",
+  "scope": "Research code, frozen dSprites inputs, November experiments, intervention records and full replay",
   "files": [
     {
       "path": ".gitattributes",
-      "bytes": 286,
-      "sha256": "5839eca4e8c3e73789c7f1c6449a1752d74f13280c8d1192a0d4d6fa16b0b24a"
+      "bytes": 314,
+      "sha256": "cc0da383520ddccb7135f47fca1d48d276e15310b013f439f360b04f3f7e7150"
     },
     {
       "path": ".gitignore",
-      "bytes": 1086,
-      "sha256": "edb76e2d2f3298ac9777e87a4a533465d12a2f7fe7e7e3f545a8639d6444f33f"
+      "bytes": 1238,
+      "sha256": "9543a4ecc94a11dcfb7c7f6ad6732030f28cabecbfa923e73671547db967832c"
     },
     {
       "path": "PROVENANCE.json",
-      "bytes": 67097,
-      "sha256": "82a42839429a8aba1791e6e44bda8c7946422f68d0c5d4bf375328aea636f6a2"
+      "bytes": 72784,
+      "sha256": "90f65e11602a33c120bec1ca462bd4f84233aa9416a7762abc66e036b59ce03d"
     },
     {
       "path": "README.md",
-      "bytes": 11016,
-      "sha256": "58b3baaa64317e0bba2c437afa6852fd310e0c600737dbc07626398ff606131d"
+      "bytes": 12163,
+      "sha256": "544c079b8885ed622704f2a9bddde1e355da815f6a1d526d37d1c75a5dc041d0"
     },
     {
       "path": "THIRD_PARTY.md",
@@ -70,8 +70,8 @@
     },
     {
       "path": "docs/REPRODUCTION.md",
-      "bytes": 5931,
-      "sha256": "0b060622f0eb62082056cda9da9ff528993549d29f0ca46298b3d88904ac2bcf"
+      "bytes": 6058,
+      "sha256": "87597df66b43ff2e1f1589cbc4024de6888ab02f45e9afff24cde9b88cef1ccd"
     },
     {
       "path": "docs/SCRIPT_INDEX.md",
@@ -112,6 +112,286 @@
       "path": "reproduce_latest.py",
       "bytes": 8979,
       "sha256": "2ceebf396adf325b050e9f0670d349e3d82ede07464b8d38febaff91a4c540f7"
+    },
+    {
+      "path": "reproduction/final/experiments/gate_forecast_20261125/DESIGN.md",
+      "bytes": 4226,
+      "sha256": "0c0fd06f6a6790ed88210ef840281899dc63bd5fdb87324a3d4535967b0b2eb6"
+    },
+    {
+      "path": "reproduction/final/experiments/gate_forecast_20261125/EIGHT_CORNERS.md",
+      "bytes": 1479,
+      "sha256": "212234ce3837aee44c09b628c77e16f6309f6a9c54f661e99612df49ed4efdb8"
+    },
+    {
+      "path": "reproduction/final/experiments/gate_forecast_20261125/README.md",
+      "bytes": 2855,
+      "sha256": "49eb91383487697a93b3b5a132ce634f101fcf108984a2855d2ed44d2e554b57"
+    },
+    {
+      "path": "reproduction/final/experiments/gate_forecast_20261125/analyze.py",
+      "bytes": 11663,
+      "sha256": "02a336e282210dc8f6348ddd2f6c0ef7a65a24118a2395726ad774f090313159"
+    },
+    {
+      "path": "reproduction/final/experiments/gate_forecast_20261125/audit_predictions.py",
+      "bytes": 7767,
+      "sha256": "7d062ff3d17e01c97e3c4bdfe79b3c16f3800c13f1ebddc63e1482c4b0e2eb36"
+    },
+    {
+      "path": "reproduction/final/experiments/gate_forecast_20261125/eight_corners.py",
+      "bytes": 9651,
+      "sha256": "85321dbbdc5678ab18d436d71606d4c62875b33c95a639a3619663884dc22e35"
+    },
+    {
+      "path": "reproduction/final/experiments/gate_forecast_20261125/figure.py",
+      "bytes": 4491,
+      "sha256": "d9d779b98b0beb2049753646b38bfe034be2ac4bed5af75d46ce538fee52368b"
+    },
+    {
+      "path": "reproduction/final/experiments/gate_forecast_20261125/gates.py",
+      "bytes": 8511,
+      "sha256": "ca7e32a062c9286ceca3913a3297419b18ac74538954edc07ecfc76dbb61a17e"
+    },
+    {
+      "path": "reproduction/final/experiments/gate_forecast_20261125/reproduce.py",
+      "bytes": 2383,
+      "sha256": "bd690b68da10226b0169100a7bce08a0c1a46eab6b71e617cf9d8c1ff66d7439"
+    },
+    {
+      "path": "reproduction/final/experiments/gate_forecast_20261125/run.py",
+      "bytes": 10929,
+      "sha256": "d4fbb7ef925fe5709d304975908b5a9fd4f6810189e7ff64e391c62a9f9cafd1"
+    },
+    {
+      "path": "reproduction/final/experiments/gate_forecast_20261125/verify_runs.py",
+      "bytes": 4825,
+      "sha256": "f96e7ecfb443eb00c7fc1045186e72e52be48fce4cf900730823dc808c5bb853"
+    },
+    {
+      "path": "reproduction/final/experiments/output_bottleneck_20261110/DESIGN.md",
+      "bytes": 4762,
+      "sha256": "b6964b1672fb35fd2e2d7310ba8331562ef698ab9e64f13a2267342ccea8bcdc"
+    },
+    {
+      "path": "reproduction/final/experiments/output_bottleneck_20261110/analyze.py",
+      "bytes": 5014,
+      "sha256": "8f00a671fd74fe35bb5bdc3e38f93da3c0db4edd6a8ce8f00d8f657add78e0b3"
+    },
+    {
+      "path": "reproduction/final/experiments/output_bottleneck_20261110/audit_gate_context.py",
+      "bytes": 6935,
+      "sha256": "315628090934458fc4ab6751c4bf04ced353639e1102a06eb22121db6bb43aa8"
+    },
+    {
+      "path": "reproduction/final/experiments/output_bottleneck_20261110/mechanism.py",
+      "bytes": 5880,
+      "sha256": "91a0bcdc2da05ea33026b7ae6108c33e8489a39bce10dbde40fe8ec9605672e1"
+    },
+    {
+      "path": "reproduction/final/experiments/output_bottleneck_20261110/plot_results.py",
+      "bytes": 4032,
+      "sha256": "48e499a50aeda9aad262173c72df6c9b2143b34e4076e05a40beca71d8bd1f7b"
+    },
+    {
+      "path": "reproduction/final/experiments/output_bottleneck_20261110/run_experiment.py",
+      "bytes": 8915,
+      "sha256": "68ad706169d58c87a7287c8642e54f8f7de3c3bf25534a0389da12ac4a12054d"
+    },
+    {
+      "path": "reproduction/final/reports/dSprites_三组通道的开关预测与八状态阻断_2026-11-25.md",
+      "bytes": 8993,
+      "sha256": "363f633cf8e6519d9ef3e46197bb919ace4d0d5c2fac43343c716758a9ceb3a6"
+    },
+    {
+      "path": "reproduction/final/runs/dsprites_gate_forecast_20261125/audit.json",
+      "bytes": 198,
+      "sha256": "cbed602980ca1a1ed26f92e0c7779e0d4ca6a2c44848d783c41519b1e0520604"
+    },
+    {
+      "path": "reproduction/final/runs/dsprites_gate_forecast_20261125/eight_corners/low_corner_effects.csv",
+      "bytes": 2925653,
+      "sha256": "7002c54af79f08aa3da693268bb25d19f4a0296e60aa7bc289bf37df9b8824eb"
+    },
+    {
+      "path": "reproduction/final/runs/dsprites_gate_forecast_20261125/eight_corners/measurement_seal.json",
+      "bytes": 526,
+      "sha256": "596a9ee8885deaf3fee097efd6ce75f57f2a2b5e119a4c86db61d0feb657cd72"
+    },
+    {
+      "path": "reproduction/final/runs/dsprites_gate_forecast_20261125/eight_corners/measurements.csv",
+      "bytes": 1197398,
+      "sha256": "8932d4bfde22d78663e86ff6eb3a07d9edc9e53f72d05062ead30c39a827c120"
+    },
+    {
+      "path": "reproduction/final/runs/dsprites_gate_forecast_20261125/eight_corners/prediction_seal.json",
+      "bytes": 343,
+      "sha256": "015d47618755308196d5c3e7a3b33d2af34b03e9a07a500b8f293c0e5fa3cf23"
+    },
+    {
+      "path": "reproduction/final/runs/dsprites_gate_forecast_20261125/eight_corners/predictions.csv",
+      "bytes": 578612,
+      "sha256": "9db6e36eb620f52b4957cd05e1992bbb53c101df2811417bacb2c83057be594b"
+    },
+    {
+      "path": "reproduction/final/runs/dsprites_gate_forecast_20261125/eight_corners/protocol.json",
+      "bytes": 494,
+      "sha256": "42156f0a449e92a7cc0fe4f372709d870492be3f221bb51cdf37f916692b93c7"
+    },
+    {
+      "path": "reproduction/final/runs/dsprites_gate_forecast_20261125/eight_corners/summary.json",
+      "bytes": 7362,
+      "sha256": "18f669011db702e5359257f60207258517e00290d0eb8846bbb70cb9eb105795"
+    },
+    {
+      "path": "reproduction/final/runs/dsprites_gate_forecast_20261125/eight_corners/teacher_scores.csv",
+      "bytes": 12917,
+      "sha256": "50bbcdc612a0f54a31b2071066a54d9a322803d7d4784b5c294b818d08d392a5"
+    },
+    {
+      "path": "reproduction/final/runs/dsprites_gate_forecast_20261125/experiment_results.png",
+      "bytes": 221196,
+      "sha256": "19092f1fe4d5fec229e5e200298b372df82b45f9409bdae9c139d91bdd92105e"
+    },
+    {
+      "path": "reproduction/final/runs/dsprites_gate_forecast_20261125/forecast_sites.npz",
+      "bytes": 4825751,
+      "sha256": "66bd99d8a87bafa270339b23411a628b225b7bb6658e909889d3d6b98fc498cc"
+    },
+    {
+      "path": "reproduction/final/runs/dsprites_gate_forecast_20261125/gate_scores.csv",
+      "bytes": 16149,
+      "sha256": "4c0afe503d742b1c74c8be7281215a105fb09869c7bedc0a2823529c4577134f"
+    },
+    {
+      "path": "reproduction/final/runs/dsprites_gate_forecast_20261125/independent_predictions.json",
+      "bytes": 497,
+      "sha256": "6917ed047b5ea4302cb702a6f1850a5f9925896a7497a18e86b86214f88a2667"
+    },
+    {
+      "path": "reproduction/final/runs/dsprites_gate_forecast_20261125/intervention_predictions.csv",
+      "bytes": 416828,
+      "sha256": "b5adbf9dcf143f79e26bb9c6b232a278a6b68837082a94352a39631d9ae03168"
+    },
+    {
+      "path": "reproduction/final/runs/dsprites_gate_forecast_20261125/intervention_scores.csv",
+      "bytes": 12438,
+      "sha256": "d6ba1daedef706c31bc4a721993a4c445ee3e1d891b58aa75d8704711f775868"
+    },
+    {
+      "path": "reproduction/final/runs/dsprites_gate_forecast_20261125/interventions.csv",
+      "bytes": 416826,
+      "sha256": "bf1987b8f76bc64ff9043267504cdd1f2bf1b1bb42dfb896585914f8c0fbeb43"
+    },
+    {
+      "path": "reproduction/final/runs/dsprites_gate_forecast_20261125/layer_interaction.csv",
+      "bytes": 3241,
+      "sha256": "4aab5af499a7258c09f8ffacb5062c94d5da5c64ea0356059da34e7e2e73747b"
+    },
+    {
+      "path": "reproduction/final/runs/dsprites_gate_forecast_20261125/measurement_seal.json",
+      "bytes": 515,
+      "sha256": "0293de69eab360d6e81b8321f5bc6fa0d70f27b944d6067ac3d8ecdadc917fb8"
+    },
+    {
+      "path": "reproduction/final/runs/dsprites_gate_forecast_20261125/measurements.csv",
+      "bytes": 54569,
+      "sha256": "34b5e8e11cb197ec4f3b1caabd3163dd13a8de190e26a43416956f940d1574d2"
+    },
+    {
+      "path": "reproduction/final/runs/dsprites_gate_forecast_20261125/observed_gates.npz",
+      "bytes": 1896989,
+      "sha256": "1c95ecc14997b1a5675c4a5083e5dd9efa57ddea1973238c2ce917e19d30c384"
+    },
+    {
+      "path": "reproduction/final/runs/dsprites_gate_forecast_20261125/prediction_seal.json",
+      "bytes": 477,
+      "sha256": "526d749626b97d37d3e50bf371aca9da8d630b939d2d8f30f12073970636e4d4"
+    },
+    {
+      "path": "reproduction/final/runs/dsprites_gate_forecast_20261125/predictions.csv",
+      "bytes": 259644,
+      "sha256": "036e63320c896a9bd690432d18348e4d201938d7cb13a02c43a41d330a357b95"
+    },
+    {
+      "path": "reproduction/final/runs/dsprites_gate_forecast_20261125/protocol.json",
+      "bytes": 3689,
+      "sha256": "692ac2a19f32d88a3db6b9999c5defcadaf557ee47e2486bd95b9c9274430a16"
+    },
+    {
+      "path": "reproduction/final/runs/dsprites_gate_forecast_20261125/replay_comparison.json",
+      "bytes": 4187,
+      "sha256": "189a76881ef7aa1e2348e04bdc6cbd286d554014d6214a06dcd9f311ff0418a4"
+    },
+    {
+      "path": "reproduction/final/runs/dsprites_gate_forecast_20261125/selected_accuracy.csv",
+      "bytes": 4070,
+      "sha256": "e9874164c2ee2a9c21491d153d05b69e565e17ca85b687e0025f259d07df29b1"
+    },
+    {
+      "path": "reproduction/final/runs/dsprites_gate_forecast_20261125/summary.json",
+      "bytes": 11092,
+      "sha256": "4876cfcc451bd6c4e9b5daf528145928b32d6a93593eae03c4ac2e442bcbe621"
+    },
+    {
+      "path": "reproduction/final/runs/dsprites_gate_forecast_20261125/teacher_scores.csv",
+      "bytes": 3742,
+      "sha256": "6ed003dd20dbbe818ceda148b0c8c4a971524ea306635192ac8d972034d33295"
+    },
+    {
+      "path": "reproduction/final/runs/dsprites_output_bottleneck_20261110/audit.json",
+      "bytes": 852,
+      "sha256": "78e48dafe4849328b2cd881327109e471a63578f20cae53caf48d516a0ca8173"
+    },
+    {
+      "path": "reproduction/final/runs/dsprites_output_bottleneck_20261110/gate_identity.csv",
+      "bytes": 68191,
+      "sha256": "facf787d89c874758736e3e941a438274f4519e454b2e3ff0b3ccec0b7f60b71"
+    },
+    {
+      "path": "reproduction/final/runs/dsprites_output_bottleneck_20261110/independent_audit.json",
+      "bytes": 2699,
+      "sha256": "73a9571d79e65df43ae67d5e1d5d340c13caa8c13887c257b9c583a1860ae7bc"
+    },
+    {
+      "path": "reproduction/final/runs/dsprites_output_bottleneck_20261110/measurement_seal.json",
+      "bytes": 302,
+      "sha256": "80f48843fb032f238d81e7ba5f2385aa875107bd372b9987de72ea525764def2"
+    },
+    {
+      "path": "reproduction/final/runs/dsprites_output_bottleneck_20261110/measurements.csv",
+      "bytes": 575164,
+      "sha256": "b2a783b8220f9e25498fce7fe45003fbc9e9ac50955621482ad2f64aadafff77"
+    },
+    {
+      "path": "reproduction/final/runs/dsprites_output_bottleneck_20261110/prediction_seal.json",
+      "bytes": 233,
+      "sha256": "feb1e095cc68abcbf1ea5a42c326da723247ff38e37d1389b134ff403cfc6575"
+    },
+    {
+      "path": "reproduction/final/runs/dsprites_output_bottleneck_20261110/predictions.csv",
+      "bytes": 340131,
+      "sha256": "cfc28220cbf58147fb2e89bf2f86a739bb9009bafbb01c23383ee29d520772fe"
+    },
+    {
+      "path": "reproduction/final/runs/dsprites_output_bottleneck_20261110/protocol.json",
+      "bytes": 5333,
+      "sha256": "2a57f2498960977fa6a2cb145165e70d6fae7130953d75cb50eba51e710f33dc"
+    },
+    {
+      "path": "reproduction/final/runs/dsprites_output_bottleneck_20261110/result_overview.png",
+      "bytes": 135993,
+      "sha256": "8c8e1670abfafdf5547eeb6d83d560c699e8bffe5978c5b39a67ba6f12ca2e03"
+    },
+    {
+      "path": "reproduction/final/runs/dsprites_output_bottleneck_20261110/summary.json",
+      "bytes": 27976,
+      "sha256": "3008ffc33a573156b8460cce11eea366b08404e48f0ac1e6871a93ac7e7744ce"
+    },
+    {
+      "path": "reproduction/final/runs/dsprites_output_bottleneck_20261110/teacher_scores.csv",
+      "bytes": 15977,
+      "sha256": "d9a9f35e20a4e1c7d4b46c1791f77c3bdf8f31c5ea0abecf9574ef4677e93fa1"
     },
     {
       "path": "reproduction/held_condition/protocol_sources.zip",

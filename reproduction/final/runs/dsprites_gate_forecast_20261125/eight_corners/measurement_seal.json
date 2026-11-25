@@ -1,0 +1,10 @@
+{
+  "utc": "2026-11-25T12:22:21.539184+00:00",
+  "prediction_seal": "015d47618755308196d5c3e7a3b33d2af34b03e9a07a500b8f293c0e5fa3cf23",
+  "primary_measurement_seal": "0293de69eab360d6e81b8321f5bc6fa0d70f27b944d6067ac3d8ecdadc917fb8",
+  "files": {
+    "measurements.csv": "8932d4bfde22d78663e86ff6eb3a07d9edc9e53f72d05062ead30c39a827c120",
+    "teacher_scores.csv": "50bbcdc612a0f54a31b2071066a54d9a322803d7d4784b5c294b818d08d392a5",
+    "summary.json": "18f669011db702e5359257f60207258517e00290d0eb8846bbb70cb9eb105795"
+  }
+}
