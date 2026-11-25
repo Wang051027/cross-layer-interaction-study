@@ -1,7 +1,7 @@
 {
   "version": 4,
   "release_date": "2026-11-26",
-  "scope": "Research code, frozen dSprites inputs, gate forecasts, channel routing, single and joint interventions, and full replay",
+  "scope": "Research code, frozen dSprites inputs, gate forecasts, channel routing, upstream and single-site interventions, and full replay",
   "files": [
     {
       "path": ".gitattributes",
@@ -10,18 +10,18 @@
     },
     {
       "path": ".gitignore",
-      "bytes": 1383,
-      "sha256": "200dae59d71c9e16a8c9e1d8567367bb1a999b3e5bf5bf968594ff01d2521af9"
+      "bytes": 1453,
+      "sha256": "14fb40c1afa31baf973656550f3618d5e0a00c2a163f2d0e23f411161b120173"
     },
     {
       "path": "PROVENANCE.json",
-      "bytes": 78449,
-      "sha256": "4ce09c8e2a5c8393274108bebfb3d4401bb2bbfdf7ace9fcd6a4ced9b89ed6ea"
+      "bytes": 82228,
+      "sha256": "2bd24a3c17b66d374b676b46b70d7a79151572554763c65c7cda5248877229b0"
     },
     {
       "path": "README.md",
-      "bytes": 14670,
-      "sha256": "31f8b31a9c8426adc46539f10eac9a48d6950ccbfd0b354ccfd73600c78530d5"
+      "bytes": 15991,
+      "sha256": "91329cc27c68b7d58461aad45a52e09891b8bf4a7630c057991dfa65b7055339"
     },
     {
       "path": "THIRD_PARTY.md",
@@ -70,8 +70,8 @@
     },
     {
       "path": "docs/REPRODUCTION.md",
-      "bytes": 6568,
-      "sha256": "5ed850a3f7f74c3b35b09f75816e1da0a0fe4a1ca12ce76e4eb37a0bde8beda9"
+      "bytes": 6867,
+      "sha256": "dbf7242afec9dfc59e56061e4de3d9cd1b56660988ebff95a6484bd0a3b4cebf"
     },
     {
       "path": "docs/SCRIPT_INDEX.md",
@@ -239,6 +239,71 @@
       "sha256": "9535a3a29aa7568c6928dc463bb1b9012214c75a9c23d05f9f3d09b90aa96ada"
     },
     {
+      "path": "reproduction/final/experiments/pair_origins_20261126/COVERAGE.md",
+      "bytes": 1317,
+      "sha256": "8f3205c4c89d094b3ba03aef2409090e781d64157f84004bc5a886ae1c368430"
+    },
+    {
+      "path": "reproduction/final/experiments/pair_origins_20261126/DESIGN.md",
+      "bytes": 4576,
+      "sha256": "687a23b00191789873e5f09061f873afa1b1acac9c6472d195d8df4569c44625"
+    },
+    {
+      "path": "reproduction/final/experiments/pair_origins_20261126/LOCAL_DESIGN.md",
+      "bytes": 1524,
+      "sha256": "e14beb2e8a9b4ae1e851fd9d4a33e8e12d50c38e8e6af43dd79654b05c1ad748"
+    },
+    {
+      "path": "reproduction/final/experiments/pair_origins_20261126/README.md",
+      "bytes": 3639,
+      "sha256": "8657ed985065a26fd5d05e2677851cc76211bb990add7be26d5dabb663097fe2"
+    },
+    {
+      "path": "reproduction/final/experiments/pair_origins_20261126/compare.py",
+      "bytes": 3463,
+      "sha256": "6e14b6de790fad87e7bcbee11eca9d3caaccc90a5c5c00141f46227bff309839"
+    },
+    {
+      "path": "reproduction/final/experiments/pair_origins_20261126/coverage.py",
+      "bytes": 5306,
+      "sha256": "8222661ecd6c4646e75c186deb7f1d594d41c2928800592faf9b50d0d59baa84"
+    },
+    {
+      "path": "reproduction/final/experiments/pair_origins_20261126/figure.py",
+      "bytes": 3332,
+      "sha256": "50cbda88d53a6b176902a69898dca66e29cf1231864dff1314db4a2b29573800"
+    },
+    {
+      "path": "reproduction/final/experiments/pair_origins_20261126/local_trace.py",
+      "bytes": 7658,
+      "sha256": "038e14ddc420d733906e53b237625b828203ff293548600cb627b6339c8d8ecf"
+    },
+    {
+      "path": "reproduction/final/experiments/pair_origins_20261126/measure.py",
+      "bytes": 10652,
+      "sha256": "8d5d88f47bce08bab9272416eea986be1acf9725be98f84bc1e7f15a3e582e71"
+    },
+    {
+      "path": "reproduction/final/experiments/pair_origins_20261126/mechanism.py",
+      "bytes": 8807,
+      "sha256": "8f58bf278c0423eba0e6b795ec8340278f0c0383ad7dd02e3781565bd044ecc5"
+    },
+    {
+      "path": "reproduction/final/experiments/pair_origins_20261126/reproduce.py",
+      "bytes": 1548,
+      "sha256": "ad63a8f0be7a868f4a04300ea4d58247c39054139dc9e883f752c675ed0c027d"
+    },
+    {
+      "path": "reproduction/final/experiments/pair_origins_20261126/score.py",
+      "bytes": 12755,
+      "sha256": "0b181dc4f5d14c212441f60635ecad8145f15a4ad247ae37b22ffb48360734e4"
+    },
+    {
+      "path": "reproduction/final/experiments/pair_origins_20261126/select_paths.py",
+      "bytes": 8303,
+      "sha256": "e6a4c68913410c0e5cb1b0373fcc4f296efe65f63f2d0cd809f62d28d216ec22"
+    },
+    {
       "path": "reproduction/final/experiments/remaining_routes_20261126/DESIGN.md",
       "bytes": 4580,
       "sha256": "8d1138f77555a993e55aba7cc3e32e4de5525a9eb92f1305b7a04ad2bafb2bcf"
@@ -297,6 +362,11 @@
       "path": "reproduction/final/reports/dSprites_末层组外28通道的承接与抵消_2026-11-26.md",
       "bytes": 12897,
       "sha256": "3ad873c1b9e84d067739c85a1240328d401c9928c93103587ae7ee39def1ad4a"
+    },
+    {
+      "path": "reproduction/final/reports/dSprites_模型291两对末层通道的上游与开关_2026-11-26.md",
+      "bytes": 12854,
+      "sha256": "b554fc95243fecd4be4eccb3fdefb05607de154df08bac8d005140011ae5566f"
     },
     {
       "path": "reproduction/final/runs/dsprites_gate_forecast_20261125/audit.json",
@@ -602,6 +672,166 @@
       "path": "reproduction/final/runs/dsprites_outside_channels_20261126/summary.json",
       "bytes": 27278,
       "sha256": "43f3968c55b24ed64539aede398555201e3baf1ac1ac03f617f7ad2f6ba96f51"
+    },
+    {
+      "path": "reproduction/final/runs/dsprites_pair_origins_20261126/arm_scores.csv",
+      "bytes": 74077,
+      "sha256": "12f1f2f6557149d69e74bae730e6f021d88ad504dd8199e5d59e32fbe405ecf3"
+    },
+    {
+      "path": "reproduction/final/runs/dsprites_pair_origins_20261126/case_effects.csv",
+      "bytes": 853918,
+      "sha256": "072b1d9e8deaaff36805fed17a32ae0055ff8d889b0f94e42273d97eb3251df3"
+    },
+    {
+      "path": "reproduction/final/runs/dsprites_pair_origins_20261126/checks.json",
+      "bytes": 340,
+      "sha256": "4d6cfb019314ac2966f0f16dabc77d7cc4e9c64e953aab3bc110e578fc1e3230"
+    },
+    {
+      "path": "reproduction/final/runs/dsprites_pair_origins_20261126/conditions.csv",
+      "bytes": 22780,
+      "sha256": "5a09aa90a221b27a61266a8c002716920bf7ece82dfc9248187830a28ad1defd"
+    },
+    {
+      "path": "reproduction/final/runs/dsprites_pair_origins_20261126/coverage_cases.csv",
+      "bytes": 440009,
+      "sha256": "95ba3916d318203a0eaa6bef7df943f58319a5b6e7b740e2750b3bf2ebda0506"
+    },
+    {
+      "path": "reproduction/final/runs/dsprites_pair_origins_20261126/coverage_checks.json",
+      "bytes": 500,
+      "sha256": "0f04b26b8375e9164c21ad204898c4664b7d526d534f892fb008ba593f6fe789"
+    },
+    {
+      "path": "reproduction/final/runs/dsprites_pair_origins_20261126/coverage_order.json",
+      "bytes": 970,
+      "sha256": "3d35982fd0bcdc2e03cdb27988683f37d44f0ff6175a600e6916fc73b1337e89"
+    },
+    {
+      "path": "reproduction/final/runs/dsprites_pair_origins_20261126/coverage_scores.csv",
+      "bytes": 5010,
+      "sha256": "e947c5129ab9051acb27bb06caa81e724cb73b6ae55b59d6981250e8b749ffa2"
+    },
+    {
+      "path": "reproduction/final/runs/dsprites_pair_origins_20261126/development_channels.csv",
+      "bytes": 12320,
+      "sha256": "4eb1f2f8faf4ac9249ba009150535cf26da2bd4c93d82dabf963818f4e8d6f1f"
+    },
+    {
+      "path": "reproduction/final/runs/dsprites_pair_origins_20261126/development_conditions.csv",
+      "bytes": 9858,
+      "sha256": "52d0c7d5a27b9a58a3274b681206275c0a566355400c53045bca0ba92ef1ec1c"
+    },
+    {
+      "path": "reproduction/final/runs/dsprites_pair_origins_20261126/factor_counts.csv",
+      "bytes": 8465,
+      "sha256": "58f30bdc3c3e0ac47d1374e8cc4f56e632cd7dcacb59786fa85da380009c5843"
+    },
+    {
+      "path": "reproduction/final/runs/dsprites_pair_origins_20261126/gate_balance.csv",
+      "bytes": 1179,
+      "sha256": "c3c6a10ac3e19b6c7b58e88a13e01a60d0e4561e3c7d7b1860d2c3dceed12b0c"
+    },
+    {
+      "path": "reproduction/final/runs/dsprites_pair_origins_20261126/gate_balance_cases.csv",
+      "bytes": 63623,
+      "sha256": "02ea7fa8d81f9db919ad00518049d60fb8eab5fa57bee9501a0156c5e4c8e5bc"
+    },
+    {
+      "path": "reproduction/final/runs/dsprites_pair_origins_20261126/joint_effects.csv",
+      "bytes": 2530,
+      "sha256": "b360050ffbf78d07c053d12df2c25f809a86200e0699a7e04511e893fc0601fd"
+    },
+    {
+      "path": "reproduction/final/runs/dsprites_pair_origins_20261126/local_cases.csv",
+      "bytes": 262101,
+      "sha256": "ce3b20cb7e5fb3e803a4cfdd855f16053bb53cedc8bb78c90d57886b6d12e8da"
+    },
+    {
+      "path": "reproduction/final/runs/dsprites_pair_origins_20261126/local_checks.json",
+      "bytes": 599,
+      "sha256": "68a6b90c8c405575e940f796cbe09b7d285e855cfb0be1c29d331a3fc1355a29"
+    },
+    {
+      "path": "reproduction/final/runs/dsprites_pair_origins_20261126/local_coordinates.csv",
+      "bytes": 634130,
+      "sha256": "ccdfc2efbff1980c35806a4c3d58cdcca0b65c937a78734b8f99f85445936f09"
+    },
+    {
+      "path": "reproduction/final/runs/dsprites_pair_origins_20261126/local_summary.csv",
+      "bytes": 2631,
+      "sha256": "40f25da45746a31a1a488582c23a03aba8628768a85498ccc97641cc63939dd2"
+    },
+    {
+      "path": "reproduction/final/runs/dsprites_pair_origins_20261126/measurement_seal.json",
+      "bytes": 508,
+      "sha256": "68422fdb92fb96c74e25ad6fb3593525e10d0a9ae68be332dfae94b2cb07b003"
+    },
+    {
+      "path": "reproduction/final/runs/dsprites_pair_origins_20261126/pair_origins.png",
+      "bytes": 109385,
+      "sha256": "bafe842ddf0d060d29223ffd887890ab274a0373d8b71a414738ed04db5d7d13"
+    },
+    {
+      "path": "reproduction/final/runs/dsprites_pair_origins_20261126/prediction_seal.json",
+      "bytes": 244,
+      "sha256": "b09fb4b3254eeb0ee2945befc934a8eb438df526e652b9a6939e0d3943fa2a02"
+    },
+    {
+      "path": "reproduction/final/runs/dsprites_pair_origins_20261126/predictions.csv",
+      "bytes": 43515,
+      "sha256": "d2c0de62c3faa0aaf7713687ee900c92e62a811582d741c3b9d5ed11f7de659a"
+    },
+    {
+      "path": "reproduction/final/runs/dsprites_pair_origins_20261126/protocol.json",
+      "bytes": 4080,
+      "sha256": "f78e524d700f16bb499bd8930159b7cbb2a0950ce6d51700592e19b60946c632"
+    },
+    {
+      "path": "reproduction/final/runs/dsprites_pair_origins_20261126/replay_comparison.json",
+      "bytes": 2066,
+      "sha256": "462be44e7cdc49b4634a70cfac76fef1a30d8d4dd99169370bf2afe0da7ad0a9"
+    },
+    {
+      "path": "reproduction/final/runs/dsprites_pair_origins_20261126/responses.npz",
+      "bytes": 859708,
+      "sha256": "5378c983b2570784e29f793fb6c7a95dbaf08932c1649eaaeaacfbada1c03128"
+    },
+    {
+      "path": "reproduction/final/runs/dsprites_pair_origins_20261126/rule_scores.csv",
+      "bytes": 1214,
+      "sha256": "42c0a9debd612d48a6fd02889c9c37615c3c0369174e05a5c56c57c071d8d7c5"
+    },
+    {
+      "path": "reproduction/final/runs/dsprites_pair_origins_20261126/score_checks.json",
+      "bytes": 224,
+      "sha256": "5878a0188d62b13d978aa64580f81e0e9783a6b3be1155aea168e58735759b7d"
+    },
+    {
+      "path": "reproduction/final/runs/dsprites_pair_origins_20261126/selection.json",
+      "bytes": 10749,
+      "sha256": "1e3311bfb220610451336f07135b011c1c876c5a7d941d83fe96156581cdb1ed"
+    },
+    {
+      "path": "reproduction/final/runs/dsprites_pair_origins_20261126/selection_seal.json",
+      "bytes": 446,
+      "sha256": "7d8defed26cff19110ce94a27abdcd1346b2bcebd0b186a7150986997ebe2ebc"
+    },
+    {
+      "path": "reproduction/final/runs/dsprites_pair_origins_20261126/site_scores.csv",
+      "bytes": 7636,
+      "sha256": "9a188227d53ebd57d24a0dc6b29c0464546120d85a6d9fc58ec627677ce2c5c6"
+    },
+    {
+      "path": "reproduction/final/runs/dsprites_pair_origins_20261126/switches.csv",
+      "bytes": 241260,
+      "sha256": "b55fb460202af71adc38b78af0f904897deb31bda79970db6b46ee72e03a9738"
+    },
+    {
+      "path": "reproduction/final/runs/dsprites_pair_origins_20261126/upstream_four.csv",
+      "bytes": 2215,
+      "sha256": "599f35341bb5bd9c2e2839715aa51ae79525fe716979ffc7de3b2d7edadf594f"
     },
     {
       "path": "reproduction/final/runs/dsprites_remaining_routes_20261126/budget_scores.csv",

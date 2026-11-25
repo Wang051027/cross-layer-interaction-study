@@ -1,0 +1,9 @@
+{
+  "utc": "2026-11-25T17:49:14.528278+00:00",
+  "files": {
+    "protocol.json": "f78e524d700f16bb499bd8930159b7cbb2a0950ce6d51700592e19b60946c632",
+    "development_channels.csv": "4eb1f2f8faf4ac9249ba009150535cf26da2bd4c93d82dabf963818f4e8d6f1f",
+    "development_conditions.csv": "52d0c7d5a27b9a58a3274b681206275c0a566355400c53045bca0ba92ef1ec1c",
+    "selection.json": "1e3311bfb220610451336f07135b011c1c876c5a7d941d83fe96156581cdb1ed"
+  }
+}

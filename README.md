@@ -10,6 +10,17 @@
 
 将这 72.63% 逐通道拆开，在开发条件排名前 4、8、14 的组外通道分别承接组外投影的 **36.01%、61.61%、83.17%**。只阻断新选的末层四通道，全强度最终三阶输出 RMS 剩 **82.37%**。六个模型各自测完 28 个单通道与全部 378 个双通道组合。模型 291 的一个留出案例中，通道 17 和 27 的得分贡献分别为 −0.2235 和 +0.2374 logit，合计仅 +0.0139。[完整通道编号与联合阻断报告](reproduction/final/reports/dSprites_末层组外28通道的承接与抵消_2026-11-26.md) · [逐例候选通道对](reproduction/final/runs/dsprites_outside_channels_20261126/candidate_cases.csv)
 
+在模型 291 的 72 条全强度留出记录中，末层 23、30 有 66 条对三阶输出同向贡献，17、27 有 38 条。阻断第二残差块 29、30 后，23、30 的符号关系翻转 14 次，在第三块第一处 ReLU 恢复 13、16 号激活后，这 14 次均回到原方向。对 17、27，阻断第二块 27、30 引起 23 次翻转，恢复第三块 16、20 号挽回 11 次。两种上游阻断分别使三组全选时的形状得分差移动 **1.464 和 1.894 logit RMS**。在一个留出案例中，仅关闭末层 27 号的一个位置就使两条贡献恢复同向，得分移动 **+0.00743 logit**。[模型 291 上游机制报告](reproduction/final/reports/dSprites_模型291两对末层通道的上游与开关_2026-11-26.md) · [逐例开关坐标](reproduction/final/runs/dsprites_pair_origins_20261126/local_coordinates.csv)
+
+## 复现模型 291 的上游通道与开关干预
+
+从原模型和 36 张图重新筛选上游通道，测量留出条件的方向与得分，再核对逐位置干预及通道覆盖对照。[复现说明与结果字段](reproduction/final/experiments/pair_origins_20261126/README.md)
+
+```bash
+python -m pip install -r reproduction/held_condition/requirements.txt
+python -B -X utf8 reproduction/final/experiments/pair_origins_20261126/reproduce.py --device cpu
+```
+
 ## 复现末层组外通道阻断
 
 在 Python 3.12 环境从仓库根目录重选名单、重算两种强度的 864 条留出记录并核对各通道的作用。[复现说明与原始数组读取示例](reproduction/final/experiments/outside_channels_20261126/README.md)

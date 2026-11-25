@@ -1,0 +1,10 @@
+{
+  "utc": "2026-11-25T17:50:20.759064+00:00",
+  "prediction_seal": "b09fb4b3254eeb0ee2945befc934a8eb438df526e652b9a6939e0d3943fa2a02",
+  "files": {
+    "responses.npz": "5378c983b2570784e29f793fb6c7a95dbaf08932c1649eaaeaacfbada1c03128",
+    "conditions.csv": "5a09aa90a221b27a61266a8c002716920bf7ece82dfc9248187830a28ad1defd",
+    "switches.csv": "b55fb460202af71adc38b78af0f904897deb31bda79970db6b46ee72e03a9738",
+    "checks.json": "4d6cfb019314ac2966f0f16dabc77d7cc4e9c64e953aab3bc110e578fc1e3230"
+  }
+}

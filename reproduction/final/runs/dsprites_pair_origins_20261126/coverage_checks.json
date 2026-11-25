@@ -1,0 +1,13 @@
+{
+  "status": "PASS",
+  "max_abs": {
+    "fixed_readout": 1.0393162025446046e-15,
+    "full_free_forward": 0.0
+  },
+  "previous": "68422fdb92fb96c74e25ad6fb3593525e10d0a9ae68be332dfae94b2cb07b003",
+  "files": {
+    "coverage_order.json": "3d35982fd0bcdc2e03cdb27988683f37d44f0ff6175a600e6916fc73b1337e89",
+    "coverage_cases.csv": "95ba3916d318203a0eaa6bef7df943f58319a5b6e7b740e2750b3bf2ebda0506",
+    "coverage_scores.csv": "e947c5129ab9051acb27bb06caa81e724cb73b6ae55b59d6981250e8b749ffa2"
+  }
+}

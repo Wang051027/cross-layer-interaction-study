@@ -1,0 +1,16 @@
+{
+  "status": "PASS",
+  "device": "cuda",
+  "cases": 144,
+  "pairs": 2,
+  "arms": 66,
+  "max_abs": {
+    "head_other30": 1.509903313490213e-14,
+    "full_U_route": 0.0,
+    "old_head": 0.0,
+    "old_A": 8.881784197001252e-15,
+    "old_T": 1.4091158795359604e-14,
+    "old_joint_cut": 0.0,
+    "sparse_forecast": 9.020562075079397e-16
+  }
+}

@@ -1429,6 +1429,69 @@
       "original_sha256": "e537c00199fc008ab81e66775240bbd0c946c165ec39bbc822a00cf9c8d7317d",
       "published_sha256": "e537c00199fc008ab81e66775240bbd0c946c165ec39bbc822a00cf9c8d7317d",
       "ast_identical_to_original": true
+    },
+    {
+      "path": "reproduction/final/experiments/pair_origins_20261126/compare.py",
+      "original_relative_path": "experiments/pair_origins_20261126/compare.py",
+      "original_sha256": "6e14b6de790fad87e7bcbee11eca9d3caaccc90a5c5c00141f46227bff309839",
+      "published_sha256": "6e14b6de790fad87e7bcbee11eca9d3caaccc90a5c5c00141f46227bff309839",
+      "ast_identical_to_original": true
+    },
+    {
+      "path": "reproduction/final/experiments/pair_origins_20261126/coverage.py",
+      "original_relative_path": "experiments/pair_origins_20261126/coverage.py",
+      "original_sha256": "8222661ecd6c4646e75c186deb7f1d594d41c2928800592faf9b50d0d59baa84",
+      "published_sha256": "8222661ecd6c4646e75c186deb7f1d594d41c2928800592faf9b50d0d59baa84",
+      "ast_identical_to_original": true
+    },
+    {
+      "path": "reproduction/final/experiments/pair_origins_20261126/figure.py",
+      "original_relative_path": "experiments/pair_origins_20261126/figure.py",
+      "original_sha256": "50cbda88d53a6b176902a69898dca66e29cf1231864dff1314db4a2b29573800",
+      "published_sha256": "50cbda88d53a6b176902a69898dca66e29cf1231864dff1314db4a2b29573800",
+      "ast_identical_to_original": true
+    },
+    {
+      "path": "reproduction/final/experiments/pair_origins_20261126/local_trace.py",
+      "original_relative_path": "experiments/pair_origins_20261126/local_trace.py",
+      "original_sha256": "038e14ddc420d733906e53b237625b828203ff293548600cb627b6339c8d8ecf",
+      "published_sha256": "038e14ddc420d733906e53b237625b828203ff293548600cb627b6339c8d8ecf",
+      "ast_identical_to_original": true
+    },
+    {
+      "path": "reproduction/final/experiments/pair_origins_20261126/measure.py",
+      "original_relative_path": "experiments/pair_origins_20261126/measure.py",
+      "original_sha256": "8d5d88f47bce08bab9272416eea986be1acf9725be98f84bc1e7f15a3e582e71",
+      "published_sha256": "8d5d88f47bce08bab9272416eea986be1acf9725be98f84bc1e7f15a3e582e71",
+      "ast_identical_to_original": true
+    },
+    {
+      "path": "reproduction/final/experiments/pair_origins_20261126/mechanism.py",
+      "original_relative_path": "experiments/pair_origins_20261126/mechanism.py",
+      "original_sha256": "8f58bf278c0423eba0e6b795ec8340278f0c0383ad7dd02e3781565bd044ecc5",
+      "published_sha256": "8f58bf278c0423eba0e6b795ec8340278f0c0383ad7dd02e3781565bd044ecc5",
+      "ast_identical_to_original": true
+    },
+    {
+      "path": "reproduction/final/experiments/pair_origins_20261126/reproduce.py",
+      "original_relative_path": "experiments/pair_origins_20261126/reproduce.py",
+      "original_sha256": "ad63a8f0be7a868f4a04300ea4d58247c39054139dc9e883f752c675ed0c027d",
+      "published_sha256": "ad63a8f0be7a868f4a04300ea4d58247c39054139dc9e883f752c675ed0c027d",
+      "ast_identical_to_original": true
+    },
+    {
+      "path": "reproduction/final/experiments/pair_origins_20261126/score.py",
+      "original_relative_path": "experiments/pair_origins_20261126/score.py",
+      "original_sha256": "0b181dc4f5d14c212441f60635ecad8145f15a4ad247ae37b22ffb48360734e4",
+      "published_sha256": "0b181dc4f5d14c212441f60635ecad8145f15a4ad247ae37b22ffb48360734e4",
+      "ast_identical_to_original": true
+    },
+    {
+      "path": "reproduction/final/experiments/pair_origins_20261126/select_paths.py",
+      "original_relative_path": "experiments/pair_origins_20261126/select_paths.py",
+      "original_sha256": "e6a4c68913410c0e5cb1b0373fcc4f296efe65f63f2d0cd809f62d28d216ec22",
+      "published_sha256": "e6a4c68913410c0e5cb1b0373fcc4f296efe65f63f2d0cd809f62d28d216ec22",
+      "ast_identical_to_original": true
     }
   ],
   "note": "SHA-256 hashes of the archived and published Python sources.",
@@ -1437,12 +1500,14 @@
       "dsprites_output_bottleneck_20261110",
       "dsprites_gate_forecast_20261125",
       "dsprites_remaining_routes_20261126",
-      "dsprites_outside_channels_20261126"
+      "dsprites_outside_channels_20261126",
+      "dsprites_pair_origins_20261126"
     ],
     "source": "reproduction/final",
     "frozen_inputs": "reproduction/held_condition",
     "verified_replay": "reproduction/final/runs/dsprites_gate_forecast_20261125/replay_comparison.json",
     "remaining_routes_replay": "reproduction/final/runs/dsprites_remaining_routes_20261126/replay_comparison.json",
-    "outside_channels_replay": "reproduction/final/runs/dsprites_outside_channels_20261126/replay_comparison.json"
+    "outside_channels_replay": "reproduction/final/runs/dsprites_outside_channels_20261126/replay_comparison.json",
+    "pair_origins_replay": "reproduction/final/runs/dsprites_pair_origins_20261126/replay_comparison.json"
   }
 }

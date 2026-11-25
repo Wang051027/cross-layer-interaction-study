@@ -1,0 +1,15 @@
+{
+  "status": "PASS",
+  "max_abs": {
+    "frozen_H": 0.0,
+    "terminal_sites": 8.94249951866044e-16,
+    "minimal_set": 6.002143226879753e-16
+  },
+  "measurement": "68422fdb92fb96c74e25ad6fb3593525e10d0a9ae68be332dfae94b2cb07b003",
+  "design": "e14beb2e8a9b4ae1e851fd9d4a33e8e12d50c38e8e6af43dd79654b05c1ad748",
+  "source": "038e14ddc420d733906e53b237625b828203ff293548600cb627b6339c8d8ecf",
+  "files": {
+    "local_cases.csv": "ce3b20cb7e5fb3e803a4cfdd855f16053bb53cedc8bb78c90d57886b6d12e8da",
+    "local_coordinates.csv": "ccdfc2efbff1980c35806a4c3d58cdcca0b65c937a78734b8f99f85445936f09"
+  }
+}

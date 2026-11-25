@@ -1,0 +1,95 @@
+{
+  "status": "PASS",
+  "devices": [
+    {
+      "device": "cuda",
+      "measurement": "68422fdb92fb96c74e25ad6fb3593525e10d0a9ae68be332dfae94b2cb07b003"
+    },
+    {
+      "device": "cpu",
+      "measurement": "2f6ecca5f2af526c87529a35a811e446858f371ea476447b4c17015f278aa355"
+    }
+  ],
+  "selection_identical": true,
+  "raw_max_abs": 5.240252676230739e-14,
+  "tables": {
+    "development_channels": {
+      "rows": 240,
+      "max_abs": 7.632783294297951e-17
+    },
+    "development_conditions": {
+      "rows": 144,
+      "max_abs": 1.4988010832439613e-15
+    },
+    "predictions": {
+      "rows": 288,
+      "max_abs": 1.1726730697603216e-15
+    },
+    "conditions": {
+      "rows": 288,
+      "max_abs": 0.0
+    },
+    "switches": {
+      "rows": 4608,
+      "max_abs": 0.0
+    },
+    "arm_scores": {
+      "rows": 264,
+      "max_abs": 9.769962616701378e-15
+    },
+    "joint_effects": {
+      "rows": 20,
+      "max_abs": 1.6132928326584306e-15
+    },
+    "upstream_four": {
+      "rows": 16,
+      "max_abs": 1.6653345369377348e-15
+    },
+    "factor_counts": {
+      "rows": 104,
+      "max_abs": 8.659739592076221e-15
+    },
+    "rule_scores": {
+      "rows": 16,
+      "max_abs": 0.0
+    },
+    "site_scores": {
+      "rows": 64,
+      "max_abs": 1.126269216777942e-15
+    },
+    "case_effects": {
+      "rows": 3744,
+      "max_abs": 5.062616992290714e-14
+    },
+    "gate_balance": {
+      "rows": 8,
+      "max_abs": 9.679756995950584e-16
+    },
+    "gate_balance_cases": {
+      "rows": 576,
+      "max_abs": 2.095545958979983e-15
+    },
+    "local_cases": {
+      "rows": 1243,
+      "max_abs": 4.973799150320701e-14
+    },
+    "local_coordinates": {
+      "rows": 5797,
+      "max_abs": 6.039613253960852e-14
+    },
+    "local_summary": {
+      "rows": 32,
+      "max_abs": 3.123369618496241e-15
+    },
+    "coverage_cases": {
+      "rows": 2016,
+      "max_abs": 5.3734794391857577e-14
+    },
+    "coverage_scores": {
+      "rows": 56,
+      "max_abs": 2.4424906541753444e-15
+    }
+  },
+  "maximum": 6.039613253960852e-14,
+  "tolerance": 1e-08
+}

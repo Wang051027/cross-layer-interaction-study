@@ -1,0 +1,99 @@
+{
+  "utc": "2026-11-25T17:48:13.288008+00:00",
+  "seed": 202609291,
+  "prior": "c209009bf9ee1d255fbfa97afec68977191123bf36c2ae5ee74620d09527d8e0",
+  "inputs": {
+    "seeds": [
+      202609291,
+      202609292,
+      202609293,
+      202609294,
+      202609295,
+      202609296
+    ],
+    "split": {
+      "development": [
+        0,
+        3,
+        4,
+        18,
+        21,
+        22,
+        24,
+        27,
+        28,
+        42,
+        45,
+        46,
+        48,
+        51,
+        52,
+        66,
+        69,
+        70
+      ],
+      "test": [
+        6,
+        9,
+        10,
+        12,
+        15,
+        16,
+        30,
+        33,
+        34,
+        36,
+        39,
+        40,
+        54,
+        57,
+        58,
+        60,
+        63,
+        64
+      ]
+    },
+    "weights_and_panel": {
+      "runs/dsprites_shape_donor_20261010/panel/data.npz": "5b3602f132db0d8cd576227a23eb6ed296b2b9abb254ecd660d5f691ade3b897",
+      "runs/dsprites_20260929/seed_202609291/teacher.pt": "bfd28341046304631e8b782e46a81e948020d9d7590a97426d234c78742e5f46",
+      "runs/dsprites_20260929/seed_202609292/teacher.pt": "4297286befcd81742c32a58d6c02187d459e4d1696d26859a736e09adbef8428",
+      "runs/dsprites_20260929/seed_202609293/teacher.pt": "babe2b16ba6dab13e7535323be15419dad3a7dfc4ef148a6fd6362000a81fc39",
+      "runs/dsprites_20260929/seed_202609294/teacher.pt": "0a4738a3c3424b066f8a16b3c1f09fe37a6b4ff832bfd771871f9a9acc5e653b",
+      "runs/dsprites_20260929/seed_202609295/teacher.pt": "bdfb32e47f77a825547001efb5f697ca62912e000627c8ec288066d8ed6ddf2d",
+      "runs/dsprites_20260929/seed_202609296/teacher.pt": "c57fd2a5a433bab4bd5dba2860c08d763bd4a24eef4f79fa4c57655a99b52699"
+    },
+    "fits": {
+      "fit/202609291.json": "64df4a4f0662e1e3c2fcbf6b7e87f79a3b99387eb925958865ac3aea0108a89a",
+      "fit/202609292.json": "35b1026b30f4b2b274f47316c182576bea3c6383b925a28857d6b01f44eb242b",
+      "fit/202609293.json": "41cddd2c74f7b5b2e7d1608bc5fe93441de41935a1063b8b6827aa523282d565",
+      "fit/202609294.json": "e6d6964434d4a03a2b1c0c1a8ccaa95255df7502e5ae5f19184c6addf40d64e5",
+      "fit/202609295.json": "5edeac8abbd7424fe0a430c6b0f5b010ba3860747c09a96798c0da7697ba3031",
+      "fit/202609296.json": "12cacbe732dbafaa0b6e080f31da7705bf407363e4bebc6b23a02ca21bf264f5"
+    },
+    "prior_forecast_seal": "526d749626b97d37d3e50bf371aca9da8d630b939d2d8f30f12073970636e4d4",
+    "prior_eight_state_seal": "596a9ee8885deaf3fee097efd6ce75f57f2a2b5e119a4c86db61d0feb657cd72",
+    "source": {
+      "DESIGN.md": "8d1138f77555a993e55aba7cc3e32e4de5525a9eb92f1305b7a04ad2bafb2bcf",
+      "experiment.py": "e4e53c14783758244447c97ae6c804712aa6b70da177408612d591383bc6c6b4",
+      "paths.py": "eda392cd9780f25410829c378da8f0452bd6c855514addb68c9d69b3b15066e1",
+      "prior_gates": "ca7e32a062c9286ceca3913a3297419b18ac74538954edc07ecfc76dbb61a17e"
+    },
+    "shared_code": {
+      "dsprites_triple_rule.py": "a1c753245129daaa270f0e2a631dfb0b4a1acba4cf989804b417572691774e1f",
+      "dsprites_teacher.py": "f75e8c10fb0244a7e31b4562e8d8bb3ffc3b4cd3d174207852b5d370b27b2148",
+      "residual_teacher.py": "490b72ac4e21e69230a0cf6914b74453cf2f2285ebc49a132b6f812dae374a4b",
+      "cross_layer_mechanism.py": "f142d77b9cc7de853f58e34b8e703854987c8b0d277a663ee48127d9055e0c81",
+      "shape_donor_mechanism.py": "db110e0033109a61a9b06be4eadbe013b3629525bc7ab9054743312f898acac2",
+      "dsprites_mechanism.py": "742376268cda86b01a80959753030277d90982f0915d6db368a17da5beb14072",
+      "external_experiment.py": "da841d0425f31c0523508db5abd62e6f438dce39ee574354aae482e571773d19",
+      "research_runtime.py": "5dfc4ff1d9ec98899bfa5bc67195bae706b31611df378ae71e04a2080cad15b2"
+    }
+  },
+  "device": "cuda",
+  "code": {
+    "DESIGN.md": "687a23b00191789873e5f09061f873afa1b1acac9c6472d195d8df4569c44625",
+    "mechanism.py": "8f58bf278c0423eba0e6b795ec8340278f0c0383ad7dd02e3781565bd044ecc5",
+    "select_paths.py": "e6a4c68913410c0e5cb1b0373fcc4f296efe65f63f2d0cd809f62d28d216ec22",
+    "measure.py": "8d5d88f47bce08bab9272416eea986be1acf9725be98f84bc1e7f15a3e582e71"
+  }
+}
